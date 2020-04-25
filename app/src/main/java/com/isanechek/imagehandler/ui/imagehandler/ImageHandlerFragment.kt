@@ -43,7 +43,7 @@ class ImageHandlerFragment : BaseFragment(_layout.image_handler_fragment_layout)
 
     @ExperimentalCoroutinesApi
     @SuppressLint("SetTextI18n")
-    override fun activityCreated(savedInstanceState: Bundle?) {
+    override fun bindUi(savedInstanceState: Bundle?) {
 
         // toolbar
         ih_toolbar_title.text = "Watermark"

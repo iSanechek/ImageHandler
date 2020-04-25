@@ -26,7 +26,7 @@ class ChoicesFragment : BaseFragment(_layout.choices_fragment_layout) {
         }
     }
 
-    override fun activityCreated(savedInstanceState: Bundle?) {
+    override fun bindUi(savedInstanceState: Bundle?) {
         cfl_toolbar.hideCustomLayout()
         cfl_toolbar_close_btn.onClick { findNavController().navigateUp() }
         vm.toolbarProgressState.observe(this, Observer { isHow ->

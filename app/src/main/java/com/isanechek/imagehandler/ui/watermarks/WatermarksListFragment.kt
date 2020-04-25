@@ -28,7 +28,7 @@ class WatermarksListFragment : BaseFragment(_layout.watermark_fragment_layout) {
         ) { watermark_toolbar.setElevationVisibility(recyclerView.canScrollVertically(-1)) }
     }
 
-    override fun activityCreated(savedInstanceState: Bundle?) {
+    override fun bindUi(savedInstanceState: Bundle?) {
 
         with(watermark_toolbar) {
             setBackOrCloseButton {

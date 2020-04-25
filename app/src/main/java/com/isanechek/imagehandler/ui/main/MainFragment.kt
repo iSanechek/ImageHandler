@@ -6,7 +6,7 @@ import com.isanechek.imagehandler.ui.base.BaseFragment
 
 class MainFragment : BaseFragment(_layout.main_fragment) {
 
-    override fun activityCreated(savedInstanceState: Bundle?) {
+    override fun bindUi(savedInstanceState: Bundle?) {
 
     }
 }

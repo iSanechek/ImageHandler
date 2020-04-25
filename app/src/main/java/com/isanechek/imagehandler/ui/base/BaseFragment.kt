@@ -15,10 +15,10 @@ abstract class BaseFragment(@LayoutRes layoutId: Int) : Fragment(layoutId) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activityCreated(savedInstanceState)
+        bindUi(savedInstanceState)
     }
 
-    abstract fun activityCreated(savedInstanceState: Bundle?)
+    abstract fun bindUi(savedInstanceState: Bundle?)
 
     fun showWarningDialog(title: String, message: String, callback: (Boolean) -> Unit) {
         MaterialDialog(requireContext()).show {

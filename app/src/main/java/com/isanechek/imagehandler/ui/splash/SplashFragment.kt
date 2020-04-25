@@ -6,7 +6,7 @@ import com.isanechek.imagehandler.ui.base.BaseFragment
 
 class SplashFragment : BaseFragment(_layout.splash_fragment_layout) {
 
-    override fun activityCreated(savedInstanceState: Bundle?) {
+    override fun bindUi(savedInstanceState: Bundle?) {
 
     }
 

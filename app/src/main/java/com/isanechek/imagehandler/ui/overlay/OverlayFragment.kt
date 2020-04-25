@@ -45,7 +45,7 @@ class OverlayFragment : BaseFragment(_layout.overlay_fragment_layout) {
         }
     }
 
-    override fun activityCreated(savedInstanceState: Bundle?) {
+    override fun bindUi(savedInstanceState: Bundle?) {
         cf_toolbar.apply {
             hideCustomLayout()
         }

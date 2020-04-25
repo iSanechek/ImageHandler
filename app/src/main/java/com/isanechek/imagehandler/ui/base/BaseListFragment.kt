@@ -7,11 +7,11 @@ import kotlinx.android.synthetic.main.base_list_fragment_layout.*
 
 abstract class BaseListFragment : BaseFragment(_layout.base_list_fragment_layout) {
 
-    abstract fun bindUi(savedInstanceState: Bundle?)
+    abstract fun bind(savedInstanceState: Bundle?)
 
-    override fun activityCreated(savedInstanceState: Bundle?) {
+    override fun bindUi(savedInstanceState: Bundle?) {
 
-        bindUi(savedInstanceState)
+        bind(savedInstanceState)
     }
 
 

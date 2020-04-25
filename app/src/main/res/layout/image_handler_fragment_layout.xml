@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ihf_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/ih_app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.isanechek.imagehandler.ui.widgets.SuperToolbar
+            android:id="@+id/ih_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            app:layout_scrollFlags="noScroll"
+            app:superToolbar_showElevationAtStart="false">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/ih_toolbar_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp16"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="22sp"
+                    android:textStyle="bold|normal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Test" />
+
+                <TextView
+                    android:id="@+id/ihf_progress_state_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp4"
+                    android:textSize="12sp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/ih_toolbar_title"
+                    app:layout_constraintTop_toBottomOf="@id/ih_toolbar_title"
+                    tools:text="update" />
+
+                <ProgressBar
+                    android:id="@+id/ihf_toolbar_progress"
+                    style="?android:attr/progressBarStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/dp16"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:padding="@dimen/dp8"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:visibility="visible" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.isanechek.imagehandler.ui.widgets.SuperToolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/ih_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:text="@string/app_name" />
+
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/ih_bottom_bar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_gravity="bottom"
+        app:backgroundTint="@color/colorPrimary"
+        app:fabAlignmentMode="end"
+        app:fabCradleMargin="@dimen/dp8"
+        app:fabCradleRoundedCornerRadius="@dimen/dp8"
+        app:fabCradleVerticalOffset="0dp"
+        app:hideOnScroll="true"
+        app:layout_scrollFlags="scroll|enterAlways">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="104dp">
+
+            <ImageButton
+                android:id="@+id/ih_settings_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp16"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="@dimen/dp8"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/settings_black_24" />
+
+            <ImageButton
+                android:id="@+id/ih_marker_btn"
+                style="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp8"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="@dimen/dp8"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/ih_settings_btn"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/marker_black_24"
+                tools:visibility="visible" />
+
+            <ImageButton
+                android:id="@+id/ih_delete_all_btn"
+                style="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp8"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="@dimen/dp8"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/ih_marker_btn"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_baseline_delete_24"
+                tools:ignore="HardcodedText"
+                tools:visibility="visible" />
+
+            <ImageButton
+                android:id="@+id/ih_save_all_btn"
+                style="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp8"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="@dimen/dp8"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/ih_delete_all_btn"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_baseline_save_24"
+                tools:ignore="HardcodedText"
+                tools:visibility="visible" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.bottomappbar.BottomAppBar>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/ih_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="@dimen/dp8"
+        app:fabSize="normal"
+        app:layout_anchor="@id/ih_bottom_bar"
+        app:srcCompat="@drawable/ic_baseline_add_to_photos_24" />
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

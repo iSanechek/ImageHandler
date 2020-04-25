@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tolls="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/cf_appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.isanechek.imagehandler.ui.widgets.SuperToolbar
+            android:id="@+id/cf_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorWhite"
+            app:layout_scrollFlags="noScroll"
+            app:superToolbar_showElevationAtStart="false">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/cf_toolbar_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/dp16"
+                    android:text="Watermark"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tolls:ignore="HardcodedText" />
+
+
+                <com.isanechek.imagehandler.ui.widgets.CircleImageView
+                    android:id="@+id/cf_toolbar_watermark_iv"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginEnd="@dimen/dp16"
+                    app:civ_border_color="@color/colorBlack"
+                    app:civ_border_overlay="true"
+                    app:civ_border_width="@dimen/dp1"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/test_img" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.isanechek.imagehandler.ui.widgets.SuperToolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/cf_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    <include layout="@layout/watermark_choices_dialog_custom_layout" />
+
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/cf_bottom_bar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_gravity="bottom"
+        app:backgroundTint="@color/colorPrimary"
+        app:fabAlignmentMode="end"
+        app:fabCradleMargin="@dimen/dp8"
+        app:fabCradleRoundedCornerRadius="@dimen/dp8"
+        app:fabCradleVerticalOffset="0dp"
+        app:hideOnScroll="true"
+        app:layout_scrollFlags="scroll|enterAlways">
+
+
+    </com.google.android.material.bottomappbar.BottomAppBar>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/cf_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="@dimen/dp8"
+        app:fabSize="normal"
+        app:layout_anchor="@id/cf_bottom_bar"
+        app:srcCompat="@drawable/ic_baseline_add_to_photos_24" />
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

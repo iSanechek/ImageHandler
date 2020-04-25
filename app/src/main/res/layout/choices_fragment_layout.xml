@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.isanechek.imagehandler.ui.widgets.SuperToolbar
+        android:id="@+id/cfl_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorWhite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageButton
+                android:id="@+id/cfl_toolbar_close_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp8"
+                android:layout_marginTop="@dimen/dp8"
+                android:layout_marginBottom="@dimen/dp8"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:tint="@color/colorBlack"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_baseline_close_24" />
+
+            <TextView
+                android:id="@+id/cfl_toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dp16"
+                android:layout_marginTop="@dimen/dp8"
+                android:layout_marginBottom="@dimen/dp8"
+                android:textColor="@color/colorBlack"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/cfl_toolbar_close_btn"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="HardcodedText"
+                tools:text="Watermark" />
+
+            <ProgressBar
+                android:id="@+id/cfl_toolbar_progress"
+                style="?android:attr/progressBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp8"
+                android:layout_marginEnd="@dimen/dp16"
+                android:layout_marginBottom="@dimen/dp8"
+                android:indeterminate="true"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="visible" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.isanechek.imagehandler.ui.widgets.SuperToolbar>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/cfl_pager"
+        android:layout_width="@dimen/dp0"
+        android:layout_height="@dimen/dp0"
+        app:layout_constraintBottom_toTopOf="@id/cfl_navigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cfl_toolbar" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/cfl_navigation"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@color/colorPrimary"
+        android:elevation="@dimen/dp8"
+        app:itemIconTint="@color/bottom_navigation_item_background_colors"
+        app:itemTextColor="@color/bottom_navigation_item_background_colors"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/picker_bottom_nav_menu" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

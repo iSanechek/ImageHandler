@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SuperToolbar">
+        <attr name="superToolbar_animationDuration" format="integer" />
+        <attr name="superToolbar_showElevationAtStart" format="boolean" />
+        <attr name="superToolbar_centerTitle" format="boolean" />
+        <attr name="superToolbar_useLightFont" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="CircleImageView">
+        <attr name="civ_border_width" format="dimension"/>
+        <attr name="civ_border_color" format="color"/>
+        <attr name="civ_border_overlay" format="boolean"/>
+        <attr name="civ_circle_background_color" format="color"/>
+    </declare-styleable>
+</resources>

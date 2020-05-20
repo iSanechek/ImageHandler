@@ -18,15 +18,13 @@ class App : Application() {
         startKoin {
             androidContext(this@App)
             modules(
-                listOf(
-                    mainModule,
-                    imageHandlerModule,
-                    databaseModule,
-                    dataModule,
-                    watermarkModule,
-                    testModule,
-                    uiModule
-                )
+                mainModule +
+                imageHandlerModule +
+                databaseModule +
+                dataModule +
+                watermarkModule +
+                testModule +
+                uiModule
             )
         }
     }

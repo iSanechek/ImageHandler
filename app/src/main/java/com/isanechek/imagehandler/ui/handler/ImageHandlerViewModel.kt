@@ -34,6 +34,10 @@ class ImageHandlerViewModel(
     private val mediaStoreManager: MediaStoreManager
 ) : AndroidViewModel(application) {
 
+    private val clearState = MutableStateFlow(false)
+    val clear: Flow<Boolean>
+        get() = clearState
+
     private val progressCountState = MutableStateFlow("")
     val progressCount: Flow<String>
         get() = progressCountState
@@ -67,6 +71,7 @@ class ImageHandlerViewModel(
 
     fun clearData() {
         dataState.value = emptyList()
+        clearState.value = false
         if (resultState.value.isNotEmpty() && resultState.value.first().overlayStatus.isNotEmpty()) {
             viewModelScope.launch(Dispatchers.IO) {
                 filesManager.clearAll(cacheFolder)
@@ -187,7 +192,9 @@ class ImageHandlerViewModel(
 
     private fun handleWork(originalBitmap: Bitmap, overlayBitmap: Bitmap): Bitmap =
         WatermarkBuilder.create(getApplication<App>(), originalBitmap).loadWatermarkImage(
-            WatermarkImage(overlayBitmap, WatermarkPosition(0.1, 0.8))
+            WatermarkImage(overlayBitmap, WatermarkPosition(0.005, 0.63))
+                .setSize(0.5)
+                .setImageAlpha(255)
         ).watermark.outputImage
 
     private fun mapData(data: List<String>): List<ImageItem> =
@@ -204,8 +211,8 @@ class ImageHandlerViewModel(
 
     private fun startClearWorker() {
         val clearCacheWorker = OneTimeWorkRequestBuilder<ClearWorker>()
-                .setInputData(workDataOf(ClearWorker.CACHE_PATH_KEY to cacheFolder))
-                .build()
+            .setInputData(workDataOf(ClearWorker.CACHE_PATH_KEY to cacheFolder))
+            .build()
 
         WorkManager.getInstance(getApplication<App>()).enqueue(clearCacheWorker)
     }

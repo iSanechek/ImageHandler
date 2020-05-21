@@ -71,6 +71,10 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
             items.addAll(data)
             notifyDataSetChanged()
         }
+
+        fun clear() {
+            if (items.isNotEmpty()) items.clear()
+        }
     }
 
     // Choice
@@ -108,6 +112,7 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
 
     // Fragment
     private val vm: ImageHandlerViewModel by viewModel()
+    private lateinit var resultAdapter: ResultAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         ihf2_choice_btn.onClick {
@@ -129,7 +134,10 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
 
         ihf2_settings_btn.onClick { findNavController().navigate(_id.handler_go_to_watermark) }
         ihf2_clear_btn.onClick { vm.clearData() }
-        ihf2_overlay_btn.onClick { vm.startWork() }
+        ihf2_overlay_btn.onClick {
+            vm.startWork()
+            resultAdapter.clear()
+        }
         ihf2_save_btn.onClick {
             askForPermissions(Permission.WRITE_EXTERNAL_STORAGE) { result ->
                 if (result.isAllGranted(Permission.WRITE_EXTERNAL_STORAGE)) {
@@ -175,13 +183,15 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
     }
 
     private fun bindResultList() {
-        val resultAdapter = ResultAdapter()
+        resultAdapter = ResultAdapter()
         with(ihf2_result_list) {
             orientation = ViewPager2.ORIENTATION_VERTICAL
             adapter = resultAdapter
         }
 
         lifecycleScope.launchWhenResumed {
+
+
             vm.result.collect { data ->
                 debugLog { "RESULT DATA ${data.size}" }
                 if (data.isNotEmpty()) {

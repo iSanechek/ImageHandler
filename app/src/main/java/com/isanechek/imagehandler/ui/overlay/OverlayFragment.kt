@@ -17,7 +17,6 @@ import com.afollestad.materialdialogs.callbacks.onShow
 import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.afollestad.materialdialogs.lifecycle.lifecycleOwner
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.isanechek.imagehandler.*
 import com.isanechek.imagehandler.data.models.GalleryImageResult
 import com.isanechek.imagehandler.ui.base.BaseFragment
@@ -51,7 +50,7 @@ class OverlayFragment : BaseFragment(_layout.overlay_fragment_layout) {
         }
 
         cf_fab.onClick {
-            d { "boom" }
+            debugLog { "boom" }
 
 //            if (bottomSheetBehavior.state != BottomSheetBehavior.STATE_COLLAPSED) {
 //                bottomSheetBehavior.state == BottomSheetBehavior.STATE_HALF_EXPANDED
@@ -113,7 +112,7 @@ class OverlayFragment : BaseFragment(_layout.overlay_fragment_layout) {
 
         vm.loadImages(true).observe(this, Observer { data ->
             when(data) {
-                is GalleryImageResult.Load -> d { "load data" }
+                is GalleryImageResult.Load -> debugLog { "load data" }
                 is GalleryImageResult.Done -> {
                     imagesAdapter.submit(data.data)
                 }
@@ -149,7 +148,7 @@ class OverlayFragment : BaseFragment(_layout.overlay_fragment_layout) {
 
             vm.loadImages(true).observe(this, Observer { data ->
                 when(data) {
-                    is GalleryImageResult.Load -> d { "load data" }
+                    is GalleryImageResult.Load -> debugLog { "load data" }
                     is GalleryImageResult.Done -> {
                         imagesAdapter.submit(data.data)
                     }

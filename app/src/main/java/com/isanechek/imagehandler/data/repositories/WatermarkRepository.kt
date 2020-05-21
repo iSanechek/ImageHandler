@@ -35,7 +35,7 @@ class WatermarkRepositoryImpl(
 
     override suspend fun saveResult(context: Context): Flow<ExecuteResult<String>> = flow {
         emit(PROGRESS_STATE_LOAD_DATA_FROM_DB.toProgress())
-        d { "BOOMMMM" }
+        debugLog { "BOOMMMM" }
         val data = imageHandlerDao.loadData()
         val appFolder = context.filesDir.absolutePath + File.separator + PRIVATE_APP_FOLDER_NAME
         if (data.isNotEmpty()) {
@@ -61,7 +61,7 @@ class WatermarkRepositoryImpl(
                                 status = ImageHandlerEntity.LABEL_IS_DONE,
                                 publicPath = value
                             )
-                            d { "TEST $i" }
+                            debugLog { "TEST $i" }
                             temp.add(i)
                             emit(PROGRESS_STATE_SAVE_FILE_DONE.toProgress(item.title))
                         } else {
@@ -80,7 +80,7 @@ class WatermarkRepositoryImpl(
 
                 if (temp.isNotEmpty()) {
                     imageHandlerDao.update(temp)
-                    d { "hyui" }
+                    debugLog { "hyui" }
                     emit(ExecuteResult.Done(EMPTY_VALUE))
                 } else emit(ExecuteResult.Error(NOT_FIND_TO_SAVE))
 

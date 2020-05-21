@@ -12,7 +12,7 @@ import android.os.Environment
 import android.provider.MediaStore
 import androidx.annotation.RequiresApi
 import androidx.exifinterface.media.ExifInterface
-import com.isanechek.imagehandler.d
+import com.isanechek.imagehandler.debugLog
 import com.isanechek.imagehandler.utils.FileUtils
 import kotlinx.coroutines.suspendCancellableCoroutine
 import java.io.File
@@ -110,7 +110,7 @@ class MediaStoreManagerImpl : MediaStoreManager {
                     c.resume(Pair(false, "Uri is null!"))
                 }
             } else {
-                d { "BiBi" }
+                debugLog { "BiBi" }
                 val p =
                     Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path + File.separator + "ImageHandler" + File.separator + "${fileName}.jpg"
                 val uriPath = Uri.fromFile(File(p))
@@ -123,7 +123,7 @@ class MediaStoreManagerImpl : MediaStoreManager {
             }
 
         } catch (ex: SecurityException) {
-            d { "Hyi ${ex.message}" }
+            debugLog { "Hyi ${ex.message}" }
             when {
                 isQ -> {
                     val e = ex as? RecoverableSecurityException ?: throw ex
@@ -163,7 +163,7 @@ class MediaStoreManagerImpl : MediaStoreManager {
                 if (uri != null) {
                     contentResolver.apply {
                         openOutputStream(uri).use {
-                            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, it)
+                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, it)
                         }
                         openFileDescriptor(
                             uri,
@@ -187,10 +187,11 @@ class MediaStoreManagerImpl : MediaStoreManager {
 
             } else {
                 // old version android
-                val endPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path + File.separator + folderName + File.separator + "result_${fileName}.jpg"
+                val endPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path + File.separator + folderName + File.separator + fileName
+                debugLog { "END PATH $endPath" }
                 val uriPath = Uri.fromFile(File(endPath))
                 contentResolver.openOutputStream(uriPath)?.use {
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 90, it)
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, it)
                     MediaScannerConnection.scanFile(context, arrayOf(endPath), arrayOf("image/*"), null)
                 }
                 c.resume(Pair(true, endPath))

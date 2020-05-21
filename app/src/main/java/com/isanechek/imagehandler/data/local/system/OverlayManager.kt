@@ -5,7 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Matrix
-import com.isanechek.imagehandler.d
+import com.isanechek.imagehandler.debugLog
 import com.watermark.androidwm_light.WatermarkBuilder
 import com.watermark.androidwm_light.bean.WatermarkImage
 import com.watermark.androidwm_light.bean.WatermarkPosition
@@ -141,8 +141,8 @@ class OverlayManagerImpl : OverlayManager {
         val x = (0.1 * points.originalX).toFloat()
         val y = (0.8 * points.originalY).toFloat()
 
-        d { "original x ${points.originalX} y ${points.originalY}" }
-        d { "result x $x y $y" }
+        debugLog { "original x ${points.originalX} y ${points.originalY}" }
+        debugLog { "result x $x y $y" }
 
         return Pair(x, y)
     }

@@ -54,12 +54,12 @@ class ImageHandlerViewModel(
         if (path != null) {
             startAction(listOf(path))
         } else {
-            d { "Path null" }
+            debugLog { "Path null" }
         }
     }
 
     fun startAction(paths: List<String>) {
-        d { "uris size ${paths.size}" }
+        debugLog { "uris size ${paths.size}" }
         viewModelScope.launch(Dispatchers.Main) {
 
             withContext(Dispatchers.IO) {
@@ -68,7 +68,7 @@ class ImageHandlerViewModel(
                     temp.add(createModel(path))
                 }
 
-                d { "temp size ${temp.size}" }
+                debugLog { "temp size ${temp.size}" }
 
                 if (temp.isNotEmpty()) {
                     imagesDao.insertAll(temp)
@@ -179,11 +179,11 @@ class ImageHandlerViewModel(
                             }
                         }
                         is ExecuteResult.Done -> {
-                            d { "Boooo" }
+                            debugLog { "Boooo" }
                             progressShow(false)
                         }
                         is ExecuteResult.Error -> {
-                            d { "Error ${execute.message}" }
+                            debugLog { "Error ${execute.message}" }
                             progressShow(false)
                             _showToast.value = execute.message
                         }
@@ -232,22 +232,22 @@ class ImageHandlerViewModel(
                                     update(i.copy(resultPath = saveResult.second))
 
                                 } else {
-                                    d { "Save watermark error!" }
+                                    debugLog { "Save watermark error!" }
                                 }
 
 
 
-                            } else d { "Watermark item not find!" }
+                            } else debugLog { "Watermark item not find!" }
                         } else update(item.copy(copyPath = "fail"))
 
-                    } else d { "Root folder not create!" }
+                    } else debugLog { "Root folder not create!" }
 
-                } else d { "Original file is null!" }
+                } else debugLog { "Original file is null!" }
             }
             progressShow(false)
             showToast("Обработано ${data.size}")
         } else {
-            d { "Data is empty!" }
+            debugLog { "Data is empty!" }
             _progressState.postValue(false)
         }
     }
@@ -257,11 +257,11 @@ class ImageHandlerViewModel(
     }
 
     private fun createModel(path: String): ImageHandlerEntity {
-        d { "original path $path" }
+        debugLog { "original path $path" }
         val id = filesManager.getFileName(path)
-        d { "id $id" }
+        debugLog { "id $id" }
         val title = filesManager.getFileName(path)
-        d { "title $title" }
+        debugLog { "title $title" }
         val time = System.currentTimeMillis()
         return ImageHandlerEntity(
             id = id,

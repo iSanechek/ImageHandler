@@ -8,4 +8,6 @@
     <dimen name="dp0">0dp</dimen>
     <dimen name="dp24">24dp</dimen>
     <dimen name="dp32">32dp</dimen>
+
+    <dimen name="bounding_box_corner_radius">12dp</dimen>
 </resources>

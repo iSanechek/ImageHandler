@@ -7,12 +7,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.isanechek.imagehandler._id
 import com.isanechek.imagehandler._layout
-import com.isanechek.imagehandler.d
 import com.isanechek.imagehandler.onClick
 import com.isanechek.imagehandler.ui.base.BaseFragment
 import kotlinx.android.synthetic.main.choices_fragment_layout.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ChoicesFragment : BaseFragment(_layout.choices_fragment_layout) {
 

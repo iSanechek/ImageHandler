@@ -3,15 +3,9 @@ package com.isanechek.imagehandler.ui.choices
 import android.app.Application
 import android.content.Context
 import androidx.lifecycle.*
-import com.isanechek.imagehandler.d
 import com.isanechek.imagehandler.data.models.*
 import com.isanechek.imagehandler.data.repositories.ChoicesRepository
 import com.isanechek.imagehandler.data.repositories.WatermarkPhotosRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.launch
 
 class ChoicesViewModel(
     application: Application,

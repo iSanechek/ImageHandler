@@ -2,8 +2,7 @@ package com.isanechek.imagehandler.data.local.database.dao
 
 import androidx.paging.DataSource
 import androidx.room.*
-import androidx.sqlite.db.SupportSQLiteQuery
-import com.isanechek.imagehandler.d
+import com.isanechek.imagehandler.debugLog
 import com.isanechek.imagehandler.data.local.database.entity.ImageHandlerEntity
 
 @Dao
@@ -24,7 +23,7 @@ interface ImageHandlerDao : BaseDao<ImageHandlerEntity> {
     @Transaction
     suspend fun update(items: List<ImageHandlerEntity>) {
         items.forEach { item ->
-            d { "I $item" }
+            debugLog { "I $item" }
             update(item)
         }
     }

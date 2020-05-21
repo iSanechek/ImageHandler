@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ihf2_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layoutDescription="@xml/image_handler2_fragment_layout_scene">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/ihf2_button_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.70" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/ihf2_choice_btn"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="выбрать"
+        android:textColor="@color/colorBlack"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ihf2_button_guideline"
+        app:strokeColor="@color/colorBlack"
+        app:strokeWidth="@dimen/dp1"
+        tools:ignore="HardcodedText" />
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/ihf2_result_list"
+        android:layout_width="@dimen/dp0"
+        android:layout_height="@dimen/dp0"
+        app:layout_constraintBottom_toTopOf="@id/ihf2_choice_list"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/ihf2_choice_list"
+        android:layout_width="@dimen/dp0"
+        android:layout_height="100dp"
+        app:layout_constraintBottom_toTopOf="@id/ihf2_controls_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/ihf2_controls_container"
+        android:layout_width="@dimen/dp0"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageButton
+            android:id="@+id/ihf2_settings_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/dp8"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="@dimen/dp8"
+            app:srcCompat="@drawable/settings_black_24" />
+
+        <ImageButton
+            android:id="@+id/ihf2_overlay_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/dp8"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="@dimen/dp8"
+            app:srcCompat="@drawable/ic_baseline_compare_24" />
+
+        <ImageButton
+            android:id="@+id/ihf2_clear_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/dp8"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="@dimen/dp8"
+            app:srcCompat="@drawable/ic_baseline_clear_24" />
+
+        <ImageButton
+            android:id="@+id/ihf2_save_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/dp8"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="@dimen/dp8"
+            app:srcCompat="@drawable/ic_baseline_save_24" />
+    </LinearLayout>
+
+
+</androidx.constraintlayout.motion.widget.MotionLayout>

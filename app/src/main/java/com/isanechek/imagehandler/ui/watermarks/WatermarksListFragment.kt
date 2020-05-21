@@ -11,7 +11,7 @@ import com.afollestad.assent.Permission
 import com.afollestad.assent.askForPermissions
 import com.isanechek.imagehandler._drawable
 import com.isanechek.imagehandler._layout
-import com.isanechek.imagehandler.d
+import com.isanechek.imagehandler.debugLog
 import com.isanechek.imagehandler.ui.base.BaseFragment
 import kotlinx.android.synthetic.main.watermark_fragment_layout.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -37,7 +37,7 @@ class WatermarksListFragment : BaseFragment(_layout.watermark_fragment_layout) {
             setSettingButton(isSettings = false, iconId = _drawable.ic_baseline_add_24) {
                 askForPermissions(Permission.WRITE_EXTERNAL_STORAGE) { result ->
                     if (result.isAllGranted(Permission.WRITE_EXTERNAL_STORAGE)) {
-                        d { "AllGranted" }
+                        debugLog { "AllGranted" }
                         Intent().run {
                             type = "image/*"
                             action = Intent.ACTION_GET_CONTENT
@@ -48,7 +48,7 @@ class WatermarksListFragment : BaseFragment(_layout.watermark_fragment_layout) {
                         }
 
                     } else if (result.isAllDenied(Permission.WRITE_EXTERNAL_STORAGE)) {
-                        d { "AllDenied" }
+                        debugLog { "AllDenied" }
                     }
                 }
             }

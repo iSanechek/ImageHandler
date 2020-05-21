@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ConstraintSet android:id="@+id/handler_start_scene">
+        <Constraint
+            android:id="@+id/ihf2_choice_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ihf2_button_guideline">
+            <PropertySet android:visibility="visible" />
+        </Constraint>
+
+        <Constraint
+            android:id="@+id/ihf2_result_list"
+            android:layout_width="@dimen/dp0"
+            android:layout_height="@dimen/dp1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Constraint
+            android:id="@+id/ihf2_choice_list"
+            android:layout_width="@dimen/dp0"
+            android:layout_height="@dimen/dp1"
+            app:layout_constraintBottom_toTopOf="@id/ihf2_controls_container"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Constraint
+            android:id="@+id/ihf2_controls_container"
+            android:layout_width="@dimen/dp0"
+            android:layout_height="@dimen/dp1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+            <PropertySet android:visibility="gone" />
+        </Constraint>
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/handler_end_scene">
+        <Constraint
+            android:id="@+id/ihf2_choice_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ihf2_button_guideline">
+            <PropertySet android:visibility="gone" />
+        </Constraint>
+
+        <Constraint
+            android:id="@+id/ihf2_result_list"
+            android:layout_width="@dimen/dp0"
+            android:layout_height="@dimen/dp0"
+            app:layout_constraintBottom_toTopOf="@id/ihf2_choice_list"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Constraint
+            android:id="@+id/ihf2_choice_list"
+            android:layout_width="@dimen/dp0"
+            android:layout_height="100dp"
+            app:layout_constraintBottom_toTopOf="@id/ihf2_controls_container"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Constraint
+            android:id="@+id/ihf2_controls_container"
+            android:layout_width="@dimen/dp0"
+            android:layout_height="60dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+            <PropertySet android:visibility="visible" />
+        </Constraint>
+    </ConstraintSet>
+
+    <Transition
+        app:constraintSetEnd="@id/handler_end_scene"
+        app:constraintSetStart="@+id/handler_start_scene"
+        app:duration="300"
+        app:motionInterpolator="linear" />
+</MotionScene>

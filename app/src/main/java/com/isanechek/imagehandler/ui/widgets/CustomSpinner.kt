@@ -5,7 +5,7 @@ import android.content.Context
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatAutoCompleteTextView
 import com.isanechek.imagehandler.R
-import com.isanechek.imagehandler.d
+import com.isanechek.imagehandler.debugLog
 
 class CustomSpinner : AppCompatAutoCompleteTextView {
 
@@ -30,7 +30,7 @@ class CustomSpinner : AppCompatAutoCompleteTextView {
         isFocusableInTouchMode = false
         inputType = 0
         this.setOnClickListener {
-            d { "click view" }
+            debugLog { "click view" }
             this.showDropDown()
         }
     }

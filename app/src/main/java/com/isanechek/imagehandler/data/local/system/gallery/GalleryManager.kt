@@ -1,10 +1,9 @@
 package com.isanechek.imagehandler.data.local.system.gallery
 
-import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.Context
 import android.provider.MediaStore
-import com.isanechek.imagehandler.d
+import com.isanechek.imagehandler.debugLog
 import com.isanechek.imagehandler.data.models.*
 import com.isanechek.imagehandler.doWhile
 import com.isanechek.imagehandler.replace
@@ -98,11 +97,11 @@ class GalleryManagerImpl : GalleryManager {
                     }
                 }
 
-                d { "temp ${temp.size}" }
+                debugLog { "temp ${temp.size}" }
 
                 c.resume(temp)
             } catch (ex: Throwable) {
-                d { "Load images ${ex.message}" }
+                debugLog { "Load images ${ex.message}" }
                 c.resume(emptyList())
             }
         }
@@ -182,7 +181,7 @@ class GalleryManagerImpl : GalleryManager {
 
                 c.resume(temp)
             } catch (ex: Throwable) {
-                d { "Load folder error ${ex.message}" }
+                debugLog { "Load folder error ${ex.message}" }
                 c.resume(emptyList())
             }
         }

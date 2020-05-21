@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.api.load
 import com.isanechek.imagehandler._color
 import com.isanechek.imagehandler._layout
-import com.isanechek.imagehandler.d
 import com.isanechek.imagehandler.data.models.Image
 import com.isanechek.imagehandler.inflate
 import kotlinx.android.extensions.LayoutContainer

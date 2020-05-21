@@ -5,7 +5,6 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.isanechek.imagehandler._layout
-import com.isanechek.imagehandler.d
 import kotlinx.android.synthetic.main.base_choices_fragment_layout.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 

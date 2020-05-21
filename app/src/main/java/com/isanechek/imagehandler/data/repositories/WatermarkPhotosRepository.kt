@@ -8,7 +8,7 @@ import androidx.lifecycle.liveData
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.isanechek.imagehandler.PRIVATE_APP_FOLDER_NAME
-import com.isanechek.imagehandler.d
+import com.isanechek.imagehandler.debugLog
 import com.isanechek.imagehandler.data.local.database.dao.GalleryDao
 import com.isanechek.imagehandler.data.local.database.dao.WatermarkDao
 import com.isanechek.imagehandler.data.local.database.entity.AlbumEntity
@@ -194,7 +194,7 @@ class WatermarkPhotosRepositoryImpl(
                             watermarkDao.insertWatermarkResult(resultItem)
                         }
                     } else {
-                        d { "Original file is null!" }
+                        debugLog { "Original file is null!" }
                         val timestamp = System.nanoTime()
                         val resultItem = WatermarkImageResultEntity(
                             id = item.id,
@@ -218,7 +218,7 @@ class WatermarkPhotosRepositoryImpl(
 
 
         } else {
-            d { "Root folder not create!" }
+            debugLog { "Root folder not create!" }
             emit("fail_create_root_folder")
         }
     }
@@ -291,7 +291,7 @@ class WatermarkPhotosRepositoryImpl(
 
     override fun loadFolders(context: Context, isUpdate: Boolean): Flow<List<Album>> = flow {
         val cache = galleryDao.loadAlbums()
-        d { "folders cache ${cache.size}" }
+        debugLog { "folders cache ${cache.size}" }
         if (isUpdate) {
             if (cache.isNotEmpty()) {
                 val newData = galleryManager.loadAlbums(context, 0)
@@ -302,19 +302,19 @@ class WatermarkPhotosRepositoryImpl(
                 }
             }
         } else {
-            d { "sg" }
+            debugLog { "sg" }
             if (cache.isNotEmpty()) {
                 emit(cache.map { it.toModel() }.toList())
             } else {
-                d { "hi" }
+                debugLog { "hi" }
                 val newData = galleryManager.loadAlbums(context, 0)
-                d { "New data ${newData.size}" }
+                debugLog { "New data ${newData.size}" }
                 if (newData.isNotEmpty()) {
-                    d { "pm" }
+                    debugLog { "pm" }
                     emit(newData)
                     galleryDao.insertAlbums(newData.map { it.toEntity() }.toList())
                 } else {
-                    d { "vm" }
+                    debugLog { "vm" }
                     emit(cache.map { it.toModel() }.toList())
                 }
             }
@@ -371,7 +371,7 @@ class WatermarkPhotosRepositoryImpl(
         )
 
     companion object {
-        private const val HIDE_FOLDER_NAME = "image_cache"
+        const val HIDE_FOLDER_NAME = "image_cache"
         private const val PUBLIC_FOLDER_NAME = "ImageHandler"
         private const val LIMIT_LOAD_SIZE = 102
     }

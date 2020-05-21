@@ -2,7 +2,7 @@ package com.isanechek.imagehandler.data.local.database.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.isanechek.imagehandler.d
+import com.isanechek.imagehandler.debugLog
 import com.isanechek.imagehandler.data.local.database.entity.ImageEntity
 import com.isanechek.imagehandler.data.local.database.entity.WatermarkChoicesImageEntity
 import com.isanechek.imagehandler.data.local.database.entity.WatermarkImageResultEntity
@@ -37,18 +37,18 @@ interface WatermarkDao {
         val findId = findId(id)
         if (findId.isNotEmpty()) {
             update(id, true)
-        } else d { "$id not find!" }
+        } else debugLog { "$id not find!" }
 
 
         val data = findAll()
         if (data.isNotEmpty()) {
             data.filter { it.id != id }.forEach { item ->
-                d { "Item $item" }
+                debugLog { "Item $item" }
                 if (item.isSelected) {
                     update(item.id, false)
                 }
             }
-        } else d { "Watermark data is null" }
+        } else debugLog { "Watermark data is null" }
     }
 
 

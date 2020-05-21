@@ -2,18 +2,13 @@ package com.isanechek.imagehandler.ui.choices.images
 
 import android.os.Bundle
 import androidx.lifecycle.Observer
-import androidx.recyclerview.selection.SelectionPredicates
 import androidx.recyclerview.selection.SelectionTracker
-import androidx.recyclerview.selection.StableIdKeyProvider
 import androidx.recyclerview.selection.StorageStrategy
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.isanechek.imagehandler.d
+import com.isanechek.imagehandler.debugLog
 import com.isanechek.imagehandler.data.models.GalleryImageResult
-import com.isanechek.imagehandler.data.models.Image
-import com.isanechek.imagehandler.ui.choices.ChoicesViewModel
 import com.isanechek.imagehandler.ui.choices.BaseChoicesFragment
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class ChoicesAllImagesFragment : BaseChoicesFragment() {
 
@@ -24,13 +19,13 @@ class ChoicesAllImagesFragment : BaseChoicesFragment() {
 
         override fun onSelectionRestored() {
             super.onSelectionRestored()
-            d { "Restored ${tracker.selection.size()}" }
+            debugLog { "Restored ${tracker.selection.size()}" }
             setSelectedSize(tracker.selection.size())
         }
 
         override fun onSelectionChanged() {
             super.onSelectionChanged()
-            d { "Changed ${tracker.selection.size()}" }
+            debugLog { "Changed ${tracker.selection.size()}" }
             setSelectedSize(tracker.selection.size())
         }
     }

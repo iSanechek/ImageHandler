@@ -2,8 +2,7 @@ package com.isanechek.imagehandler.data.local.system
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import com.isanechek.imagehandler.d
-import kotlinx.coroutines.suspendAtomicCancellableCoroutine
+import com.isanechek.imagehandler.debugLog
 import java.io.File
 import java.io.FileOutputStream
 
@@ -15,6 +14,7 @@ interface FilesManager {
     fun saveFile(bitmap: Bitmap, folderPath: String, fileName: String): Pair<Boolean, String>
     fun clearAll(path: String): Boolean
     fun deleteFile(path: String): Boolean
+    fun checkFolderExistsAndIsNotEmpty(path: String): Boolean
 }
 
 class FilesManagerImpl : FilesManager {
@@ -42,8 +42,7 @@ class FilesManagerImpl : FilesManager {
 
     override fun saveFile(bitmap: Bitmap, folderPath: String, fileName: String): Pair<Boolean, String> {
         var result = Pair(false, "")
-        val bit = BitmapFactory.decodeFile("")
-        val fileResult = File(folderPath, "result_$fileName.jpg")
+        val fileResult = File(folderPath, fileName)
         FileOutputStream(fileResult).use {
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, it)
         }
@@ -54,22 +53,38 @@ class FilesManagerImpl : FilesManager {
     }
 
     override fun clearAll(path: String): Boolean {
-        var result = true
+        var status = true
         val folder = File(path)
         if (folder.isDirectory) {
             folder.listFiles()?.forEach {
-                it.delete()
+                if (!it.delete()) {
+                    status = false
+                }
             }
         }
-        return result
+        folder.listFiles()?.forEach { file ->
+            debugLog { "FILE NOT REMOVING ${file.name}" }
+        }
+        return status
     }
 
     override fun deleteFile(path: String): Boolean {
         var isDeleted = false
         val file = File(path)
         if (file.isFile) { isDeleted = file.delete() }
-        d { "Path $path status $isDeleted" }
+        debugLog { "Path $path status $isDeleted" }
         return isDeleted
+    }
+
+    override fun checkFolderExistsAndIsNotEmpty(path: String): Boolean {
+        val folder = File(path)
+        if (!folder.exists()) return false
+
+        if (folder.isDirectory) {
+            return folder.listFiles()?.isNotEmpty() ?: false
+        }
+
+        return false
     }
 
 }

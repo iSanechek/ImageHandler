@@ -7,6 +7,6 @@ import org.koin.dsl.module
 val watermarkModule = module {
 
     viewModel {
-        WatermarksListViewModel(androidApplication(), get(), get())
+        WatermarksListViewModel(androidApplication(), get(), get(), get())
     }
 }

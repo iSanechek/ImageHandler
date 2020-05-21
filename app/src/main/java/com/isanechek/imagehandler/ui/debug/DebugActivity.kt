@@ -5,14 +5,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import com.isanechek.imagehandler.R
-import com.isanechek.imagehandler.d
+import com.isanechek.imagehandler.debugLog
 import com.isanechek.imagehandler.data.local.system.gallery.GalleryManager
 import com.isanechek.imagehandler.data.models.ChoicesResult
 import com.isanechek.imagehandler.data.repositories.ChoicesRepository
 import com.isanechek.imagehandler.onClick
 import kotlinx.android.synthetic.main.debug_layout.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import org.koin.android.ext.android.inject
 
 class DebugActivity : AppCompatActivity(R.layout.debug_layout) {
@@ -33,23 +31,23 @@ class DebugActivity : AppCompatActivity(R.layout.debug_layout) {
             choices.loadFolders(this@DebugActivity).observe(this@DebugActivity, Observer { data ->
                 when(data) {
                     is ChoicesResult.Update -> {
-                        d { "update" }
+                        debugLog { "update" }
                     }
                     is ChoicesResult.Load -> {
-                        d { "load" }
+                        debugLog { "load" }
                     }
                     is ChoicesResult.Done -> {
-                        d { "done" }
+                        debugLog { "done" }
 
                         data.data.forEach { item ->
-                            d { "name ${item.name}" }
+                            debugLog { "name ${item.name}" }
                             item.caverPaths.forEach { url ->
-                                d { "path $url" }
+                                debugLog { "path $url" }
                             }
                         }
                     }
                     is ChoicesResult.Error -> {
-                        d { "error ${data.message}" }
+                        debugLog { "error ${data.message}" }
                     }
                 }
             })

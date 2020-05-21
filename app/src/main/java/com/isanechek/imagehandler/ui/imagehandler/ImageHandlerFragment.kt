@@ -5,7 +5,6 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.widget.Toast
 import androidx.core.content.FileProvider
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
@@ -70,7 +69,7 @@ class ImageHandlerFragment : BaseFragment(_layout.image_handler_fragment_layout)
         })
 
         vm.progressMessage.observe(this, Observer { msg->
-            d { "Progress $msg" }
+            debugLog { "Progress $msg" }
         })
 
         vm.progressState.observe(this, Observer { show ->
@@ -114,7 +113,7 @@ class ImageHandlerFragment : BaseFragment(_layout.image_handler_fragment_layout)
         ih_fab.onClick {
             askForPermissions(Permission.WRITE_EXTERNAL_STORAGE) { result ->
                 if (result.isAllGranted(Permission.WRITE_EXTERNAL_STORAGE)) {
-                    d { "AllGranted" }
+                    debugLog { "AllGranted" }
                     Intent().run {
                         type = "image/*"
                         putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
@@ -126,7 +125,7 @@ class ImageHandlerFragment : BaseFragment(_layout.image_handler_fragment_layout)
                     }
 
                 } else if (result.isAllDenied(Permission.WRITE_EXTERNAL_STORAGE)) {
-                    d { "AllDenied" }
+                    debugLog { "AllDenied" }
                 }
             }
         }

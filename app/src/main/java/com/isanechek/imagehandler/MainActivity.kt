@@ -2,13 +2,9 @@ package com.isanechek.imagehandler
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
 import androidx.navigation.NavController
-import androidx.navigation.NavOptions
-import androidx.navigation.Navigation.findNavController
 import androidx.navigation.findNavController
 import com.isanechek.imagehandler.service.GalleryJobContract
-import com.isanechek.imagehandler.ui.main.MainFragment
 import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity() {
@@ -45,7 +41,7 @@ class MainActivity : AppCompatActivity() {
 
         if (!jobService.serviceIsRun(this)) {
             jobService.scheduleJob(this)
-            d { "Run service" }
-        } else d { "Service is run" }
+            debugLog { "Run service" }
+        } else debugLog { "Service is run" }
     }
 }

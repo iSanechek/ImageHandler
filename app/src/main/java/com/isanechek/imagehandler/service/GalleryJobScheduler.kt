@@ -11,7 +11,7 @@ import android.net.Uri
 import android.provider.MediaStore
 import androidx.annotation.MainThread
 import com.isanechek.imagehandler.BuildConfig
-import com.isanechek.imagehandler.d
+import com.isanechek.imagehandler.debugLog
 import com.isanechek.imagehandler.data.models.Image
 import com.isanechek.imagehandler.data.repositories.WatermarkPhotosRepository
 import com.isanechek.imagehandler.doWhile
@@ -102,7 +102,7 @@ class GalleryJobScheduler : GalleryJobContract, JobService() {
                                             }
                                         }
                                     } catch (e: SecurityException) {
-                                        d { "Ошбка: Нет доступа к медиафайлу! ${e.message}" }
+                                        debugLog { "Ошбка: Нет доступа к медиафайлу! ${e.message}" }
                                     }
                                 }
                             }
@@ -133,7 +133,7 @@ class GalleryJobScheduler : GalleryJobContract, JobService() {
                 builder.setTriggerContentMaxDelay(500)
                 jobInfo = builder.build()
                 jobInfo?.let {
-                    d { "Service schedule!" }
+                    debugLog { "Service schedule!" }
                     bindService(context).schedule(it)
                 }
             }
@@ -147,7 +147,7 @@ class GalleryJobScheduler : GalleryJobContract, JobService() {
         for (i in 0 until jobs.size) {
             if (jobs[i].id == CHECKER_SERVICE_JOB_ID) isRunning = true
         }
-        d { "Check service run $isRunning" }
+        debugLog { "Check service run $isRunning" }
         return isRunning
     }
 

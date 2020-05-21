@@ -50,6 +50,7 @@ typealias _style= R.style
 typealias _drawable = R.drawable
 typealias _anim = R.anim
 typealias _color = R.color
+typealias _dimen = R.dimen
 
 infix fun ViewGroup.inflate(layoutResId: Int): View =
     LayoutInflater.from(this.context).inflate(layoutResId, this, false)
@@ -60,7 +61,7 @@ fun View.onClick(function: () -> Unit) {
     }
 }
 
-inline fun d(message: () -> String) {
+inline fun debugLog(message: () -> String) {
     Log.e("DEBUG", message())
 }
 

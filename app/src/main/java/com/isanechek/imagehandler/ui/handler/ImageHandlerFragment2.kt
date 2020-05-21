@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isInvisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -14,6 +15,10 @@ import androidx.viewpager2.widget.ViewPager2
 import coil.api.load
 import com.afollestad.assent.Permission
 import com.afollestad.assent.askForPermissions
+import com.afollestad.materialdialogs.LayoutMode
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.bottomsheets.BottomSheet
+import com.afollestad.materialdialogs.list.listItems
 import com.isanechek.imagehandler.*
 import com.isanechek.imagehandler.utils.FileUtils
 import glimpse.coil.GlimpseTransformation
@@ -24,6 +29,7 @@ import kotlinx.android.synthetic.main.image_result_item_layout.*
 import kotlinx.coroutines.flow.collect
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
+import kotlin.math.roundToInt
 
 data class ImageItem(
     val id: String,
@@ -108,13 +114,33 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
             items.addAll(data)
             notifyDataSetChanged()
         }
+
+        fun clear() {
+            if (items.isNotEmpty()) items.clear()
+        }
     }
 
     // Fragment
     private val vm: ImageHandlerViewModel by viewModel()
     private lateinit var resultAdapter: ResultAdapter
+    private lateinit var choiceAdapter: ChoiceAdapter
+
+
+    private val viewpagerListener = object : ViewPager2.OnPageChangeCallback() {
+        override fun onPageScrolled(
+            position: Int,
+            positionOffset: Float,
+            positionOffsetPixels: Int
+        ) {
+            ihf2_toolbar.setElevationVisibility(position != 0)
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        ihf2_toolbar.hideCustomLayout()
+        ihf2_toolbar_title.text = "Image Handler"
+        ihf2_toolbar_setting.onClick { settingDialog() }
+
         ihf2_choice_btn.onClick {
             askForPermissions(Permission.READ_EXTERNAL_STORAGE) { result ->
                 if (result.isAllGranted(Permission.READ_EXTERNAL_STORAGE)) {
@@ -131,12 +157,13 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
             }
         }
 
-
-        ihf2_settings_btn.onClick { findNavController().navigate(_id.handler_go_to_watermark) }
-        ihf2_clear_btn.onClick { vm.clearData() }
+        ihf2_clear_btn.onClick {
+            vm.clearData()
+            choiceAdapter.clear()
+            resultAdapter.clear()
+        }
         ihf2_overlay_btn.onClick {
             vm.startWork()
-            resultAdapter.clear()
         }
         ihf2_save_btn.onClick {
             askForPermissions(Permission.WRITE_EXTERNAL_STORAGE) { result ->
@@ -150,6 +177,11 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
 
         lifecycleScope.launchWhenResumed {
             vm.error.collect { msg -> debugLog { "MSG $msg" } }
+
+            vm.progress.collect { isShow ->
+                debugLog { "SHOW PROGRESS $isShow" }
+                ihf2_toolbar_progress.isInvisible = !isShow
+            }
         }
 
     }
@@ -182,6 +214,29 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
         } else super.onActivityResult(requestCode, resultCode, data)
     }
 
+    override fun onResume() {
+        super.onResume()
+        ihf2_result_list.registerOnPageChangeCallback(viewpagerListener)
+    }
+
+    override fun onPause() {
+        ihf2_result_list.unregisterOnPageChangeCallback(viewpagerListener)
+        super.onPause()
+    }
+
+    private fun settingDialog() {
+        MaterialDialog(requireContext(), BottomSheet(LayoutMode.WRAP_CONTENT)).show {
+            title(text = "Menu")
+            val data = listOf("overlay")
+            listItems(items = data, waitForPositiveButton = false) { dialog, index, _ ->
+                when(index) {
+                    0 -> findNavController().navigate(_id.handler_go_to_watermark)
+                    else -> Unit
+                }
+            }
+        }
+    }
+
     private fun bindResultList() {
         resultAdapter = ResultAdapter()
         with(ihf2_result_list) {
@@ -202,7 +257,7 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
     }
 
     private fun bindChoiceList() {
-        val choiceAdapter = ChoiceAdapter()
+        choiceAdapter = ChoiceAdapter()
 
         with(ihf2_choice_list) {
             setHasFixedSize(true)

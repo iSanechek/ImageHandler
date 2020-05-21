@@ -34,10 +34,6 @@ class ImageHandlerViewModel(
     private val mediaStoreManager: MediaStoreManager
 ) : AndroidViewModel(application) {
 
-    private val clearState = MutableStateFlow(false)
-    val clear: Flow<Boolean>
-        get() = clearState
-
     private val progressCountState = MutableStateFlow("")
     val progressCount: Flow<String>
         get() = progressCountState
@@ -71,7 +67,6 @@ class ImageHandlerViewModel(
 
     fun clearData() {
         dataState.value = emptyList()
-        clearState.value = false
         if (resultState.value.isNotEmpty() && resultState.value.first().overlayStatus.isNotEmpty()) {
             viewModelScope.launch(Dispatchers.IO) {
                 filesManager.clearAll(cacheFolder)
@@ -147,7 +142,6 @@ class ImageHandlerViewModel(
     private suspend fun preparing(data: List<ImageItem>, overlayPath: String) =
         withContext(Dispatchers.IO) {
             progressState.value = true
-
             if (filesManager.createFolderIfEmpty(cacheFolder)) {
                 val temp = mutableListOf<ImageItem>()
                 if (temp.isNotEmpty()) temp.clear()

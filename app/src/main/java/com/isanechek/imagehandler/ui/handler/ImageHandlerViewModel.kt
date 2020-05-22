@@ -5,6 +5,8 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Environment
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
@@ -34,16 +36,20 @@ class ImageHandlerViewModel(
     private val mediaStoreManager: MediaStoreManager
 ) : AndroidViewModel(application) {
 
-    private val progressCountState = MutableStateFlow("")
-    val progressCount: Flow<String>
+    private val toastState = MutableLiveData<String>()
+    val toast: LiveData<String>
+        get() = toastState
+
+    private val progressCountState = MutableLiveData<String>()
+    val progressCount: LiveData<String>
         get() = progressCountState
 
-    private val progressState = MutableStateFlow(false)
-    val progress: Flow<Boolean>
+    private val progressState = MutableLiveData<Boolean>()
+    val progress: LiveData<Boolean>
         get() = progressState
 
-    private val errorState = MutableStateFlow("")
-    val error: Flow<String>
+    private val errorState = MutableLiveData<String>()
+    val error: LiveData<String>
         get() = errorState
 
     private val dataState = MutableStateFlow(emptyList<ImageItem>())
@@ -103,20 +109,15 @@ class ImageHandlerViewModel(
     }
 
     private suspend fun saveFiles(data: List<ImageItem>) = withContext(Dispatchers.IO) {
-        debugLog { "SAVE DATA ${data.size}" }
-
         val publicPath =
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path + File.separator + "ImageHandler"
-
+        progressState.postValue(true)
         if (filesManager.createFolderIfEmpty(publicPath)) {
             if (data.isNotEmpty()) {
                 val temp = mutableListOf<ImageItem>()
                 if (temp.isNotEmpty()) temp.clear()
                 data.forEach { item ->
-                    val name = filesManager.getFileName(item.resultPath)
-                    debugLog { "RESULT NAME $name" }
                     val bitmap = BitmapFactory.decodeFile(item.resultPath)
-                    debugLog { "RESULT BITMAP ${bitmap.width}" }
                     val (isOk, path) = mediaStoreManager.saveBitmapInGallery(
                         getApplication<App>(),
                         bitmap,
@@ -124,24 +125,26 @@ class ImageHandlerViewModel(
                         "ImageHandler",
                         System.currentTimeMillis()
                     )
-                    debugLog { "SAVE STATUS $isOk" }
-                    debugLog { "SAVE PATH $path" }
                     if (isOk) {
                         temp.add(item.copy(publicPath = path))
-                    } else {
-                        debugLog { "SAVE ERROR $path" }
                     }
                 }
                 if (temp.isNotEmpty()) {
                     resultState.value = temp
                 }
             }
+            progressState.postValue(false)
+            toastState.postValue("Сохранение завершено")
+        } else {
+            progressState.postValue(false)
+            errorState.postValue("Не могу скопировать в систему")
         }
     }
 
     private suspend fun preparing(data: List<ImageItem>, overlayPath: String) =
         withContext(Dispatchers.IO) {
-            progressState.value = true
+            progressState.postValue(true)
+
             if (filesManager.createFolderIfEmpty(cacheFolder)) {
                 val temp = mutableListOf<ImageItem>()
                 if (temp.isNotEmpty()) temp.clear()
@@ -154,7 +157,6 @@ class ImageHandlerViewModel(
                     )
 
                     if (isOk) {
-                        debugLog { "OVERLAY DONE" }
                         temp.add(
                             imageItem.copy(
                                 overlayStatus = ImageItem.OVERLAY_DONE,
@@ -162,17 +164,17 @@ class ImageHandlerViewModel(
                             )
                         )
                     } else {
-                        debugLog { "OVERLAY FAIL" }
                         temp.add(imageItem.copy(overlayStatus = ImageItem.OVERLAY_FAIL))
                     }
 
 
-                    progressCountState.value = String.format("%d/%d", data.size, index.inc())
+                    progressCountState.postValue(String.format("%d/%d", data.size, index.inc()))
                 }
                 resultState.value = temp
-                progressState.value = false
+                progressState.postValue(false)
+                toastState.postValue("Обработка данных завершена.")
             } else {
-                progressState.value = false
+                progressState.postValue(false)
                 errorState.value = "Fail create cache folder!"
             }
         }
@@ -186,8 +188,8 @@ class ImageHandlerViewModel(
 
     private fun handleWork(originalBitmap: Bitmap, overlayBitmap: Bitmap): Bitmap =
         WatermarkBuilder.create(getApplication<App>(), originalBitmap).loadWatermarkImage(
-            WatermarkImage(overlayBitmap, WatermarkPosition(0.005, 0.63))
-                .setSize(0.5)
+            WatermarkImage(overlayBitmap, WatermarkPosition(0.005, 0.70))
+                .setSize(0.4)
                 .setImageAlpha(255)
         ).watermark.outputImage
 

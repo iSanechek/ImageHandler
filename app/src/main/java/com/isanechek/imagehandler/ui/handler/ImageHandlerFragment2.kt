@@ -5,8 +5,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isInvisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,7 +31,6 @@ import kotlinx.android.synthetic.main.image_result_item_layout.*
 import kotlinx.coroutines.flow.collect
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
-import kotlin.math.roundToInt
 
 data class ImageItem(
     val id: String,
@@ -132,7 +133,7 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
             positionOffset: Float,
             positionOffsetPixels: Int
         ) {
-            ihf2_toolbar.setElevationVisibility(position != 0)
+//            ihf2_toolbar.setElevationVisibility(position != 0)
         }
     }
 
@@ -175,15 +176,15 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
         bindChoiceList()
         bindResultList()
 
-        lifecycleScope.launchWhenResumed {
-            vm.error.collect { msg -> debugLog { "MSG $msg" } }
+        vm.progress.observe(viewLifecycleOwner, Observer { isShow ->
+            ihf2_toolbar_progress.isInvisible = !isShow
+        })
 
-            vm.progress.collect { isShow ->
-                debugLog { "SHOW PROGRESS $isShow" }
-                ihf2_toolbar_progress.isInvisible = !isShow
-            }
-        }
+        vm.toast.observe(viewLifecycleOwner, Observer { toastMsg ->
+            Toast.makeText(requireContext(), toastMsg, Toast.LENGTH_SHORT).show()
+        })
 
+        vm.progressCount.observe(viewLifecycleOwner, Observer { court -> })
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -229,7 +230,7 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
             title(text = "Menu")
             val data = listOf("overlay")
             listItems(items = data, waitForPositiveButton = false) { dialog, index, _ ->
-                when(index) {
+                when (index) {
                     0 -> findNavController().navigate(_id.handler_go_to_watermark)
                     else -> Unit
                 }
@@ -240,7 +241,7 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
     private fun bindResultList() {
         resultAdapter = ResultAdapter()
         with(ihf2_result_list) {
-            orientation = ViewPager2.ORIENTATION_VERTICAL
+            orientation = ViewPager2.ORIENTATION_HORIZONTAL
             adapter = resultAdapter
         }
 

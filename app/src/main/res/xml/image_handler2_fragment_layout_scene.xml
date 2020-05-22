@@ -88,7 +88,7 @@
         <Constraint
             android:id="@+id/ihf2_controls_container"
             android:layout_width="@dimen/dp0"
-            android:layout_height="160dp"
+            android:layout_height="150dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">

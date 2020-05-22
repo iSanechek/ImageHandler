@@ -73,6 +73,7 @@ class ImageHandlerViewModel(
 
     fun clearData() {
         dataState.value = emptyList()
+        progressCountState.value = ""
         if (resultState.value.isNotEmpty() && resultState.value.first().overlayStatus.isNotEmpty()) {
             viewModelScope.launch(Dispatchers.IO) {
                 filesManager.clearAll(cacheFolder)
@@ -168,7 +169,7 @@ class ImageHandlerViewModel(
                     }
 
 
-                    progressCountState.postValue(String.format("%d/%d", data.size, index.inc()))
+                    progressCountState.postValue(String.format("%d/%d", index.inc(), data.size))
                 }
                 resultState.value = temp
                 progressState.postValue(false)

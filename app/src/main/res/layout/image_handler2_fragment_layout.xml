@@ -36,6 +36,23 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="@tools:sample/lorem" />
 
+            <TextView
+                android:id="@+id/ihf2_toolbar_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp8"
+                android:layout_marginEnd="@dimen/dp16"
+                android:layout_marginBottom="@dimen/dp8"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:textColor="@color/colorAccent"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/ihf2_toolbar_progress"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="2/8"
+                tools:visibility="visible" />
+
             <ProgressBar
                 android:id="@+id/ihf2_toolbar_progress"
                 style="?android:attr/progressBarStyleSmall"

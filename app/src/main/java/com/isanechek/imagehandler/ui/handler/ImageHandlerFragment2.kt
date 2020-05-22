@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -178,13 +179,17 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
 
         vm.progress.observe(viewLifecycleOwner, Observer { isShow ->
             ihf2_toolbar_progress.isInvisible = !isShow
+//            ihf2_toolbar_count.isInvisible = !isShow
         })
 
         vm.toast.observe(viewLifecycleOwner, Observer { toastMsg ->
             Toast.makeText(requireContext(), toastMsg, Toast.LENGTH_SHORT).show()
         })
 
-        vm.progressCount.observe(viewLifecycleOwner, Observer { court -> })
+        vm.progressCount.observe(viewLifecycleOwner, Observer { count ->
+            debugLog { count }
+            ihf2_toolbar_count.text = count
+        })
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -278,7 +283,15 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
         }
     }
 
+    private fun overlaySettingDialog() {
+        MaterialDialog(requireContext(), BottomSheet(LayoutMode.WRAP_CONTENT)).show {
+            title(text = "Overlay settings")
+            
+        }
+    }
+
     private fun showErrorMessage(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
         debugLog {
             "ERROR $message"
         }

@@ -21,10 +21,6 @@ val databaseModule = module {
     }
 
     factory {
-        get<ImagesDatabase>().imageHandlerDao()
-    }
-
-    factory {
         get<ImagesDatabase>().watermarkDao()
     }
 

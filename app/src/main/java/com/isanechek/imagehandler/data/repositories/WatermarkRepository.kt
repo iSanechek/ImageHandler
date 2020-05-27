@@ -3,7 +3,6 @@ package com.isanechek.imagehandler.data.repositories
 import android.content.Context
 import android.graphics.BitmapFactory
 import com.isanechek.imagehandler.*
-import com.isanechek.imagehandler.data.local.database.dao.ImageHandlerDao
 import com.isanechek.imagehandler.data.local.database.entity.ImageHandlerEntity
 import com.isanechek.imagehandler.data.local.system.FilesManager
 import com.isanechek.imagehandler.data.local.system.MediaStoreManager
@@ -19,7 +18,6 @@ interface WatermarkRepository {
 }
 
 class WatermarkRepositoryImpl(
-    private val imageHandlerDao: ImageHandlerDao,
     private val mediaStoreManager: MediaStoreManager,
     private val filesManager: FilesManager,
     private val prefManager: PrefManager
@@ -36,7 +34,8 @@ class WatermarkRepositoryImpl(
     override suspend fun saveResult(context: Context): Flow<ExecuteResult<String>> = flow {
         emit(PROGRESS_STATE_LOAD_DATA_FROM_DB.toProgress())
         debugLog { "BOOMMMM" }
-        val data = imageHandlerDao.loadData()
+//        val data = imageHandlerDao.loadData()
+        val data = emptyList<ImageHandlerEntity>()
         val appFolder = context.filesDir.absolutePath + File.separator + PRIVATE_APP_FOLDER_NAME
         if (data.isNotEmpty()) {
             if (prefManager.isFirstStart()) emit(PROGRESS_STATE_CHECK_PRIVATE_FOLDER.toProgress())
@@ -79,7 +78,7 @@ class WatermarkRepositoryImpl(
                 }
 
                 if (temp.isNotEmpty()) {
-                    imageHandlerDao.update(temp)
+//                    imageHandlerDao.update(temp)
                     debugLog { "hyui" }
                     emit(ExecuteResult.Done(EMPTY_VALUE))
                 } else emit(ExecuteResult.Error(NOT_FIND_TO_SAVE))

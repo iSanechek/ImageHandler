@@ -1,11 +1,14 @@
 package com.isanechek.imagehandler.data
 
+import androidx.room.Room
+import com.isanechek.imagehandler.data.local.database.CacheDatabase
 import com.isanechek.imagehandler.data.local.system.*
 import com.isanechek.imagehandler.data.local.system.gallery.GalleryManager
 import com.isanechek.imagehandler.data.local.system.gallery.GalleryManagerImpl
 import com.isanechek.imagehandler.data.repositories.*
 import com.isanechek.imagehandler.service.GalleryJobContract
 import com.isanechek.imagehandler.service.GalleryJobScheduler
+import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module
 
 val dataModule = module {
@@ -24,7 +27,6 @@ val dataModule = module {
 
     single<WatermarkRepository> {
         WatermarkRepositoryImpl(
-            get(),
             get(),
             get(),
             get()
@@ -48,5 +50,16 @@ val dataModule = module {
 
     single<GalleryJobContract> {
         GalleryJobScheduler()
+    }
+
+    single {
+        Room.inMemoryDatabaseBuilder(
+            androidApplication().applicationContext,
+            CacheDatabase::class.java
+        ).fallbackToDestructiveMigration().build()
+    }
+
+    factory {
+        get<CacheDatabase>().imagesDao()
     }
 }

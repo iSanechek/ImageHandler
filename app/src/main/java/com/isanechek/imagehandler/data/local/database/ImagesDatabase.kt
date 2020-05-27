@@ -3,7 +3,6 @@ package com.isanechek.imagehandler.data.local.database
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.isanechek.imagehandler.data.local.database.dao.GalleryDao
-import com.isanechek.imagehandler.data.local.database.dao.ImageHandlerDao
 import com.isanechek.imagehandler.data.local.database.dao.WatermarkDao
 import com.isanechek.imagehandler.data.local.database.entity.*
 
@@ -22,8 +21,6 @@ import com.isanechek.imagehandler.data.local.database.entity.*
     exportSchema = false
 )
 abstract class ImagesDatabase : RoomDatabase() {
-
-    abstract fun imageHandlerDao(): ImageHandlerDao
     abstract fun watermarkDao(): WatermarkDao
     abstract fun galleryDao(): GalleryDao
 }

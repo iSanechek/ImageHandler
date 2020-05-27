@@ -27,9 +27,6 @@
         android:label="splash"
         tools:layout="@layout/splash_fragment_layout">
 
-        <action
-            android:id="@+id/go_from_splash_to_handler"
-            app:destination="@id/image_handler_fragment" />
 
     </fragment>
 
@@ -38,16 +35,6 @@
         android:name="com.isanechek.imagehandler.ui.main.MainFragment"
         android:label="main"
         tools:layout="@layout/main_fragment" />
-
-    <fragment
-        android:id="@+id/image_handler_fragment"
-        android:name="com.isanechek.imagehandler.ui.imagehandler.ImageHandlerFragment"
-        android:label="imagehandler"
-        tools:layout="@layout/image_handler_fragment_layout">
-        <action
-            android:id="@+id/go_handler_to_select_watermark"
-            app:destination="@id/watermark_screen" />
-    </fragment>
 
     <fragment
         android:id="@+id/watermark_screen"

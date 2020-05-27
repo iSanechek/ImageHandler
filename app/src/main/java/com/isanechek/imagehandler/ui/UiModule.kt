@@ -15,6 +15,6 @@ val uiModule = module {
     }
 
     viewModel {
-        ImageHandlerViewModel(androidApplication(), get(), get(), get())
+        ImageHandlerViewModel(androidApplication(), get(), get(), get(), get())
     }
 }

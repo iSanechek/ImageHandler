@@ -12,6 +12,7 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
 import com.isanechek.imagehandler.App
+import com.isanechek.imagehandler.data.local.database.dao.ImagesDao
 import com.isanechek.imagehandler.data.local.system.FilesManager
 import com.isanechek.imagehandler.data.local.system.MediaStoreManager
 import com.isanechek.imagehandler.data.local.system.PrefManager
@@ -23,7 +24,6 @@ import com.watermark.androidwm_light.bean.WatermarkImage
 import com.watermark.androidwm_light.bean.WatermarkPosition
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -33,7 +33,8 @@ class ImageHandlerViewModel(
     application: Application,
     private val filesManager: FilesManager,
     private val prefManager: PrefManager,
-    private val mediaStoreManager: MediaStoreManager
+    private val mediaStoreManager: MediaStoreManager,
+    private val imagesDao: ImagesDao
 ) : AndroidViewModel(application) {
 
     private val toastState = MutableLiveData<String>()
@@ -52,16 +53,16 @@ class ImageHandlerViewModel(
     val error: LiveData<String>
         get() = errorState
 
-    private val dataState = MutableStateFlow(emptyList<ImageItem>())
     val data: Flow<List<ImageItem>>
-        get() = dataState
+        get() = imagesDao.loadAsFlow()
 
-    private val resultState = MutableStateFlow(emptyList<ImageItem>())
     val result: Flow<List<ImageItem>>
-        get() = resultState
+        get() = imagesDao.loadResult()
 
     fun setData(data: List<String>) {
-        dataState.value = mapData(data)
+        viewModelScope.launch {
+            imagesDao.insert(mapData(data))
+        }
     }
 
     private var cacheFolder: String =
@@ -72,41 +73,40 @@ class ImageHandlerViewModel(
     }
 
     fun clearData() {
-        dataState.value = emptyList()
         progressCountState.value = ""
-        if (resultState.value.isNotEmpty() && resultState.value.first().overlayStatus.isNotEmpty()) {
-            viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val data = imagesDao.load()
+            if (data.isNotEmpty() && data.first().overlayStatus.isNotEmpty()) {
                 filesManager.clearAll(cacheFolder)
+                imagesDao.clear()
             }
         }
+
     }
 
     fun startWork() {
-        val data = dataState.value
-        if (data.isEmpty()) {
-            errorState.value = "Data list is empty!"
-            return
-        }
-
-        val overlayPath = prefManager.overlayPath
-        if (overlayPath.isEmpty()) {
-            errorState.value = "Overlay not selected!"
-            return
-        }
-
         viewModelScope.launch {
-            preparing(data, overlayPath)
+            val data = imagesDao.load()
+            if (data.isEmpty()) {
+                errorState.value = "Data list is empty!"
+            } else {
+                val overlayPath = prefManager.overlayPath
+                if (overlayPath.isEmpty()) {
+                    errorState.value = "Overlay not selected!"
+                } else {
+                    preparing(data, overlayPath)
+                }
+            }
         }
     }
 
     fun saveToSystem() {
-        val data = resultState.value
-        if (data.isNotEmpty()) {
-            viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
+            val data = imagesDao.load()
+            if (data.isNotEmpty()) {
                 saveFiles(data)
-            }
-
-        } else debugLog { "RESULT DATA IS EMPTY" }
+            } else debugLog { "RESULT DATA IS EMPTY" }
+        }
     }
 
     private suspend fun saveFiles(data: List<ImageItem>) = withContext(Dispatchers.IO) {
@@ -117,7 +117,8 @@ class ImageHandlerViewModel(
             if (data.isNotEmpty()) {
                 val temp = mutableListOf<ImageItem>()
                 if (temp.isNotEmpty()) temp.clear()
-                data.forEach { item ->
+                progressCountState.postValue("")
+                data.forEachIndexed { index, item ->
                     val bitmap = BitmapFactory.decodeFile(item.resultPath)
                     val (isOk, path) = mediaStoreManager.saveBitmapInGallery(
                         getApplication<App>(),
@@ -127,11 +128,12 @@ class ImageHandlerViewModel(
                         System.currentTimeMillis()
                     )
                     if (isOk) {
+                        progressCountState.postValue(String.format("%d/%d", index.inc(), data.size))
                         temp.add(item.copy(publicPath = path))
                     }
                 }
                 if (temp.isNotEmpty()) {
-                    resultState.value = temp
+                    imagesDao.updateResultPaths(temp)
                 }
             }
             progressState.postValue(false)
@@ -171,7 +173,7 @@ class ImageHandlerViewModel(
 
                     progressCountState.postValue(String.format("%d/%d", index.inc(), data.size))
                 }
-                resultState.value = temp
+                imagesDao.updateResultPaths(temp)
                 progressState.postValue(false)
                 toastState.postValue("Обработка данных завершена.")
             } else {

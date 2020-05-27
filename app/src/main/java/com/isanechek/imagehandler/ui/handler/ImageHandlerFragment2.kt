@@ -7,13 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isInvisible
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.room.ColumnInfo
+import androidx.room.Entity
 import androidx.viewpager2.widget.ViewPager2
 import coil.api.load
 import com.afollestad.assent.Permission
@@ -33,13 +34,14 @@ import kotlinx.coroutines.flow.collect
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.io.File
 
+@Entity(tableName = "image_table", primaryKeys = ["id"])
 data class ImageItem(
     val id: String,
     val name: String,
-    val originalPath: String,
-    val resultPath: String,
-    val publicPath: String,
-    val overlayStatus: String
+    @ColumnInfo(name = "original-path") val originalPath: String,
+    @ColumnInfo(name = "result_path") val resultPath: String,
+    @ColumnInfo(name = "public_path") val publicPath: String,
+    @ColumnInfo(name = "overlay_status") val overlayStatus: String
 ) {
 
     companion object {
@@ -280,6 +282,7 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
 
                 choiceAdapter.submit(data)
             }
+
         }
     }
 

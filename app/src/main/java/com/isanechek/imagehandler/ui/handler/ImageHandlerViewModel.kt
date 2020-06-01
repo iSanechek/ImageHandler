@@ -149,8 +149,6 @@ class ImageHandlerViewModel(
             progressState.postValue(true)
 
             if (filesManager.createFolderIfEmpty(cacheFolder)) {
-                val temp = mutableListOf<ImageItem>()
-                if (temp.isNotEmpty()) temp.clear()
                 data.forEachIndexed { index, imageItem ->
                     val resultBitmap = labelingImages(imageItem, overlayPath)
                     val (isOk, path) = filesManager.saveFile(
@@ -160,20 +158,17 @@ class ImageHandlerViewModel(
                     )
 
                     if (isOk) {
-                        temp.add(
-                            imageItem.copy(
-                                overlayStatus = ImageItem.OVERLAY_DONE,
-                                resultPath = path
-                            )
-                        )
+                        imagesDao.updateResultPath(imageItem.copy(
+                            overlayStatus = ImageItem.OVERLAY_DONE,
+                            resultPath = path
+                        ))
                     } else {
-                        temp.add(imageItem.copy(overlayStatus = ImageItem.OVERLAY_FAIL))
+                        imagesDao.updateResultPath(imageItem.copy(overlayStatus = ImageItem.OVERLAY_FAIL))
                     }
 
 
                     progressCountState.postValue(String.format("%d/%d", index.inc(), data.size))
                 }
-                imagesDao.updateResultPaths(temp)
                 progressState.postValue(false)
                 toastState.postValue("Обработка данных завершена.")
             } else {

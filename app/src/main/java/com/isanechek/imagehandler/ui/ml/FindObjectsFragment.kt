@@ -2,12 +2,15 @@ package com.isanechek.imagehandler.ui.ml
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.BitmapRegionDecoder
 import android.graphics.Canvas
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.core.graphics.drawable.toBitmap
+import androidx.core.graphics.toRegion
 import androidx.fragment.app.Fragment
 import com.afollestad.assent.Permission
 import com.afollestad.assent.askForPermissions
@@ -15,9 +18,11 @@ import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import com.google.firebase.ml.vision.objects.FirebaseVisionObjectDetector
 import com.google.firebase.ml.vision.objects.FirebaseVisionObjectDetectorOptions
+import com.google.firebase.ml.vision.text.FirebaseVisionCloudTextRecognizerOptions
 import com.isanechek.imagehandler._layout
 import com.isanechek.imagehandler.debugLog
 import com.isanechek.imagehandler.onClick
+import com.isanechek.imagehandler.utils.FileUtils
 import glimpse.core.crop
 import glimpse.core.findCenter
 import kotlinx.android.synthetic.main.find_objects_fragment_layout.*
@@ -29,6 +34,7 @@ class FindObjectsFragment : Fragment(_layout.find_objects_fragment_layout) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val options = FirebaseVisionObjectDetectorOptions.Builder()
             .setDetectorMode(FirebaseVisionObjectDetectorOptions.SINGLE_IMAGE_MODE)
+            .enableClassification()
             .build()
         detector = FirebaseVision.getInstance().getOnDeviceObjectDetector(options)
 
@@ -66,19 +72,23 @@ class FindObjectsFragment : Fragment(_layout.find_objects_fragment_layout) {
         detector.close()
     }
 
-    private fun testCroup(uri: Uri) {
-        fof_iv.setImageURI(uri)
-
-        val bitmap = fof_iv.drawable.toBitmap()
-        val(x, y) = bitmap.findCenter()
-        val crop = bitmap.crop(x, y, 1080, 1080)
-        fof_iv.setImageBitmap(crop)
-    }
-
     private fun bindUi(uri: Uri) {
         fof_iv.setImageURI(uri)
         val image = FirebaseVisionImage.fromFilePath(requireContext(), uri)
         detector.processImage(image).addOnSuccessListener { objects ->
+
+            val realPath = FileUtils.getPath(requireContext(), uri)
+            debugLog { "REAL PATH $realPath" }
+            val box = objects[0].boundingBox
+            val decoder = BitmapRegionDecoder.newInstance(realPath, false)
+            val opts = BitmapFactory.Options()
+            opts.inPreferredConfig = Bitmap.Config.ARGB_8888
+            val result = decoder.decodeRegion(box, opts)
+            text(result)
+            fof_result.post {
+                fof_result.setImageBitmap(result)
+            }
+
             val dw = DrawingView(requireContext(), objects)
             val bitmap = fof_iv.drawable.toBitmap()
             val i = bitmap.copy(bitmap.config, true)
@@ -91,4 +101,17 @@ class FindObjectsFragment : Fragment(_layout.find_objects_fragment_layout) {
         }
     }
 
+    private fun text(bitmap: Bitmap) {
+        debugLog { "W ${bitmap.width} & H ${bitmap.height}" }
+        debugLog { "BOOM" }
+
+        val image = FirebaseVisionImage.fromBitmap(bitmap)
+        val detector = FirebaseVision.getInstance()
+            .onDeviceTextRecognizer
+        detector.processImage(image).addOnSuccessListener { text ->
+            debugLog { "Find Text ${text.text}" }
+        }.addOnFailureListener { error ->
+            debugLog { "Find Error ${error.message}" }
+        }
+    }
 }

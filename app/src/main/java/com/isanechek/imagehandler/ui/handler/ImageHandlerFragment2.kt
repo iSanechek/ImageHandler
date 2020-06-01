@@ -97,7 +97,6 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
             fun bind(item: ImageItem) {
                 ici_cover.load(File(item.originalPath)) {
                     crossfade(true)
-                    transformations(GlimpseTransformation())
                 }
             }
         }

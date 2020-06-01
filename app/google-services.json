@@ -1,0 +1,98 @@
+{
+  "project_info": {
+    "project_number": "162279852187",
+    "firebase_url": "https://imagehandler-edc0f.firebaseio.com",
+    "project_id": "imagehandler-edc0f",
+    "storage_bucket": "imagehandler-edc0f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:162279852187:android:67f55b79dbd5afbc8b5e3e",
+        "android_client_info": {
+          "package_name": "com.isanechek.imagehandler"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "162279852187-22vmk9emenv2uq49kk522ld76k73eiuo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtGovHmtqfAXbz2YTOdQ5Arww1qunxUAA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "162279852187-22vmk9emenv2uq49kk522ld76k73eiuo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:162279852187:android:7a1fbc76135f98498b5e3e",
+        "android_client_info": {
+          "package_name": "com.isanechek.imagehandler.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "162279852187-22vmk9emenv2uq49kk522ld76k73eiuo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtGovHmtqfAXbz2YTOdQ5Arww1qunxUAA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "162279852187-22vmk9emenv2uq49kk522ld76k73eiuo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:162279852187:android:5e54f2ed63cdb8bd8b5e3e",
+        "android_client_info": {
+          "package_name": "com.isanechek.imagehandler.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "162279852187-22vmk9emenv2uq49kk522ld76k73eiuo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtGovHmtqfAXbz2YTOdQ5Arww1qunxUAA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "162279852187-22vmk9emenv2uq49kk522ld76k73eiuo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

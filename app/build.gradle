@@ -48,6 +48,29 @@ android {
         }
     }
 
+
+    def releaseStorePass = ""
+    def releaseKeyAlias = ""
+    def releaseKeyPass = ""
+    def devStorePass = ""
+    def devKeyAlias = ""
+    def devKeyPass = ""
+
+    def keyPropsFile = file('key.properties')
+    if (keyPropsFile.canRead()) {
+        def keyProps = new Properties()
+        keyProps.load(new FileInputStream(keyPropsFile))
+        releaseStorePass = keyProps['RELEASE_STORE_PASS'].toString()
+        releaseKeyAlias = keyProps['RELEASE_KEY_ALIAS'].toString()
+        releaseKeyPass = keyProps['RELEASE_KEY_PASS'].toString()
+        devStorePass = keyProps['DEV_STORE_PASS'].toString()
+        devKeyAlias = keyProps['DEV_KEY_ALIAS'].toString()
+        devKeyPass = keyProps['DEV_KEY_PASS'].toString()
+    } else {
+        throw new FileNotFoundException("Could not read key.properties!")
+    }
+
+
     defaultConfig {
         applicationId appId
         minSdkVersion 27
@@ -74,31 +97,39 @@ android {
         jvmTarget = '1.8'
     }
 
+    signingConfigs {
+        release {
+            storeFile file('/home/isanechek/keys/isanechek_release.jks')
+            storePassword releaseStorePass
+            keyAlias releaseKeyAlias
+            keyPassword releaseKeyPass
+        }
+
+        dev {
+            storeFile file('/home/isanechek/keys/isanechek_dev.jks')
+            storePassword devStorePass
+            keyAlias devKeyAlias
+            keyPassword devKeyPass
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
 
         debug {
             applicationIdSuffix ".debug"
             debuggable true
         }
+        dev {
+            applicationIdSuffix ".dev"
+            debuggable true
+            signingConfig signingConfigs.dev
+        }
     }
-
-//    flavorDimensions "version"
-//    productFlavors {
-//        devFlavor {
-//            dimension "version"
-//            applicationIdSuffix ".dev"
-//            versionNameSuffix "-dev"
-//        }
-//
-//        releaseFlavor {
-//            dimension "version"
-//            versionNameSuffix "-release"
-//        }
-//    }
 
     packagingOptions {
         exclude("META-INF/*.kotlin_module")
@@ -115,6 +146,10 @@ android {
             autoIncrementBuildNumber()
         } else if (taskGraph.hasTask(assembleRelease)) { /* when run release task */
             autoIncrementBuildNumber()
+        } else if (taskGraph.hasTask(assembleDev)) {
+            autoIncrementBuildNumber()
+        } else {
+            println 'Hz task'
         }
     }
 }
@@ -188,10 +223,10 @@ dependencies {
     implementation "com.afollestad.material-dialogs:lifecycle:$materialDialogVersion"
     implementation "com.afollestad.material-dialogs:files:$materialDialogVersion"
 
-    def workVersion = "2.4.0-alpha03"
+    def workVersion = "2.4.0-beta01"
     implementation "androidx.work:work-runtime-ktx:$workVersion"
 
-    implementation 'com.google.firebase:firebase-analytics:17.4.1'
+    implementation 'com.google.firebase:firebase-analytics:17.4.2'
     implementation 'com.google.firebase:firebase-ml-vision:24.0.3'
     implementation 'com.google.firebase:firebase-ml-vision-object-detection-model:19.0.5'
     implementation 'com.google.firebase:firebase-ml-vision-image-label-model:20.0.1'

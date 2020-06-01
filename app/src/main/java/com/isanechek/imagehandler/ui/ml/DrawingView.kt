@@ -30,7 +30,7 @@ class DrawingView(context: Context, var visionObjects: List<FirebaseVisionObject
 
         for (item in visionObjects) {
             pen.color = Color.WHITE
-            pen.strokeWidth = 16F
+            pen.strokeWidth = 8F
             pen.style = Paint.Style.STROKE
             val box = item.boundingBox
             canvas.drawRect(box, pen)

@@ -9,10 +9,26 @@
         android:id="@+id/fof_iv"
         android:layout_width="@dimen/dp0"
         android:layout_height="@dimen/dp0"
-        app:layout_constraintBottom_toTopOf="@id/fof_choice_btn"
+        app:layout_constraintBottom_toTopOf="@id/fof_hg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/fof_hg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.65" />
+
+    <ImageView
+        android:id="@+id/fof_result"
+        android:layout_width="@dimen/dp0"
+        android:layout_height="@dimen/dp0"
+        app:layout_constraintBottom_toTopOf="@id/fof_choice_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fof_hg" />
 
     <Button
         android:id="@+id/fof_choice_btn"

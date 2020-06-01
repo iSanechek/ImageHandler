@@ -15,6 +15,9 @@ interface ImagesDao {
     @Update
     suspend fun updateResultPaths(items: List<ImageItem>)
 
+    @Update
+    suspend fun updateResultPath(items: ImageItem)
+
     @Delete
     suspend fun remove(items: ImageItem)
 

@@ -10,4 +10,5 @@
     <dimen name="dp32">32dp</dimen>
 
     <dimen name="bounding_box_corner_radius">12dp</dimen>
+    <dimen name="city_item_height">80dp</dimen>
 </resources>

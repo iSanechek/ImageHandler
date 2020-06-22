@@ -32,6 +32,9 @@ interface CitiesDao {
     @Query("SELECT COUNT(*) FROM cities")
     suspend fun count(): Int
 
+    @Query("SELECT * FROM cities WHERE name =:name")
+    suspend fun loadCityFromName(name: String): CityEntity?
+
     @Update
     suspend fun update(cityEntity: CityEntity)
 

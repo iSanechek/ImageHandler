@@ -66,7 +66,12 @@ class SelectViewModel(application: Application, private val citiesDao: CitiesDao
 
     fun saveCity(city: String) {
         viewModelScope.launch {
-            citiesDao.insert(CityEntity(UUID.randomUUID().toString(), city, false))
+            val item = citiesDao.loadCityFromName(city)
+            if (item == null) {
+                citiesDao.insert(CityEntity(UUID.randomUUID().toString(), city, false))
+            } else {
+                _stateError.value = "Город уже добавлен!"
+            }
         }
     }
 

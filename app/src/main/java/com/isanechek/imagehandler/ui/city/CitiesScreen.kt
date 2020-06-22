@@ -1,6 +1,8 @@
 package com.isanechek.imagehandler.ui.city
 
 import android.os.Bundle
+import android.widget.Toast
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -60,6 +62,10 @@ class CitiesScreen : BaseFragment(_layout.cities_screen_layout) {
                 citiesAdapter.submit(data)
             }
         }
+
+        vm.errorState.observe(this, Observer { message ->
+            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+        })
 
         csl_edit_btn.onClick {
             MaterialDialog(requireContext()).show {

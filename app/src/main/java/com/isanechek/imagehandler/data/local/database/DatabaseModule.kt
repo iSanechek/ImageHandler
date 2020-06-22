@@ -28,6 +28,10 @@ val databaseModule = module {
         get<ImagesDatabase>().galleryDao()
     }
 
+    factory {
+        get<ImagesDatabase>().citiesDao()
+    }
+
     /*Preferences*/
 
     single {

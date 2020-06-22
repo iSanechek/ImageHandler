@@ -26,7 +26,6 @@ class CitiesAdapter :
         fun bind(city: City, callback: Callback?) {
             eci_title.text = city.name
 
-            debugLog { "SELECTED ${city.isSelected}" }
             eci_selected.apply {
                 setImageDrawable(selectedDrawable(city.isSelected))
                 onClick {

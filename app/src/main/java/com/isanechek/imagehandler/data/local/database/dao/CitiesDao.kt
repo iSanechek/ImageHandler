@@ -27,7 +27,7 @@ interface CitiesDao {
     fun loadSelected(): CityEntity?
 
     @Delete
-    fun removeCity(item: CityEntity)
+    suspend fun removeCity(item: CityEntity)
 
     @Query("SELECT COUNT(*) FROM cities")
     suspend fun count(): Int

@@ -52,7 +52,14 @@ class CitiesScreen : BaseFragment(_layout.cities_screen_layout) {
                 }
 
                 override fun longClick(city: City) {
-
+                    MaterialDialog(requireContext()).show {
+                        title(text = "Предупреждение")
+                        message(text = "Удалить ${city.name}")
+                        negativeButton(text = "закрыть")
+                        positiveButton(text = "удалить") {
+                            vm.removeCity(city)
+                        }
+                    }
                 }
             })
         }

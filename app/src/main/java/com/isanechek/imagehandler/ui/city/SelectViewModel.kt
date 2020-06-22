@@ -81,6 +81,12 @@ class SelectViewModel(application: Application, private val citiesDao: CitiesDao
         }
     }
 
+    fun removeCity(city: City) {
+        viewModelScope.launch {
+            citiesDao.removeCity(CityEntity(city.id, city.name, city.isSelected))
+        }
+    }
+
     private fun mapCities(): List<City> {
         val temp = mutableListOf<City>()
 

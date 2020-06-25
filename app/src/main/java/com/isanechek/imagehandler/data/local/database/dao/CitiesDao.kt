@@ -21,7 +21,7 @@ interface CitiesDao {
     fun loadCity(id: String): Flow<CityEntity>
 
     @Query("SELECT * FROM cities WHERE is_selected = 1")
-    fun loadSelectedCity(): Flow<CityEntity>
+    fun loadSelectedCity(): Flow<CityEntity?>
 
     @Query("SELECT * FROM cities WHERE is_selected = 1")
     fun loadSelected(): CityEntity?

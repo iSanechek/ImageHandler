@@ -53,7 +53,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="30dp"
         android:gravity="center"
-        android:text="created by\n Aleksandr Tainyuk"
+        android:text="by\nAleksandr Tainyuk"
         android:textColor="@color/colorBlack"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

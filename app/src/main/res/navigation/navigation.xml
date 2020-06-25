@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/select_city_screen">
+    app:startDestination="@id/splash_screen">
 
     <fragment
         android:id="@+id/handler_screen"
@@ -26,6 +26,14 @@
         android:name="com.isanechek.imagehandler.ui.splash.SplashFragment"
         android:label="splash"
         tools:layout="@layout/splash_fragment_layout">
+
+        <action
+            android:id="@+id/go_to_handler_from_splash"
+            app:destination="@id/handler_screen" />
+
+        <action
+            android:id="@+id/go_to_select_from_splash"
+            app:destination="@id/select_city_screen" />
 
 
     </fragment>

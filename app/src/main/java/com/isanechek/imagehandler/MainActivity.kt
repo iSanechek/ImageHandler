@@ -2,7 +2,9 @@ package com.isanechek.imagehandler
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import androidx.navigation.NavController
+import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import com.isanechek.imagehandler.service.GalleryJobContract
 import org.koin.android.ext.android.inject
@@ -19,20 +21,23 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
-        startService()
-//        Handler().postDelayed({
-//            controller.navigate(
-//                _id.go_from_splash_to_handler,
-//                null,
-//                NavOptions.Builder()
-//                    .setExitAnim(_anim.alpha_out_anim)
-//                    .setEnterAnim(_anim.alpha_in_anim)
-//                    .setPopEnterAnim(_anim.alpha_in_anim)
-//                    .setPopExitAnim(_anim.alpha_out_anim)
-//                    .setPopUpTo(_id.splash_screen, true)
-//                    .build()
-//            )
-//        }, 1000)
+//        startService()
+
+        val actionId = if (false) _id.go_to_handler_from_splash else _id.go_to_select_from_splash
+
+        Handler().postDelayed({
+            controller.navigate(
+                actionId,
+                null,
+                NavOptions.Builder()
+                    .setEnterAnim(_anim.slide_up_anim)
+                    .setExitAnim(_anim.alpha_out_anim)
+                    .setPopExitAnim(_anim.alpha_out_anim)
+                    .setPopEnterAnim(_anim.slide_up_anim)
+                    .setPopUpTo(_id.splash_screen, true)
+                    .build()
+            )
+        }, 1000)
     }
 
     override fun onSupportNavigateUp(): Boolean = controller.navigateUp()

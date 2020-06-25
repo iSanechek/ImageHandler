@@ -8,6 +8,7 @@ import com.isanechek.imagehandler.data.models.City
 import com.isanechek.imagehandler.debugLog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -60,8 +61,13 @@ class SelectViewModel(application: Application, private val citiesDao: CitiesDao
         }
     }
 
-    fun loadSelectedCity(): LiveData<String> = liveData {
-        emit("")
+    fun loadSelectedCity(): LiveData<Boolean> = liveData(Dispatchers.IO) {
+       citiesDao.loadSelectedCity().collect {
+           debugLog { "SELECT CITY $it" }
+           if (it != null) {
+               emit(true)
+           } else emit(false)
+       }
     }
 
     fun saveCity(city: String) {
@@ -91,7 +97,6 @@ class SelectViewModel(application: Application, private val citiesDao: CitiesDao
         val temp = mutableListOf<City>()
 
         listCities.forEach { item ->
-            debugLog { "CITY $item" }
             temp.add(City(UUID.randomUUID().toString(), item, false))
         }
 

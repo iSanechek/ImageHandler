@@ -37,7 +37,7 @@ class OverlayFragment : BaseFragment(_layout.overlay_screen_layout) {
                     if (isGone) isGone = false
                     setImageBitmap(bitmap)
                     setOnClickListener {
-                        findNavController().navigate(_id.overlay_go_watermark)
+//                        findNavController().navigate(_id.overlay_go_watermark)
                     }
                 }
             } else {
@@ -45,7 +45,7 @@ class OverlayFragment : BaseFragment(_layout.overlay_screen_layout) {
                 osl_toolbar_overlay_add.apply {
                     if (isGone) isGone = false
                     onClick {
-                        findNavController().navigate(_id.overlay_go_watermark)
+//                        findNavController().navigate(_id.overlay_go_watermark)
                     }
                 }
             }

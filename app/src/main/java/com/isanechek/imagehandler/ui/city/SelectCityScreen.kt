@@ -2,6 +2,7 @@ package com.isanechek.imagehandler.ui.city
 
 import android.os.Bundle
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -76,11 +77,10 @@ class SelectCityScreen : BaseFragment(_layout.select_city_screen_layout) {
 
 
     private fun setupSelectedCity(clickable: Boolean) {
-        debugLog { "isClickable $clickable" }
         scs_save_btn.apply {
             isEnabled = clickable
             onClick {
-                findNavController().navigate(_id.go_select_to_cities)
+                vm.goToScreen(1)
             }
         }
     }

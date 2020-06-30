@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.core.view.isInvisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -237,7 +238,10 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
             val data = listOf("overlay")
             listItems(items = data, waitForPositiveButton = false) { dialog, index, _ ->
                 when (index) {
-                    0 -> findNavController().navigate(_id.handler_go_to_watermark)
+                    0 -> findNavController().navigate(
+                        _id.go_handler_to_select,
+                        bundleOf("sample_args" to "handler")
+                    )
                     else -> Unit
                 }
             }
@@ -288,7 +292,7 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
     private fun overlaySettingDialog() {
         MaterialDialog(requireContext(), BottomSheet(LayoutMode.WRAP_CONTENT)).show {
             title(text = "Overlay settings")
-            
+
         }
     }
 

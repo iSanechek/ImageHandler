@@ -8,5 +8,6 @@ import androidx.room.PrimaryKey
 data class CityEntity(
     @PrimaryKey val id: String,
     val name: String,
-    @ColumnInfo(name = "is_selected") val isSelected: Boolean
+    @ColumnInfo(name = "is_selected") val isSelected: Boolean,
+    @ColumnInfo(name = "overlay_path") val overlayPath: String
 )

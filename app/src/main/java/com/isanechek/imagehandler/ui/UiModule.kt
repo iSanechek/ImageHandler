@@ -20,6 +20,6 @@ val uiModule = module {
     }
 
     viewModel {
-        SelectViewModel(androidApplication(), get())
+        SelectViewModel(androidApplication(), get(), get(), get(), get())
     }
 }

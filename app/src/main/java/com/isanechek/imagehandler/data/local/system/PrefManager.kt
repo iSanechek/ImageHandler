@@ -7,6 +7,7 @@ interface PrefManager {
     fun isFirstStart(): Boolean
     fun setFirstStartIsDone()
     var overlayPath: String
+    var sampleImagePath: String
 }
 
 class PrefManagerImpl(private val preferences: SharedPreferences) : PrefManager {
@@ -26,9 +27,17 @@ class PrefManagerImpl(private val preferences: SharedPreferences) : PrefManager 
                 putString("overlay_path", value)
             }
         }
+    override var sampleImagePath: String
+        get() = preferences.getString(SAMPLE_IMAGE_PATH_KEY, "") ?: ""
+        set(value) {
+            preferences.edit {
+                putString(SAMPLE_IMAGE_PATH_KEY, value)
+            }
+        }
 
     companion object {
         private const val FIRST_START_KEY = "first.start"
+        private const val SAMPLE_IMAGE_PATH_KEY = "sipk"
     }
 
 }

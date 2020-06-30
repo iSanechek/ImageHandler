@@ -1,10 +1,13 @@
 package com.isanechek.imagehandler.data.local.system
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import com.isanechek.imagehandler.debugLog
+import kotlinx.coroutines.suspendCancellableCoroutine
 import java.io.File
 import java.io.FileOutputStream
+import kotlin.coroutines.resume
 
 interface FilesManager {
     fun getFileName(path: String): String
@@ -15,6 +18,7 @@ interface FilesManager {
     fun clearAll(path: String): Boolean
     fun deleteFile(path: String): Boolean
     fun checkFolderExistsAndIsNotEmpty(path: String): Boolean
+    suspend fun loadImagesFromAssets(context: Context): List<String>
 }
 
 class FilesManagerImpl : FilesManager {
@@ -25,13 +29,20 @@ class FilesManagerImpl : FilesManager {
     override fun createFolderIfEmpty(path: String): Boolean {
         var isCreated = true
         val folder = File(path)
-        if (!folder.exists()) { isCreated = folder.mkdirs() }
+        if (!folder.exists()) {
+            isCreated = folder.mkdirs()
+        }
         return isCreated
     }
 
-    override fun copyFile(originPath: String, copyPath: String, copyFileName: String): Pair<Boolean, String> {
+    override fun copyFile(
+        originPath: String,
+        copyPath: String,
+        copyFileName: String
+    ): Pair<Boolean, String> {
         var result = Pair(false, "empty")
-        val copyFile = File(originPath).copyTo(File(copyPath, "copy_$copyFileName.jpg"), overwrite = true)
+        val copyFile =
+            File(originPath).copyTo(File(copyPath, "copy_$copyFileName.jpg"), overwrite = true)
         if (copyFile.exists() && copyFile.length() > 0) {
             result = Pair(first = true, second = copyFile.absolutePath)
         }
@@ -40,7 +51,11 @@ class FilesManagerImpl : FilesManager {
 
     override fun checkFileExists(path: String): Boolean = File(path).exists()
 
-    override fun saveFile(bitmap: Bitmap, folderPath: String, fileName: String): Pair<Boolean, String> {
+    override fun saveFile(
+        bitmap: Bitmap,
+        folderPath: String,
+        fileName: String
+    ): Pair<Boolean, String> {
         var result = Pair(false, "")
         val fileResult = File(folderPath, fileName)
         FileOutputStream(fileResult).use {
@@ -71,7 +86,9 @@ class FilesManagerImpl : FilesManager {
     override fun deleteFile(path: String): Boolean {
         var isDeleted = false
         val file = File(path)
-        if (file.isFile) { isDeleted = file.delete() }
+        if (file.isFile) {
+            isDeleted = file.delete()
+        }
         debugLog { "Path $path status $isDeleted" }
         return isDeleted
     }
@@ -86,5 +103,47 @@ class FilesManagerImpl : FilesManager {
 
         return false
     }
+
+    override suspend fun loadImagesFromAssets(context: Context): List<String> =
+        suspendCancellableCoroutine { c ->
+            try {
+                val assetsFolderName = "overlay"
+                val data = context.assets.list(assetsFolderName)
+                    ?.toList()
+                    ?.filterNotNull()
+                    ?.filter { it.contains("vova_", ignoreCase = true) }
+                    ?.toList()
+                    ?: emptyList()
+
+                if (data.isEmpty()) {
+                    c.resume(data)
+                } else {
+                    val temp = mutableListOf<String>()
+                    val cachePath = context.filesDir.absolutePath + File.separator + "overlay_images"
+                    if (createFolderIfEmpty(cachePath)) {
+                        data.forEach { fileName ->
+                            val bitmap = context.assets.open("$assetsFolderName/$fileName").use {
+                                BitmapFactory.decodeStream(it)
+                            }
+                            val file = File("${cachePath}/$fileName")
+                            if (file.exists()) {
+                                file.delete()
+                            }
+                            val comp = if (fileName.contains(".png")) Bitmap.CompressFormat.PNG else Bitmap.CompressFormat.JPEG
+                            FileOutputStream(file).use {
+                                bitmap.compress(comp, 100, it)
+                            }
+                            temp.add(file.absolutePath)
+                        }
+                    }
+
+                    c.resume(temp)
+                }
+
+            } catch (ex: Exception) {
+                debugLog { "Load Images From Assets Error! ${ex.message}" }
+                c.resume(emptyList())
+            }
+        }
 
 }

@@ -226,14 +226,11 @@ dependencies {
     def workVersion = "2.4.0-rc01"
     implementation "androidx.work:work-runtime-ktx:$workVersion"
 
-    implementation 'com.google.firebase:firebase-analytics:17.4.3'
-    implementation 'com.google.firebase:firebase-ml-vision:24.0.3'
-    implementation 'com.google.firebase:firebase-ml-vision-object-detection-model:19.0.5'
-    implementation 'com.google.firebase:firebase-ml-vision-image-label-model:20.0.1'
-
     implementation 'com.github.the-super-toys.glimpse-android:glimpse-core:0.0.5'
     implementation 'com.github.the-super-toys.glimpse-android:glimpse-coil:0.0.5'
     implementation 'org.tensorflow:tensorflow-lite:2.1.0'
+
+    implementation "androidx.exifinterface:exifinterface:1.2.0"
 
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

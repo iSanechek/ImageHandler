@@ -1,24 +1,25 @@
 package com.isanechek.imagehandler.ui.city
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
-import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
-import com.isanechek.imagehandler._id
 import com.isanechek.imagehandler._layout
 import com.isanechek.imagehandler.data.models.City
-import com.isanechek.imagehandler.debugLog
 import com.isanechek.imagehandler.onClick
+import com.isanechek.imagehandler.slideDown
+import com.isanechek.imagehandler.slideUp
 import com.isanechek.imagehandler.ui.base.BaseFragment
 import kotlinx.android.synthetic.main.select_city_screen_layout.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+
 
 class SelectCityScreen : BaseFragment(_layout.select_city_screen_layout) {
 
@@ -76,11 +77,24 @@ class SelectCityScreen : BaseFragment(_layout.select_city_screen_layout) {
     }
 
 
-    private fun setupSelectedCity(clickable: Boolean) {
-        scs_save_btn.apply {
-            isEnabled = clickable
-            onClick {
-                vm.goToScreen(1)
+    private fun setupSelectedCity(isSelected: Boolean) {
+
+        if (isSelected) {
+            scs_action_container.slideUp {
+                scs_save_btn.apply {
+                    onClick {
+                        vm.goToScreen(1)
+                    }
+                }
+            }
+        } else {
+            scs_action_container.slideDown {
+                scs_save_btn.apply {
+
+                    onClick {
+                        vm.goToScreen(1)
+                    }
+                }
             }
         }
     }

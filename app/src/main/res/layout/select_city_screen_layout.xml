@@ -36,29 +36,31 @@
         app:layout_constraintTop_toBottomOf="@id/scs_top_hg" />
 
 
-    <View
+    <FrameLayout
         android:id="@+id/scs_action_container"
         android:layout_width="@dimen/dp0"
         android:layout_height="50dp"
         android:background="@color/colorCardBackground"
+        android:visibility="gone"
+        tools:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent">
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/scs_save_btn"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|end"
+            android:layout_marginEnd="@dimen/dp16"
+            android:text="далее"
+            android:textColor="@color/colorPrimaryText"
+            app:strokeColor="@color/colorAccent"
+            app:strokeWidth="@dimen/dp1"
+            tools:ignore="HardcodedText"
+            tools:visibility="visible" />
+    </FrameLayout>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/scs_save_btn"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/dp16"
-        android:text="далее"
-        app:strokeColor="@color/colorAccent"
-        app:strokeWidth="@dimen/dp1"
-        android:textColor="@color/colorPrimaryText"
-        android:clickable="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:ignore="HardcodedText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

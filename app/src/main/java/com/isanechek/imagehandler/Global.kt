@@ -11,6 +11,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.TranslateAnimation
 import androidx.annotation.ColorInt
 import coil.size.PixelSize
 import java.io.File
@@ -161,5 +163,43 @@ fun sp2px(context: Context, spValue: Float): Int {
 fun dip2px(context: Context, dpValue: Float): Int {
     val scale = context.resources.displayMetrics.density
     return (dpValue * scale + 0.5f).toInt()
+}
+
+fun View.slideDown(callback: () -> Unit) {
+    val animate = TranslateAnimation(
+        0f,  // fromXDelta
+        0f,  // toXDelta
+        0f,  // fromYDelta
+        this.height.toFloat()
+    ) // toYDelta
+    animate.duration = 500
+    animate.fillAfter = true
+    animate.setAnimationListener(object : Animation.AnimationListener {
+        override fun onAnimationRepeat(animation: Animation?) {
+        }
+
+        override fun onAnimationEnd(animation: Animation?) {
+
+        }
+
+        override fun onAnimationStart(animation: Animation?) {
+            callback.invoke()
+        }
+
+    })
+    this.startAnimation(animate)
+}
+
+fun View.slideUp(callback: () -> Unit) {
+    this.visibility = View.VISIBLE
+    val animate = TranslateAnimation(
+        0f,  // fromXDelta
+        0f,  // toXDelta
+        this.height.toFloat(),  // fromYDelta
+        0f
+    ) // toYDelta
+    animate.duration = 500
+    animate.fillAfter = true
+    this.startAnimation(animate)
 }
 

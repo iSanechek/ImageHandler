@@ -33,6 +33,7 @@ class CityParentFragment : BaseFragment(_layout.city_parent_layout) {
 
     override fun bindUi(savedInstanceState: Bundle?) {
         with(cp_pager) {
+            isUserInputEnabled = false
             orientation = ViewPager2.ORIENTATION_VERTICAL
             adapter = SlideScreensAdapter(this@CityParentFragment)
         }

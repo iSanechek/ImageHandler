@@ -4,45 +4,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.isanechek.imagehandler.ui.widgets.SuperToolbar
-        android:id="@+id/debug_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_gravity="top"
-        android:background="@color/colorWhite" />
 
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/debug_card"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_gravity="center"
-        android:layout_marginStart="@dimen/dp16"
-        android:layout_marginEnd="@dimen/dp16"
-        android:checkable="true"
+    <com.isanechek.imagehandler.ui.widgets.fab.FabButton
         android:clickable="true"
-        android:focusable="true"
-        android:visibility="gone"
-        android:foreground="?attr/selectableItemBackgroundBorderless"
-        app:cardBackgroundColor="@color/test_color"
-        app:cardCornerRadius="@dimen/dp8"
-        app:cardElevation="@dimen/dp16" />
-
-
-    <Button
-        android:id="@+id/debug_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center|bottom"
-        android:layout_marginBottom="@dimen/dp32"
-        android:visibility="gone"
-        android:text="Open dialog"
-        android:textColor="@color/colorAccent" />
-
-    <FrameLayout
-        android:id="@+id/debug_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
+        android:layout_width="46dp"
+        android:layout_height="46dp"
+        android:layout_gravity="center"
+        app:layout_anchorGravity="bottom|right|end"
+        android:id="@+id/determinate"
+        android:color="?attr/colorPrimaryDark"
+        app:fbb_showShadow="true"
+        android:src="@drawable/ic_baseline_close_24"
+        android:visibility="visible"
+        android:indeterminate="false"
+        android:max="100"
+        app:fbb_autoStart="true"
+        app:fbb_progressColor="?attr/colorAccent"
+        app:fbb_progressWidthRatio="0.1"
+        app:fbb_endBitmap="@drawable/ic_fab_complete"
+        app:fbb_showEndBitmap="true"
+        app:fbb_hideProgressOnComplete="true"
+        />
 
 </FrameLayout>

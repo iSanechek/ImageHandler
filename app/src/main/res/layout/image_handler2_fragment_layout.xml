@@ -7,89 +7,130 @@
     android:layout_height="match_parent"
     app:layoutDescription="@xml/image_handler2_fragment_layout_scene">
 
-    <com.isanechek.imagehandler.ui.widgets.SuperToolbar
-        android:id="@+id/ihf2_toolbar"
+
+    <!--Start top-->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/ihf2_top_hg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.12" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ihf2_top_container"
         android:layout_width="@dimen/dp0"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
+        android:layout_height="@dimen/dp0"
+        app:layout_constraintBottom_toTopOf="@id/ihf2_top_hg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:superToolbar_showElevationAtStart="true">
+        app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <TextView
+            android:id="@+id/ihf2_toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp16"
+            android:layout_marginTop="@dimen/dp16"
+            android:layout_marginBottom="@dimen/dp16"
+            android:textColor="@color/colorPrimaryText"
+            android:textSize="@dimen/toolbar_text_size"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@tools:sample/lorem" />
+
+        <TextView
+            android:id="@+id/ihf2_toolbar_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp8"
+            android:layout_marginEnd="@dimen/dp16"
+            android:layout_marginBottom="@dimen/dp8"
+            android:textColor="@color/colorAccent"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/ihf2_toolbar_progress"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="2/8"
+            tools:visibility="visible" />
+
+        <ProgressBar
+            android:id="@+id/ihf2_toolbar_progress"
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp8"
+            android:layout_marginEnd="@dimen/dp16"
+            android:layout_marginBottom="@dimen/dp8"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/ihf2_toolbar_setting"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" />
+
+        <ImageButton
+            android:id="@+id/ihf2_toolbar_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp8"
+            android:layout_marginEnd="@dimen/dp16"
+            android:layout_marginBottom="@dimen/dp8"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="@dimen/dp8"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/settings_black_24" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!--End top-->
+
+
+
+    <!--Start content-->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/ihf2_content_container"
+        android:layout_width="@dimen/dp0"
+        android:layout_height="@dimen/dp0"
+        android:layout_marginStart="@dimen/dp8"
+        android:layout_marginTop="@dimen/dp8"
+        android:layout_marginEnd="@dimen/dp8"
+        app:cardBackgroundColor="@color/colorCardBackground"
+        app:cardCornerRadius="@dimen/dp8"
+        app:cardElevation="@dimen/dp8"
+        app:layout_constraintBottom_toTopOf="@id/ihf2_card_hg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ihf2_top_hg">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/ihf2_result_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent" />
 
-            <TextView
-                android:id="@+id/ihf2_toolbar_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/dp8"
-                android:layout_marginTop="@dimen/dp8"
-                android:layout_marginBottom="@dimen/dp8"
-                android:textColor="@color/colorBlack"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="@tools:sample/lorem" />
+    </com.google.android.material.card.MaterialCardView>
 
-            <TextView
-                android:id="@+id/ihf2_toolbar_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp8"
-                android:layout_marginEnd="@dimen/dp16"
-                android:layout_marginBottom="@dimen/dp8"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                android:textColor="@color/colorAccent"
-                android:visibility="visible"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/ihf2_toolbar_progress"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="2/8"
-                tools:visibility="visible" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/ihf2_card_hg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.70" />
 
-            <ProgressBar
-                android:id="@+id/ihf2_toolbar_progress"
-                style="?android:attr/progressBarStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp8"
-                android:layout_marginEnd="@dimen/dp16"
-                android:layout_marginBottom="@dimen/dp8"
-                android:visibility="invisible"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/ihf2_toolbar_setting"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:visibility="visible" />
+    <!--End content-->
 
-            <ImageButton
-                android:id="@+id/ihf2_toolbar_setting"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp8"
-                android:layout_marginEnd="@dimen/dp16"
-                android:layout_marginBottom="@dimen/dp8"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:padding="@dimen/dp8"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/settings_black_24" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </com.isanechek.imagehandler.ui.widgets.SuperToolbar>
-
+    <!--Start choice button-->
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/ihf2_button_guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.70" />
+        app:layout_constraintGuide_percent="0.75" />
+
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/ihf2_choice_btn"
@@ -97,93 +138,68 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="выбрать"
-        android:textColor="@color/colorBlack"
         android:visibility="gone"
         app:cornerRadius="@dimen/dp8"
+        app:layout_constraintBottom_toTopOf="@id/ihf2_control_hg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ihf2_button_guideline"
-        app:strokeColor="@color/colorBlack"
+        app:strokeColor="@color/colorAccent"
         app:strokeWidth="@dimen/dp1"
         tools:ignore="HardcodedText" />
+    <!--End choice button-->
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/ihf2_result_list"
-        android:layout_width="@dimen/dp0"
-        android:layout_height="@dimen/dp0"
-        app:layout_constraintBottom_toTopOf="@id/ihf2_controls_container"
-        app:layout_constraintEnd_toEndOf="parent"
+    <!--Start control container-->
+
+    <ImageButton
+        android:id="@+id/ihf2_clear_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/circle_bg_btn"
+        android:padding="@dimen/dp8"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/ihf2_overlay_btn"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ihf2_toolbar" />
+        app:layout_constraintTop_toBottomOf="@id/ihf2_control_hg"
+        app:srcCompat="@drawable/ic_baseline_clear_24" />
 
-    <!--    <androidx.recyclerview.widget.RecyclerView-->
-    <!--        android:id="@+id/ihf2_choice_list"-->
-    <!--        android:layout_width="@dimen/dp0"-->
-    <!--        android:layout_height="100dp"-->
-    <!--        app:layout_constraintBottom_toTopOf="@id/ihf2_controls_container"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintStart_toStartOf="parent" />-->
-
-    <LinearLayout
-        android:id="@+id/ihf2_controls_container"
-        android:layout_width="@dimen/dp0"
-        android:layout_height="150dp"
-        android:background="#f5f5f5"
-        android:elevation="@dimen/dp8"
-        android:orientation="vertical"
+    <ImageButton
+        android:id="@+id/ihf2_overlay_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/circle_bg_btn"
+        android:padding="@dimen/dp8"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/ihf2_choice_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp8"
-            app:layout_constraintBottom_toTopOf="@id/ihf2_controls_container"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="horizontal">
-
-            <ImageButton
-                android:id="@+id/ihf2_clear_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginEnd="@dimen/dp8"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:padding="@dimen/dp8"
-                app:srcCompat="@drawable/ic_baseline_clear_24" />
-
-            <ImageButton
-                android:id="@+id/ihf2_overlay_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:padding="@dimen/dp8"
-                app:srcCompat="@drawable/ic_baseline_compare_24" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/ihf2_control_hg"
+        app:srcCompat="@drawable/ic_baseline_compare_24" />
 
 
-            <ImageButton
-                android:id="@+id/ihf2_save_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="@dimen/dp8"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:padding="@dimen/dp8"
-                app:srcCompat="@drawable/ic_baseline_save_24" />
+    <ImageButton
+        android:id="@+id/ihf2_save_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/circle_bg_btn"
+        android:padding="@dimen/dp8"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/ihf2_overlay_btn"
+        app:layout_constraintTop_toBottomOf="@id/ihf2_control_hg"
+        app:srcCompat="@drawable/ic_baseline_save_24" />
 
-        </LinearLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/ihf2_control_hg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.85" />
 
 
-    </LinearLayout>
+
+
+    <!--End control container-->
 
 
 </androidx.constraintlayout.motion.widget.MotionLayout>

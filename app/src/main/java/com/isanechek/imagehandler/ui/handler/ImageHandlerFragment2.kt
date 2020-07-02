@@ -12,11 +12,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.viewpager2.widget.ViewPager2
 import coil.api.load
 import com.afollestad.assent.Permission
 import com.afollestad.assent.askForPermissions
@@ -26,9 +25,7 @@ import com.afollestad.materialdialogs.bottomsheets.BottomSheet
 import com.afollestad.materialdialogs.list.listItems
 import com.isanechek.imagehandler.*
 import com.isanechek.imagehandler.utils.FileUtils
-import glimpse.coil.GlimpseTransformation
 import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.image_choice_item_layout.*
 import kotlinx.android.synthetic.main.image_handler2_fragment_layout.*
 import kotlinx.android.synthetic.main.image_result_item_layout.*
 import kotlinx.coroutines.flow.collect
@@ -62,7 +59,10 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
             LayoutContainer {
 
             fun bind(item: ImageItem) {
-                iri_cover.load(File(item.resultPath))
+                debugLog { item.toString() }
+                val path = if (item.overlayStatus == ImageItem.OVERLAY_DONE) item.resultPath else item.originalPath
+                debugLog { "PATH $path" }
+                iri_cover.load(File(path))
             }
         }
 
@@ -88,61 +88,12 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
         }
     }
 
-    // Choice
-    inner class ChoiceAdapter : RecyclerView.Adapter<ChoiceAdapter.ChoiceHolder>() {
-
-        inner class ChoiceHolder(override val containerView: View) :
-            RecyclerView.ViewHolder(containerView),
-            LayoutContainer {
-
-            fun bind(item: ImageItem) {
-                ici_cover.load(File(item.originalPath)) {
-                    crossfade(true)
-                }
-            }
-        }
-
-        private val items = mutableListOf<ImageItem>()
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChoiceHolder =
-            ChoiceHolder(parent.inflate(_layout.image_choice_item_layout))
-
-        override fun getItemCount(): Int = items.size
-
-        override fun onBindViewHolder(holder: ChoiceHolder, position: Int) {
-            holder.bind(items[position])
-        }
-
-        fun submit(data: List<ImageItem>) {
-            if (items.isNotEmpty()) items.clear()
-            items.addAll(data)
-            notifyDataSetChanged()
-        }
-
-        fun clear() {
-            if (items.isNotEmpty()) items.clear()
-        }
-    }
-
     // Fragment
     private val vm: ImageHandlerViewModel by viewModel()
     private lateinit var resultAdapter: ResultAdapter
-    private lateinit var choiceAdapter: ChoiceAdapter
-
-
-    private val viewpagerListener = object : ViewPager2.OnPageChangeCallback() {
-        override fun onPageScrolled(
-            position: Int,
-            positionOffset: Float,
-            positionOffsetPixels: Int
-        ) {
-//            ihf2_toolbar.setElevationVisibility(position != 0)
-        }
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        ihf2_toolbar.hideCustomLayout()
-        ihf2_toolbar_title.text = "Image Handler"
+        ihf2_toolbar_title.text = "Вова"
         ihf2_toolbar_setting.onClick { settingDialog() }
 
         ihf2_choice_btn.onClick {
@@ -163,7 +114,6 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
 
         ihf2_clear_btn.onClick {
             vm.clearData()
-            choiceAdapter.clear()
             resultAdapter.clear()
         }
         ihf2_overlay_btn.onClick {
@@ -176,12 +126,10 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
                 }
             }
         }
-        bindChoiceList()
         bindResultList()
 
         vm.progress.observe(viewLifecycleOwner, Observer { isShow ->
             ihf2_toolbar_progress.isInvisible = !isShow
-//            ihf2_toolbar_count.isInvisible = !isShow
         })
 
         vm.toast.observe(viewLifecycleOwner, Observer { toastMsg ->
@@ -222,16 +170,6 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
         } else super.onActivityResult(requestCode, resultCode, data)
     }
 
-    override fun onResume() {
-        super.onResume()
-        ihf2_result_list.registerOnPageChangeCallback(viewpagerListener)
-    }
-
-    override fun onPause() {
-        ihf2_result_list.unregisterOnPageChangeCallback(viewpagerListener)
-        super.onPause()
-    }
-
     private fun settingDialog() {
         MaterialDialog(requireContext(), BottomSheet(LayoutMode.WRAP_CONTENT)).show {
             title(text = "Menu")
@@ -251,12 +189,20 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
     private fun bindResultList() {
         resultAdapter = ResultAdapter()
         with(ihf2_result_list) {
-            orientation = ViewPager2.ORIENTATION_HORIZONTAL
+            setHasFixedSize(true)
+            layoutManager = GridLayoutManager(requireContext(), 4)
             adapter = resultAdapter
         }
 
         lifecycleScope.launchWhenResumed {
 
+            vm.data.collect { data ->
+                debugLog { "Choice size ${data.size}" }
+                if (data.isNotEmpty()) {
+                    ihf2_container.transitionToEnd()
+                } else ihf2_container.transitionToStart()
+                resultAdapter.submit(data)
+            }
 
             vm.result.collect { data ->
                 debugLog { "RESULT DATA ${data.size}" }
@@ -264,35 +210,6 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
                     resultAdapter.submit(data)
                 }
             }
-        }
-    }
-
-    private fun bindChoiceList() {
-        choiceAdapter = ChoiceAdapter()
-
-        with(ihf2_choice_list) {
-            setHasFixedSize(true)
-            layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
-            adapter = choiceAdapter
-        }
-
-        lifecycleScope.launchWhenResumed {
-            vm.data.collect { data ->
-                debugLog { "Choice size ${data.size}" }
-                if (data.isNotEmpty()) {
-                    ihf2_container.transitionToEnd()
-                } else ihf2_container.transitionToStart()
-
-                choiceAdapter.submit(data)
-            }
-
-        }
-    }
-
-    private fun overlaySettingDialog() {
-        MaterialDialog(requireContext(), BottomSheet(LayoutMode.WRAP_CONTENT)).show {
-            title(text = "Overlay settings")
-
         }
     }
 

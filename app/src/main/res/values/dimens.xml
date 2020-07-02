@@ -11,4 +11,5 @@
 
     <dimen name="bounding_box_corner_radius">12dp</dimen>
     <dimen name="city_item_height">80dp</dimen>
+    <dimen name="toolbar_text_size">36sp</dimen>
 </resources>

@@ -5,8 +5,8 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowLightStatusBar">true</item>
-        <item name="android:windowBackground">@color/colorPrimary</item>
+<!--        <item name="android:windowLightStatusBar">true</item>-->
+        <item name="android:windowBackground">@color/colorBackground</item>
         <item name="md_corner_radius">@dimen/dp8</item>
         <item name="md_color_button_text">@color/colorBlack</item>
     </style>

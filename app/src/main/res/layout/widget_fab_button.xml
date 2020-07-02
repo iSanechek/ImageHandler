@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <view
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        class="com.isanechek.imagehandler.ui.widgets.fab.CircleImageView"
+        android:id="@+id/fabbutton_circle"
+        android:layout_gravity="center"
+        android:scaleType="center"
+        />
+
+    <view
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        class="com.isanechek.imagehandler.ui.widgets.fab.ProgressRingView"
+        android:id="@+id/fabbutton_ring"
+        android:indeterminate="false"
+        android:progress="0"
+        android:max="100"
+        app:fbb_autoStart="false"
+        android:layout_gravity="center"
+        />
+</merge>

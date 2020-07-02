@@ -19,7 +19,7 @@ class App : Application() {
         startKoin {
             androidContext(this@App)
             modules(
-                        databaseModule +
+                databaseModule +
                         dataModule +
                         watermarkModule +
                         uiModule

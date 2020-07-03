@@ -90,6 +90,7 @@
 
 
 
+
     <!--Start content-->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/ihf2_content_container"
@@ -109,7 +110,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/ihf2_result_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"/>
 
     </com.google.android.material.card.MaterialCardView>
 
@@ -195,8 +196,6 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.85" />
-
-
 
 
     <!--End control container-->

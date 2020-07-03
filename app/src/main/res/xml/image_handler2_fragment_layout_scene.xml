@@ -16,14 +16,20 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <!--Content-->
-        <Constraint
-            android:id="@+id/ihf2_content_container"
-            android:layout_width="@dimen/dp0"
-            android:layout_height="@dimen/dp0"
-            app:layout_constraintBottom_toTopOf="@id/ihf2_card_hg"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ihf2_top_hg" />
+        <Constraint android:id="@+id/ihf2_content_container"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp">
+            <Layout
+                android:layout_width="@dimen/dp0"
+                android:layout_height="@dimen/dp0"
+                android:layout_marginStart="@dimen/dp8"
+                android:layout_marginTop="@dimen/dp8"
+                android:layout_marginEnd="@dimen/dp8"
+                app:layout_constraintBottom_toTopOf="@id/ihf2_card_hg"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ihf2_top_hg" />
+        </Constraint>
 
         <!--Choice-->
         <Constraint
@@ -91,14 +97,18 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <!--Content-->
-        <Constraint
-            android:id="@+id/ihf2_content_container"
-            android:layout_width="@dimen/dp0"
-            android:layout_height="@dimen/dp0"
-            app:layout_constraintBottom_toTopOf="@id/ihf2_card_hg"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ihf2_top_hg" />
+        <Constraint android:id="@+id/ihf2_content_container">
+            <Layout
+                android:layout_width="@dimen/dp0"
+                android:layout_height="@dimen/dp0"
+                android:layout_marginStart="@dimen/dp8"
+                android:layout_marginTop="@dimen/dp8"
+                android:layout_marginEnd="@dimen/dp8"
+                app:layout_constraintBottom_toTopOf="@id/ihf2_card_hg"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ihf2_top_hg" />
+        </Constraint>
 
         <!--Choice-->
         <Constraint

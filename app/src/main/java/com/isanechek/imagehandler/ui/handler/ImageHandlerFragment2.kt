@@ -36,7 +36,7 @@ import java.io.File
 data class ImageItem(
     val id: String,
     val name: String,
-    @ColumnInfo(name = "original-path") val originalPath: String,
+    @ColumnInfo(name = "original_path") val originalPath: String,
     @ColumnInfo(name = "result_path") val resultPath: String,
     @ColumnInfo(name = "public_path") val publicPath: String,
     @ColumnInfo(name = "overlay_status") val overlayStatus: String
@@ -60,7 +60,7 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
 
             fun bind(item: ImageItem) {
                 debugLog { item.toString() }
-                val path = if (item.overlayStatus == ImageItem.OVERLAY_DONE) item.resultPath else item.originalPath
+                val path = if (item.resultPath.isNotEmpty()) item.resultPath else item.originalPath
                 debugLog { "PATH $path" }
                 iri_cover.load(File(path))
             }
@@ -80,7 +80,8 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
         fun submit(data: List<ImageItem>) {
             if (items.isNotEmpty()) items.clear()
             items.addAll(data)
-            notifyDataSetChanged()
+            this.notifyDataSetChanged()
+            debugLog { "BOOM ADAPTER" }
         }
 
         fun clear() {
@@ -95,6 +96,8 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         ihf2_toolbar_title.text = "Вова"
         ihf2_toolbar_setting.onClick { settingDialog() }
+
+        resultAdapter = ResultAdapter()
 
         ihf2_choice_btn.onClick {
             askForPermissions(Permission.READ_EXTERNAL_STORAGE) { result ->
@@ -117,19 +120,31 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
             resultAdapter.clear()
         }
         ihf2_overlay_btn.onClick {
+            ihf2_clear_btn.isInvisible = true
+            ihf2_save_btn.isInvisible = true
             vm.startWork()
         }
         ihf2_save_btn.onClick {
             askForPermissions(Permission.WRITE_EXTERNAL_STORAGE) { result ->
                 if (result.isAllGranted(Permission.WRITE_EXTERNAL_STORAGE)) {
+                    ihf2_overlay_btn.isInvisible = true
+                    ihf2_clear_btn.isInvisible = true
                     vm.saveToSystem()
                 }
             }
         }
+
         bindResultList()
+
+
 
         vm.progress.observe(viewLifecycleOwner, Observer { isShow ->
             ihf2_toolbar_progress.isInvisible = !isShow
+            if (!isShow) {
+                if (ihf2_save_btn.isInvisible) ihf2_save_btn.isInvisible = false
+                if (ihf2_clear_btn.isInvisible) ihf2_clear_btn.isInvisible = false
+                if (ihf2_overlay_btn.isInvisible) ihf2_overlay_btn.isInvisible = false
+            }
         })
 
         vm.toast.observe(viewLifecycleOwner, Observer { toastMsg ->
@@ -163,7 +178,7 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
                     if (uri != null) {
                         val realPath = FileUtils.getPath(requireContext(), uri)
                         debugLog { "IMAGE PATH $realPath" }
-                        vm.setData(listOf(realPath))
+                        vm.setData(listOf(uri.toString()))
                     } else showErrorMessage("URI PATH IS NULL")
                 }
             }
@@ -187,7 +202,7 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
     }
 
     private fun bindResultList() {
-        resultAdapter = ResultAdapter()
+
         with(ihf2_result_list) {
             setHasFixedSize(true)
             layoutManager = GridLayoutManager(requireContext(), 4)
@@ -195,6 +210,10 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
         }
 
         lifecycleScope.launchWhenResumed {
+
+            debugLog {
+                "W ${ihf2_content_container.width} & H ${ihf2_content_container.height}"
+            }
 
             vm.data.collect { data ->
                 debugLog { "Choice size ${data.size}" }

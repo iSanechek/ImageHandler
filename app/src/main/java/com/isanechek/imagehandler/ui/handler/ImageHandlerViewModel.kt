@@ -147,9 +147,9 @@ class ImageHandlerViewModel(
     private suspend fun preparing(data: List<ImageItem>, overlayPath: String) =
         withContext(Dispatchers.IO) {
             progressState.postValue(true)
-
             if (filesManager.createFolderIfEmpty(cacheFolder)) {
                 data.forEachIndexed { index, imageItem ->
+
                     val resultBitmap = labelingImages(imageItem, overlayPath)
                     val (isOk, path) = filesManager.saveFile(
                         resultBitmap,
@@ -165,10 +165,9 @@ class ImageHandlerViewModel(
                     } else {
                         imagesDao.updateResultPath(imageItem.copy(overlayStatus = ImageItem.OVERLAY_FAIL))
                     }
-
-
                     progressCountState.postValue(String.format("%d/%d", index.inc(), data.size))
                 }
+
                 progressState.postValue(false)
                 toastState.postValue("Обработка данных завершена.")
             } else {
@@ -191,17 +190,20 @@ class ImageHandlerViewModel(
                 .setImageAlpha(255)
         ).watermark.outputImage
 
-    private fun mapData(data: List<String>): List<ImageItem> =
-        data.map { path ->
+    private fun mapData(data: List<String>): List<ImageItem> {
+
+        return data.map { path ->
+            val name = File(path).name
             ImageItem(
                 id = UUID.randomUUID().toString(),
-                name = File(path).name,
+                name = name,
                 originalPath = path,
                 overlayStatus = ImageItem.OVERLAY_NONE,
                 resultPath = "",
                 publicPath = ""
             )
         }
+    }
 
     private fun startClearWorker() {
         val clearCacheWorker = OneTimeWorkRequestBuilder<ClearWorker>()

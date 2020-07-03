@@ -72,7 +72,7 @@ android {
 
     defaultConfig {
         applicationId appId
-        minSdkVersion 27
+        minSdkVersion 23
         targetSdkVersion 29
         versionCode versionNumber
         versionName "${versionMajor}.${versionMinor}.${versionPatch} (${versionBuild})"

@@ -19,7 +19,7 @@ import com.isanechek.imagehandler.data.local.database.entity.*
         (FolderEntity::class),
         (CityEntity::class)
     ],
-    version = 13,
+    version = 1,
     exportSchema = false
 )
 abstract class ImagesDatabase : RoomDatabase() {

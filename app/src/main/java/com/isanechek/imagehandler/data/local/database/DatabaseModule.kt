@@ -16,7 +16,7 @@ val databaseModule = module {
         Room.databaseBuilder(
             androidContext().applicationContext,
             ImagesDatabase::class.java,
-            "images.db"
+            "vova_helper.db"
         ).fallbackToDestructiveMigration().build()
     }
 

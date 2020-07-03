@@ -28,7 +28,7 @@ class SelectViewModel(
 
     private val listCities = listOf("Сызрань", "Энгельс")
     private val _stateProgress = MutableLiveData<Boolean>()
-    private val progressState: LiveData<Boolean>
+    val progressState: LiveData<Boolean>
         get() = _stateProgress
 
     private val _stateScreen = MutableLiveData<Int>()
@@ -153,5 +153,11 @@ class SelectViewModel(
         }
 
         return temp
+    }
+
+    fun isShowWarningDialog(key: String): Boolean = prefManager.isShowWarningDialog(key)
+
+    fun markDoneDialog(key: String) {
+        prefManager.markDoneWaningShowDialog(key)
     }
 }

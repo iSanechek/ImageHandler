@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
                     .setPopUpTo(_id.splash_screen, true)
                     .build()
             )
-        }, 1000)
+        }, 2500)
     }
 
     override fun onSupportNavigateUp(): Boolean = controller.navigateUp()

@@ -8,6 +8,8 @@ interface PrefManager {
     fun setFirstStartIsDone()
     var overlayPath: String
     var sampleImagePath: String
+    fun isShowWarningDialog(key: String): Boolean
+    fun markDoneWaningShowDialog(key: String)
 }
 
 class PrefManagerImpl(private val preferences: SharedPreferences) : PrefManager {
@@ -34,6 +36,16 @@ class PrefManagerImpl(private val preferences: SharedPreferences) : PrefManager 
                 putString(SAMPLE_IMAGE_PATH_KEY, value)
             }
         }
+
+    override fun isShowWarningDialog(key: String): Boolean {
+        return preferences.getBoolean(key, true)
+    }
+
+    override fun markDoneWaningShowDialog(key: String) {
+        preferences.edit {
+            putBoolean(key, false)
+        }
+    }
 
     companion object {
         private const val FIRST_START_KEY = "first.start"

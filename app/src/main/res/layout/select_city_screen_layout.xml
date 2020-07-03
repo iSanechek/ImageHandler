@@ -12,6 +12,7 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.15" />
 
+
     <TextView
         android:id="@+id/scs_title"
         android:layout_width="wrap_content"
@@ -42,10 +43,10 @@
         android:layout_height="50dp"
         android:background="@color/colorCardBackground"
         android:visibility="gone"
-        tools:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="gone">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/scs_save_btn"
@@ -61,6 +62,36 @@
             tools:ignore="HardcodedText"
             tools:visibility="visible" />
     </FrameLayout>
+
+
+    <TextView
+        android:id="@+id/scs_info_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dp8"
+        android:layout_marginEnd="@dimen/dp8"
+        android:layout_marginBottom="@dimen/dp16"
+        android:textColor="@color/colorAccent"
+        android:textSize="16sp"
+        android:visibility="gone"
+        tools:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="@tools:sample/first_names" />
+
+    <ProgressBar
+        android:id="@+id/scs_progress"
+        style="?android:progressBarStyleHorizontal"
+        android:layout_width="@dimen/dp0"
+        android:layout_height="2dp"
+        android:layout_marginEnd="@dimen/dp16"
+        android:indeterminate="true"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="visible" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

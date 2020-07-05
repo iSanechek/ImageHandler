@@ -115,7 +115,6 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
 
         resultAdapter = ResultAdapter()
         with(ihf2_result_list) {
-            setHasFixedSize(true)
             layoutManager = GridLayoutManager(requireContext(), 4)
             adapter = resultAdapter
         }
@@ -185,10 +184,6 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
                 }
             }
         }
-    }
-
-    private fun bindResultList() {
-
     }
 
     private fun showErrorMessage(message: String) {

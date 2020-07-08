@@ -12,8 +12,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.room.ColumnInfo
-import androidx.room.Entity
 import com.afollestad.assent.Permission
 import com.afollestad.assent.askForPermissions
 import com.afollestad.materialdialogs.LayoutMode
@@ -22,36 +20,13 @@ import com.afollestad.materialdialogs.bottomsheets.BottomSheet
 import com.afollestad.materialdialogs.list.listItems
 import com.isanechek.imagehandler._id
 import com.isanechek.imagehandler._layout
+import com.isanechek.imagehandler.data.local.database.entity.ImageItem
 import com.isanechek.imagehandler.debugLog
 import com.isanechek.imagehandler.onClick
 import com.isanechek.imagehandler.utils.FileUtils
 import kotlinx.android.synthetic.main.image_handler2_fragment_layout.*
 import kotlinx.coroutines.flow.collect
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.util.*
-
-@Entity(tableName = "image_table", primaryKeys = ["id"])
-data class ImageItem(
-    val id: String,
-    val name: String,
-    @ColumnInfo(name = "original_path") val originalPath: String,
-    @ColumnInfo(name = "result_path") val resultPath: String,
-    @ColumnInfo(name = "public_path") val publicPath: String,
-    @ColumnInfo(name = "overlay_status") val overlayStatus: String
-) {
-
-    companion object {
-        const val OVERLAY_FAIL = "fail"
-        const val OVERLAY_DONE = "done"
-        const val OVERLAY_NONE = "none"
-        const val OVERLAY_LOG = "logo"
-
-        fun empty(): ImageItem = ImageItem(UUID.randomUUID().toString(), "", "", "", "", "")
-
-        fun logo(name: String, logoPath: String): ImageItem =
-            ImageItem(name, "", logoPath, logoPath, logoPath, OVERLAY_LOG)
-    }
-}
 
 class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
 

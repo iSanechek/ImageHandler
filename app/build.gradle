@@ -198,6 +198,13 @@ dependencies {
 
     implementation 'com.huangyz0918:androidwm-light:0.1.2'
 
+    def camerax_version = "1.0.0-beta06"
+    implementation "androidx.camera:camera-camera2:$camerax_version"
+    implementation "androidx.camera:camera-core:$camerax_version"
+    implementation "androidx.camera:camera-lifecycle:$camerax_version"
+    implementation "androidx.camera:camera-view:1.0.0-alpha13"
+    implementation "androidx.camera:camera-extensions:1.0.0-alpha13"
+
     // Permissions
     def assentVersion = '3.0.0-RC4'
     implementation "com.afollestad.assent:core:$assentVersion"

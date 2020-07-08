@@ -13,6 +13,7 @@ import androidx.work.WorkManager
 import androidx.work.workDataOf
 import com.isanechek.imagehandler.App
 import com.isanechek.imagehandler.data.local.database.dao.ImagesDao
+import com.isanechek.imagehandler.data.local.database.entity.ImageItem
 import com.isanechek.imagehandler.data.local.system.FilesManager
 import com.isanechek.imagehandler.data.local.system.MediaStoreManager
 import com.isanechek.imagehandler.data.local.system.PrefManager
@@ -169,10 +170,12 @@ class ImageHandlerViewModel(
                     )
 
                     if (isOk) {
-                        imagesDao.updateResultPath(imageItem.copy(
-                            overlayStatus = ImageItem.OVERLAY_DONE,
-                            resultPath = path
-                        ))
+                        imagesDao.updateResultPath(
+                            imageItem.copy(
+                                overlayStatus = ImageItem.OVERLAY_DONE,
+                                resultPath = path
+                            )
+                        )
                     } else {
                         imagesDao.updateResultPath(imageItem.copy(overlayStatus = ImageItem.OVERLAY_FAIL))
                     }
@@ -210,7 +213,10 @@ class ImageHandlerViewModel(
                 originalPath = path,
                 overlayStatus = ImageItem.OVERLAY_NONE,
                 resultPath = "",
-                publicPath = ""
+                publicPath = "",
+                aspectRationOriginal = 0,
+                aspectRationResult = 0,
+                selectedAspectRation = 0
             )
         }
     }

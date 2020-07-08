@@ -1,11 +1,11 @@
 package com.isanechek.imagehandler.ui.handler
 
-import android.graphics.Color
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.api.load
 import com.isanechek.imagehandler._layout
+import com.isanechek.imagehandler.data.local.database.entity.ImageItem
 import com.isanechek.imagehandler.debugLog
 import com.isanechek.imagehandler.inflate
 import kotlinx.android.extensions.LayoutContainer
@@ -25,7 +25,6 @@ class ResultAdapter : RecyclerView.Adapter<ResultAdapter.ResultHolder>() {
 
 
             val p = when(item.overlayStatus) {
-                ImageItem.OVERLAY_LOG -> item.originalPath
                 ImageItem.OVERLAY_DONE -> item.resultPath
                 ImageItem.OVERLAY_NONE -> item.originalPath
                 else -> item.originalPath
@@ -61,25 +60,6 @@ class ResultAdapter : RecyclerView.Adapter<ResultAdapter.ResultHolder>() {
         this.notifyDataSetChanged()
         debugLog { "BOOM ADAPTER" }
     }
-
-    private val testData = listOf(
-        ImageItem.empty(),
-        ImageItem.empty(),
-        ImageItem.empty(),
-        ImageItem.empty(),
-        ImageItem.empty(),
-        ImageItem.empty(),
-        ImageItem.empty(),
-        ImageItem.empty(),
-        ImageItem.empty(),
-        ImageItem.empty(),
-        ImageItem.empty(),
-        ImageItem.empty(),
-        ImageItem.empty(),
-        ImageItem.empty(),
-        ImageItem.empty(),
-        ImageItem.empty()
-    )
 
     fun clear() {
         if (items.isNotEmpty()) items.clear()

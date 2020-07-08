@@ -1,7 +1,7 @@
 package com.isanechek.imagehandler.data.local.database.dao
 
 import androidx.room.*
-import com.isanechek.imagehandler.ui.handler.ImageItem
+import com.isanechek.imagehandler.data.local.database.entity.ImageItem
 import kotlinx.coroutines.flow.Flow
 
 @Dao

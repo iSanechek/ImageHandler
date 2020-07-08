@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.core.view.isInvisible
@@ -13,24 +12,23 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import coil.api.load
 import com.afollestad.assent.Permission
 import com.afollestad.assent.askForPermissions
 import com.afollestad.materialdialogs.LayoutMode
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.bottomsheets.BottomSheet
 import com.afollestad.materialdialogs.list.listItems
-import com.isanechek.imagehandler.*
+import com.isanechek.imagehandler._id
+import com.isanechek.imagehandler._layout
+import com.isanechek.imagehandler.debugLog
+import com.isanechek.imagehandler.onClick
 import com.isanechek.imagehandler.utils.FileUtils
-import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.image_handler2_fragment_layout.*
-import kotlinx.android.synthetic.main.image_result_item_layout.*
 import kotlinx.coroutines.flow.collect
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.io.File
+import java.util.*
 
 @Entity(tableName = "image_table", primaryKeys = ["id"])
 data class ImageItem(
@@ -46,6 +44,12 @@ data class ImageItem(
         const val OVERLAY_FAIL = "fail"
         const val OVERLAY_DONE = "done"
         const val OVERLAY_NONE = "none"
+        const val OVERLAY_LOG = "logo"
+
+        fun empty(): ImageItem = ImageItem(UUID.randomUUID().toString(), "", "", "", "", "")
+
+        fun logo(name: String, logoPath: String): ImageItem =
+            ImageItem(name, "", logoPath, logoPath, logoPath, OVERLAY_LOG)
     }
 }
 
@@ -127,7 +131,7 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
 
             vm.data.collect { data ->
                 debugLog { "Choice size ${data.size}" }
-                if (data.isNotEmpty()) {
+                if (data.find { it.overlayStatus == ImageItem.OVERLAY_NONE } != null) {
                     ihf2_container.transitionToEnd()
                 } else ihf2_container.transitionToStart()
                 resultAdapter.submit(data)
@@ -137,6 +141,7 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
                 debugLog { "RESULT DATA ${data.size}" }
                 if (data.isNotEmpty()) {
                     resultAdapter.submit(data)
+
                 }
             }
         }
@@ -163,7 +168,7 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
                     if (uri != null) {
                         val realPath = FileUtils.getPath(requireContext(), uri)
                         debugLog { "IMAGE PATH $realPath" }
-                        vm.setData(listOf(uri.toString()))
+                        vm.setData(listOf(realPath))
                     } else showErrorMessage("URI PATH IS NULL")
                 }
             }

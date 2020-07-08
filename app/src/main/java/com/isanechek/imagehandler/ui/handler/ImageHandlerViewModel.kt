@@ -27,7 +27,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
-import java.util.*
 
 class ImageHandlerViewModel(
     application: Application,
@@ -36,6 +35,8 @@ class ImageHandlerViewModel(
     private val mediaStoreManager: MediaStoreManager,
     private val imagesDao: ImagesDao
 ) : AndroidViewModel(application) {
+
+    private var currentId = -1
 
     private val toastState = MutableLiveData<String>()
     val toast: LiveData<String>
@@ -61,7 +62,10 @@ class ImageHandlerViewModel(
 
     fun setData(data: List<String>) {
         viewModelScope.launch {
-            imagesDao.insert(mapData(data))
+            val res = mapData(data)
+//            val r = createData(res)
+
+            imagesDao.insert(res)
         }
     }
 
@@ -70,6 +74,13 @@ class ImageHandlerViewModel(
 
     init {
         startClearWorker()
+
+//        viewModelScope.launch(Dispatchers.IO) {
+//            for (i in 0..MAX_ITEM_COUNT.minus(1)) {
+//                imagesDao.insert(ImageItem.logo(i, prefManager.logoPath))
+//            }
+//
+//        }
     }
 
     fun clearData() {
@@ -191,12 +202,11 @@ class ImageHandlerViewModel(
         ).watermark.outputImage
 
     private fun mapData(data: List<String>): List<ImageItem> {
-
         return data.map { path ->
-            val name = File(path).name
+            val file = File(path)
             ImageItem(
-                id = UUID.randomUUID().toString(),
-                name = name,
+                id = file.nameWithoutExtension,
+                name = file.name,
                 originalPath = path,
                 overlayStatus = ImageItem.OVERLAY_NONE,
                 resultPath = "",
@@ -211,5 +221,9 @@ class ImageHandlerViewModel(
             .build()
 
         WorkManager.getInstance(getApplication<App>()).enqueue(clearCacheWorker)
+    }
+
+    companion object {
+        private const val MAX_ITEM_COUNT = 16
     }
 }

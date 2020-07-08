@@ -9,6 +9,9 @@ interface ImagesDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(items: List<ImageItem>)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(items: ImageItem)
+
     @Query("SELECT * FROM image_table")
     suspend fun load(): List<ImageItem>
 
@@ -29,4 +32,14 @@ interface ImagesDao {
 
     @Query("SELECT * FROM image_table")
     fun loadAsFlow(): Flow<List<ImageItem>>
+
+    @Update
+    suspend fun updateData(items: List<ImageItem>)
+
+    @Transaction
+    suspend fun update(items: List<ImageItem>) {
+        clear()
+        insert(items)
+
+    }
 }

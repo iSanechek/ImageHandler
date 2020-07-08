@@ -1,5 +1,6 @@
 package com.isanechek.imagehandler.ui.handler
 
+import android.graphics.Color
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -10,6 +11,7 @@ import com.isanechek.imagehandler.inflate
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.image_result_item_layout.*
 import java.io.File
+import java.util.*
 
 class ResultAdapter : RecyclerView.Adapter<ResultAdapter.ResultHolder>() {
 
@@ -20,8 +22,25 @@ class ResultAdapter : RecyclerView.Adapter<ResultAdapter.ResultHolder>() {
         fun bind(item: ImageItem) {
             debugLog { item.toString() }
             val path = if (item.resultPath.isNotEmpty()) item.resultPath else item.originalPath
-            debugLog { "PATH $path" }
-            iri_cover.load(File(path))
+
+
+            val p = when(item.overlayStatus) {
+                ImageItem.OVERLAY_LOG -> item.originalPath
+                ImageItem.OVERLAY_DONE -> item.resultPath
+                ImageItem.OVERLAY_NONE -> item.originalPath
+                else -> item.originalPath
+            }
+            debugLog { "PATH $p" }
+            iri_cover.load(File(p))
+            val rnd = Random()
+//            iri_cover.setBackgroundColor(
+//                Color.argb(
+//                    255,
+//                    rnd.nextInt(256),
+//                    rnd.nextInt(256),
+//                    rnd.nextInt(256)
+//                )
+//            )
         }
     }
 
@@ -42,6 +61,25 @@ class ResultAdapter : RecyclerView.Adapter<ResultAdapter.ResultHolder>() {
         this.notifyDataSetChanged()
         debugLog { "BOOM ADAPTER" }
     }
+
+    private val testData = listOf(
+        ImageItem.empty(),
+        ImageItem.empty(),
+        ImageItem.empty(),
+        ImageItem.empty(),
+        ImageItem.empty(),
+        ImageItem.empty(),
+        ImageItem.empty(),
+        ImageItem.empty(),
+        ImageItem.empty(),
+        ImageItem.empty(),
+        ImageItem.empty(),
+        ImageItem.empty(),
+        ImageItem.empty(),
+        ImageItem.empty(),
+        ImageItem.empty(),
+        ImageItem.empty()
+    )
 
     fun clear() {
         if (items.isNotEmpty()) items.clear()

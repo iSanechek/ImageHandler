@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/dp16"
+    android:layout_marginTop="@dimen/dp4"
+    android:layout_marginEnd="@dimen/dp16"
+    android:layout_marginBottom="@dimen/dp8"
+    app:cardBackgroundColor="@color/colorCardBackground"
+    app:cardCornerRadius="@dimen/dp8"
+    app:strokeColor="@color/colorAccent"
+    app:strokeWidth="@dimen/dp1"
+    tools:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ril_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/ril_title_format"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp8"
+            android:layout_marginTop="@dimen/dp8"
+            android:textColor="@color/colorPrimaryText"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@tools:sample/first_names" />
+
+        <TextView
+            android:id="@+id/ril_description"
+            android:layout_width="@dimen/dp0"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp8"
+            android:layout_marginTop="@dimen/dp2"
+            android:layout_marginEnd="@dimen/dp8"
+            android:textColor="@color/colorSecondaryText"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toStartOf="@id/ril_end_vg"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ril_title_format"
+            tools:text="Этот формат лучше подходит для ленты instagram" />
+
+        <CheckBox
+            android:id="@+id/ril_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/ril_cover"
+            app:layout_constraintStart_toEndOf="@id/ril_end_vg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/ril_end_vg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.85" />
+
+        <ImageView
+            android:id="@+id/ril_cover"
+            android:layout_width="@dimen/dp0"
+            android:layout_height="@dimen/dp0"
+            android:layout_marginTop="@dimen/dp8"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ril_description"
+            tools:src="@tools:sample/avatars" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</com.google.android.material.card.MaterialCardView>

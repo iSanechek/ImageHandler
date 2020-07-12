@@ -2,8 +2,10 @@ package com.isanechek.imagehandler.ui.handler
 
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import coil.api.load
+import com.isanechek.imagehandler.ASPECT_RATIO_1_1
 import com.isanechek.imagehandler._layout
 import com.isanechek.imagehandler.data.local.database.entity.ImageItem
 import com.isanechek.imagehandler.debugLog
@@ -21,8 +23,10 @@ class ResultAdapter : RecyclerView.Adapter<ResultAdapter.ResultHolder>() {
 
         fun bind(item: ImageItem) {
             debugLog { item.toString() }
-            val path = if (item.resultPath.isNotEmpty()) item.resultPath else item.originalPath
 
+            if (item.aspectRationOriginal != ASPECT_RATIO_1_1) {
+                iri_warning.isVisible = true
+            }
 
             val p = when(item.overlayStatus) {
                 ImageItem.OVERLAY_DONE -> item.resultPath
@@ -31,15 +35,6 @@ class ResultAdapter : RecyclerView.Adapter<ResultAdapter.ResultHolder>() {
             }
             debugLog { "PATH $p" }
             iri_cover.load(File(p))
-            val rnd = Random()
-//            iri_cover.setBackgroundColor(
-//                Color.argb(
-//                    255,
-//                    rnd.nextInt(256),
-//                    rnd.nextInt(256),
-//                    rnd.nextInt(256)
-//                )
-//            )
         }
     }
 

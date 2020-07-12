@@ -1,6 +1,7 @@
 package com.isanechek.imagehandler.utils
 
 import android.graphics.*
+import com.isanechek.imagehandler.aspectRatio
 
 object BitmapUtils {
 
@@ -15,5 +16,10 @@ object BitmapUtils {
         paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
         canvas.drawBitmap(srcBitmap, 0f, 0f, paint)
         return dstBitmap
+    }
+
+    fun getBitmapRatio(path: String): Int {
+        val bitmap = BitmapFactory.decodeFile(path)
+        return aspectRatio(bitmap.width, bitmap.height)
     }
 }

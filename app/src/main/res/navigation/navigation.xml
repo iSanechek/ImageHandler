@@ -6,6 +6,12 @@
     app:startDestination="@id/splash_screen">
 
     <fragment
+        android:id="@+id/ration_sample_screen"
+        android:name="com.isanechek.imagehandler.ui.handler.selection.SelectRotationScreen"
+        android:label="ration"
+        tools:layout="@layout/select_rotation_screen_layout" />
+
+    <fragment
         android:id="@+id/handler_screen"
         android:name="com.isanechek.imagehandler.ui.handler.ImageHandlerFragment2"
         android:label="handler2"

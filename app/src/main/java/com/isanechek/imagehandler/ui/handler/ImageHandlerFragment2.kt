@@ -37,7 +37,7 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
         ihf2_toolbar_title.text = "Вова"
         ihf2_toolbar_setting.onClick { settingDialog() }
 
-
+        ihf2_info_text.text = "Вы можите выбрать\nодну или несколько картинок"
 
         ihf2_choice_btn.onClick {
             askForPermissions(Permission.READ_EXTERNAL_STORAGE) { result ->
@@ -94,7 +94,7 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
 
         resultAdapter = ResultAdapter()
         with(ihf2_result_list) {
-            layoutManager = GridLayoutManager(requireContext(), 4)
+            layoutManager = GridLayoutManager(requireContext(), 3)
             adapter = resultAdapter
         }
 

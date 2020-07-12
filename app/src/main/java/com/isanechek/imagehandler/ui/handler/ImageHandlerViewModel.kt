@@ -19,6 +19,7 @@ import com.isanechek.imagehandler.data.local.system.MediaStoreManager
 import com.isanechek.imagehandler.data.local.system.PrefManager
 import com.isanechek.imagehandler.data.repositories.WatermarkPhotosRepositoryImpl
 import com.isanechek.imagehandler.debugLog
+import com.isanechek.imagehandler.utils.BitmapUtils
 import com.isanechek.imagehandler.workers.ClearWorker
 import com.watermark.androidwm_light.WatermarkBuilder
 import com.watermark.androidwm_light.bean.WatermarkImage
@@ -36,8 +37,6 @@ class ImageHandlerViewModel(
     private val mediaStoreManager: MediaStoreManager,
     private val imagesDao: ImagesDao
 ) : AndroidViewModel(application) {
-
-    private var currentId = -1
 
     private val toastState = MutableLiveData<String>()
     val toast: LiveData<String>
@@ -75,13 +74,6 @@ class ImageHandlerViewModel(
 
     init {
         startClearWorker()
-
-//        viewModelScope.launch(Dispatchers.IO) {
-//            for (i in 0..MAX_ITEM_COUNT.minus(1)) {
-//                imagesDao.insert(ImageItem.logo(i, prefManager.logoPath))
-//            }
-//
-//        }
     }
 
     fun clearData() {
@@ -214,7 +206,7 @@ class ImageHandlerViewModel(
                 overlayStatus = ImageItem.OVERLAY_NONE,
                 resultPath = "",
                 publicPath = "",
-                aspectRationOriginal = 0,
+                aspectRationOriginal = BitmapUtils.getBitmapRatio(path),
                 aspectRationResult = 0,
                 selectedAspectRation = 0
             )
@@ -227,9 +219,5 @@ class ImageHandlerViewModel(
             .build()
 
         WorkManager.getInstance(getApplication<App>()).enqueue(clearCacheWorker)
-    }
-
-    companion object {
-        private const val MAX_ITEM_COUNT = 16
     }
 }

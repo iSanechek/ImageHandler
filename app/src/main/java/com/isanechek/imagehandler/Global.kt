@@ -35,11 +35,14 @@ const val PROGRESS_STATE_SAVE_FILE_FAIL = "save.file.fail"
 const val PROGRESS_STATE_ADD_SIZE_IN_GALLEY = "gallery.add.size"
 
 
-@JvmField val VERBOSE_NOTIFICATION_CHANNEL_NAME: CharSequence =
+@JvmField
+val VERBOSE_NOTIFICATION_CHANNEL_NAME: CharSequence =
     "Verbose WorkManager Notifications"
 const val VERBOSE_NOTIFICATION_CHANNEL_DESCRIPTION =
     "Shows notifications whenever work starts"
-@JvmField val NOTIFICATION_TITLE: CharSequence = "WorkRequest Starting"
+
+@JvmField
+val NOTIFICATION_TITLE: CharSequence = "WorkRequest Starting"
 const val CHANNEL_ID = "VERBOSE_NOTIFICATION"
 const val NOTIFICATION_ID = 1
 
@@ -51,7 +54,7 @@ const val PUBLIC_APP_FOLDER_NAME = "ImageHandler"
 
 typealias _layout = R.layout
 typealias _id = R.id
-typealias _style= R.style
+typealias _style = R.style
 typealias _drawable = R.drawable
 typealias _anim = R.anim
 typealias _color = R.color
@@ -215,15 +218,23 @@ const val ASPECT_RATIO_9_16 = 2
 
 fun aspectRatio(width: Int, height: Int): Int {
     val previewRatio = max(width, height).toDouble() / min(width, height)
-    return when {
-        abs(previewRatio - RATIO_1_1_VALUE) <= abs(previewRatio - RATIO_16_9_VALUE) -> {
-            ASPECT_RATIO_1_1
-        }
-        abs(previewRatio - RATIO_9_16_VALUE) >= abs(previewRatio - RATIO_16_9_VALUE) -> {
-            ASPECT_RATIO_9_16
-        }
-        else -> {
-            ASPECT_RATIO_16_9
-        }
+    return if (abs(previewRatio - RATIO_1_1_VALUE) <= abs(previewRatio - RATIO_16_9_VALUE) && abs(
+            previewRatio - RATIO_1_1_VALUE
+        ) <= abs(previewRatio - RATIO_9_16_VALUE)
+    ) {
+        ASPECT_RATIO_1_1
+    } else {
+        ASPECT_RATIO_16_9
     }
+//    return when {
+//        abs(previewRatio - RATIO_1_1_VALUE) <= abs(previewRatio - RATIO_16_9_VALUE) -> {
+//            ASPECT_RATIO_1_1
+//        }
+//        abs(previewRatio - RATIO_9_16_VALUE) >= abs(previewRatio - RATIO_16_9_VALUE) -> {
+//            ASPECT_RATIO_9_16
+//        }
+//        else -> {
+//            ASPECT_RATIO_16_9
+//        }
+//    }
 }

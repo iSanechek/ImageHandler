@@ -9,6 +9,7 @@ interface PrefManager {
     var overlayPath: String
     var sampleImagePath: String
     var logoPath: String
+    var backgroundPath: String
     fun isShowWarningDialog(key: String): Boolean
     fun markDoneWaningShowDialog(key: String)
 }
@@ -44,6 +45,13 @@ class PrefManagerImpl(private val preferences: SharedPreferences) : PrefManager 
                 putString(LOGO_PATH_KEY, value)
             }
         }
+    override var backgroundPath: String
+        get() = preferences.getString(BACKGROUND_PATH_KEY, "") ?: ""
+        set(value) {
+            preferences.edit {
+                putString(BACKGROUND_PATH_KEY, value)
+            }
+        }
 
     override fun isShowWarningDialog(key: String): Boolean {
         return preferences.getBoolean(key, true)
@@ -59,6 +67,7 @@ class PrefManagerImpl(private val preferences: SharedPreferences) : PrefManager 
         private const val FIRST_START_KEY = "first.start"
         private const val SAMPLE_IMAGE_PATH_KEY = "sipk"
         private const val LOGO_PATH_KEY = "lpk"
+        private const val BACKGROUND_PATH_KEY = "bpk"
     }
 
 }

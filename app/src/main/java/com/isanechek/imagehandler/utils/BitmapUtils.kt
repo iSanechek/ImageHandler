@@ -2,6 +2,8 @@ package com.isanechek.imagehandler.utils
 
 import android.graphics.*
 import com.isanechek.imagehandler.aspectRatio
+import com.isanechek.imagehandler.debugLog
+import java.io.FileNotFoundException
 
 object BitmapUtils {
 
@@ -19,7 +21,17 @@ object BitmapUtils {
     }
 
     fun getBitmapRatio(path: String): Int {
+        debugLog { "getBitmapRatio $path" }
         val bitmap = BitmapFactory.decodeFile(path)
         return aspectRatio(bitmap.width, bitmap.height)
+    }
+
+    fun decodeBitmap(path: String): Bitmap? {
+        return try {
+            BitmapFactory.decodeFile(path)
+        } catch (e: Exception) {
+            debugLog { "DECODE BITMAP $path ERROR ${e.message}" }
+            null
+        }
     }
 }

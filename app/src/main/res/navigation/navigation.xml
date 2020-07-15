@@ -19,6 +19,13 @@
         <action
             android:id="@+id/go_handler_to_select"
             app:destination="@id/city_parent_fragment" />
+
+        <action
+            android:id="@+id/go_crop_from_handler"
+            app:destination="@id/crop_screen" />
+        <action
+            android:id="@+id/go_choice_from_handler"
+            app:destination="@id/choice_screen" />
     </fragment>
 
     <fragment
@@ -48,5 +55,17 @@
             app:popUpTo="@id/navigation"
             app:popUpToInclusive="true" />
     </fragment>
+
+    <fragment
+        android:id="@+id/crop_screen"
+        android:name="com.isanechek.imagehandler.ui.crop.CropScreen"
+        android:label="crop"
+        tools:layout="@layout/crop_sceen_layout" />
+
+    <fragment
+        android:id="@+id/choice_screen"
+        android:name="com.isanechek.imagehandler.ui.choices.ChoicesFragment"
+        android:label="Choice"
+        tools:layout="@layout/choices_fragment_layout" />
 
 </navigation>

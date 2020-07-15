@@ -15,11 +15,20 @@ interface ImagesDao {
     @Query("SELECT * FROM image_table")
     suspend fun load(): List<ImageItem>
 
+    @Query("SELECT * FROM image_table WHERE id =:id")
+    suspend fun loadItem(id: String): ImageItem?
+
     @Update
     suspend fun updateResultPaths(items: List<ImageItem>)
 
     @Update
     suspend fun updateResultPath(items: ImageItem)
+
+    @Update
+    suspend fun updateOriginalPath(item: ImageItem)
+
+    @Query("UPDATE image_table SET original_path = :path WHERE id =:id")
+    suspend fun updateOriginalPath(id: String, path: String)
 
     @Delete
     suspend fun remove(items: ImageItem)

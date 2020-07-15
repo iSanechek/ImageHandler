@@ -4,6 +4,7 @@ package com.isanechek.imagehandler.ui
 
 import com.isanechek.imagehandler.ui.choices.ChoicesViewModel
 import com.isanechek.imagehandler.ui.city.SelectViewModel
+import com.isanechek.imagehandler.ui.crop.CropViewModel
 import com.isanechek.imagehandler.ui.handler.ImageHandlerViewModel
 import org.koin.android.ext.koin.androidApplication
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -21,5 +22,9 @@ val uiModule = module {
 
     viewModel {
         SelectViewModel(androidApplication(), get(), get(), get(), get())
+    }
+
+    viewModel {
+        CropViewModel(androidApplication(), get(), get(), get())
     }
 }

@@ -17,6 +17,7 @@ interface FilesManager {
     fun saveFile(bitmap: Bitmap, folderPath: String, fileName: String): Pair<Boolean, String>
     fun clearAll(path: String): Boolean
     fun deleteFile(path: String): Boolean
+    fun replaceBitmap(name: String, path: String, bitmap: Bitmap): Boolean
     fun checkFolderExistsAndIsNotEmpty(path: String): Boolean
     suspend fun loadImagesFromAssets(context: Context): List<String>
 }
@@ -84,13 +85,31 @@ class FilesManagerImpl : FilesManager {
     }
 
     override fun deleteFile(path: String): Boolean {
+        debugLog { "DELETE FILE PAT $path" }
         var isDeleted = false
         val file = File(path)
         if (file.isFile) {
-            isDeleted = file.delete()
+            debugLog { "FILE ${file.name} DELETE" }
+            isDeleted = when {
+                file.exists() -> {
+                    file.deleteOnExit()
+                    !file.exists()
+                }
+                else -> true
+            }
+        } else {
+            debugLog { "IS NOT FILE" }
         }
         debugLog { "Path $path status $isDeleted" }
         return isDeleted
+    }
+
+    override fun replaceBitmap(name: String, path: String, bitmap: Bitmap): Boolean {
+        debugLog { "PATH $path" }
+        debugLog { "NAME $name" }
+
+
+        return true
     }
 
     override fun checkFolderExistsAndIsNotEmpty(path: String): Boolean {

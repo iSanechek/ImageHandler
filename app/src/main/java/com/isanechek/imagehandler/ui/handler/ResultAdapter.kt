@@ -5,11 +5,8 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import coil.api.load
-import com.isanechek.imagehandler.ASPECT_RATIO_1_1
-import com.isanechek.imagehandler._layout
+import com.isanechek.imagehandler.*
 import com.isanechek.imagehandler.data.local.database.entity.ImageItem
-import com.isanechek.imagehandler.debugLog
-import com.isanechek.imagehandler.inflate
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.image_result_item_layout.*
 import java.io.File
@@ -21,8 +18,12 @@ class ResultAdapter : RecyclerView.Adapter<ResultAdapter.ResultHolder>() {
         RecyclerView.ViewHolder(containerView),
         LayoutContainer {
 
-        fun bind(item: ImageItem) {
+        fun bind(item: ImageItem, callback: OnClickListener?) {
             debugLog { item.toString() }
+
+            iri_warning.onClick {
+                callback?.itemClick(item)
+            }
 
             if (item.aspectRationOriginal != ASPECT_RATIO_1_1) {
                 iri_warning.isVisible = true
@@ -39,6 +40,7 @@ class ResultAdapter : RecyclerView.Adapter<ResultAdapter.ResultHolder>() {
     }
 
     private val items = mutableListOf<ImageItem>()
+    private var clickListener: OnClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ResultHolder =
         ResultHolder(parent.inflate(_layout.image_result_item_layout))
@@ -46,7 +48,11 @@ class ResultAdapter : RecyclerView.Adapter<ResultAdapter.ResultHolder>() {
     override fun getItemCount(): Int = items.size
 
     override fun onBindViewHolder(holder: ResultHolder, position: Int) {
-        holder.bind(items[position])
+        holder.bind(items[position], clickListener)
+    }
+
+    fun setOnClickListener(listener: OnClickListener) {
+        this.clickListener = listener
     }
 
     fun submit(data: List<ImageItem>) {
@@ -58,5 +64,9 @@ class ResultAdapter : RecyclerView.Adapter<ResultAdapter.ResultHolder>() {
 
     fun clear() {
         if (items.isNotEmpty()) items.clear()
+    }
+
+    interface OnClickListener {
+        fun itemClick(item: ImageItem)
     }
 }

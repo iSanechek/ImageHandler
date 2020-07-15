@@ -148,6 +148,12 @@ class SelectViewModel(
             prefManager.logoPath = logoPath
         }
 
+        val backgroundPath = logos.find { it.contains("background") }
+        if (!backgroundPath.isNullOrEmpty()) {
+            debugLog { "BACKGROUND PATH $backgroundPath" }
+            prefManager.backgroundPath = backgroundPath
+        }
+
         listCities.forEach { item ->
             val path = when(item) {
                 "Сызрань" -> logos.find { it.contains("syzran", ignoreCase = true) } ?: ""

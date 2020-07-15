@@ -51,6 +51,7 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
                             404
                         )
                     }
+//                    findNavController().navigate(_id.go_choice_from_handler)
                 } else showErrorMessage("PERMISSION NOT GRANTED")
             }
         }
@@ -97,6 +98,15 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
             layoutManager = GridLayoutManager(requireContext(), 3)
             adapter = resultAdapter
         }
+
+        resultAdapter.setOnClickListener(object : ResultAdapter.OnClickListener {
+            override fun itemClick(item: ImageItem) {
+                findNavController().navigate(
+                    _id.go_crop_from_handler,
+                    bundleOf("crop_id" to item.id, "crop_origin_path" to item.originalPath)
+                )
+            }
+        })
 
         lifecycleScope.launchWhenResumed {
 

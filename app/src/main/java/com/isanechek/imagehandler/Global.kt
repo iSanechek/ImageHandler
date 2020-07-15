@@ -7,6 +7,7 @@ import android.content.res.Resources
 import android.database.Cursor
 import android.graphics.Color
 import android.os.Build
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -21,6 +22,8 @@ import kotlin.math.max
 import kotlin.math.min
 import kotlin.random.Random
 
+
+const val FROM_DEV_MESSAGE = "\nРазработчика уже вкурсе! Ожидайте сообщения от разработчика. Спасибо."
 
 const val DATABASE_EMPTY = "database_empty"
 const val NOT_FIND_TO_SAVE = "not_find_to_save"
@@ -68,6 +71,10 @@ fun View.onClick(function: () -> Unit) {
     setOnClickListener {
         function()
     }
+}
+
+fun delay(delayTime: Long, callback: () -> Unit) {
+    Handler().postDelayed({ callback.invoke() }, delayTime)
 }
 
 inline fun debugLog(message: () -> String) {
@@ -238,3 +245,5 @@ fun aspectRatio(width: Int, height: Int): Int {
 //        }
 //    }
 }
+
+

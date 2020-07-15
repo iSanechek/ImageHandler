@@ -87,6 +87,6 @@ class WatermarkRepositoryImpl(
         } else emit(ExecuteResult.Error(DATABASE_EMPTY))
     }
 
-    private fun String.toProgress(value: Any = "") = ExecuteResult.Progress(Pair(this, value))
+    private fun String.toProgress(value: Any = "") = ExecuteResult.ProgressWithStatus(Pair(this, value))
 
 }

@@ -25,6 +25,6 @@ val uiModule = module {
     }
 
     viewModel {
-        CropViewModel(androidApplication(), get(), get(), get())
+        CropViewModel(androidApplication(), get(), get(), get(), get())
     }
 }

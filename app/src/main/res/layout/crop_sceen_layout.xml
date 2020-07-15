@@ -10,16 +10,16 @@
         android:id="@+id/csl_cropper"
         android:layout_width="@dimen/dp0"
         android:layout_height="@dimen/dp0"
-        app:layout_constraintBottom_toTopOf="@id/csl_crop_btn"
+        app:layout_constraintBottom_toTopOf="@id/csl_progress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/csl_cover"
-        android:visibility="gone"
         android:layout_width="@dimen/dp0"
         android:layout_height="@dimen/dp0"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/csl_crop_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -45,9 +45,22 @@
         android:layout_marginEnd="@dimen/dp16"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:padding="@dimen/dp8"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@drawable/ic_baseline_transform_24" />
+
+    <ProgressBar
+        android:id="@+id/csl_progress"
+        style="?android:progressBarStyleHorizontal"
+        android:layout_width="@dimen/dp0"
+        android:layout_height="@dimen/dp2"
+        android:indeterminate="true"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@id/csl_crop_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="visible" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/csl_crop_btn"

@@ -1,6 +1,7 @@
 package com.isanechek.imagehandler.ui.city
 
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -27,13 +28,22 @@ class SampleCityScreen : BaseFragment(_layout.simple_city_screen_layout) {
 
     override fun bindUi(savedInstanceState: Bundle?) {
 
-        debugLog { "ARGS $args" }
+        vm.loadPreviewState.observe(this, Observer { state ->
+            if (state) {
+                scsl_progress.visibility = View.VISIBLE
+            } else {
+                scsl_progress.visibility = View.GONE
+                scsl_content_container.visibility = View.VISIBLE
+            }
+        })
 
         lifecycleScope.launchWhenStarted {
+
             vm.city.flowOn(Dispatchers.IO)
                 .catch {
                     debugLog { "LOAD SELECTED CITY ERROR ${it.message}" }
                 }.collect { city ->
+
                     if (city != null) {
                         debugLog { "CITY $city" }
 

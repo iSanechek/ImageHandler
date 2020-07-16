@@ -117,10 +117,17 @@ class SelectViewModel(
         }
     }
 
+
+    private val _loadPreviewState = MutableLiveData<Boolean>()
+    val loadPreviewState: LiveData<Boolean>
+        get() = _loadPreviewState
+
     fun loadPreview(overlayPath: String): LiveData<Bitmap> = liveData(Dispatchers.IO) {
+        _loadPreviewState.postValue(true)
         val samplePath = prefManager.sampleImagePath
         debugLog { "SP -> $samplePath" }
         val result = overlayManager.overlay(getApplication(), samplePath, overlayPath)
+        _loadPreviewState.postValue(false)
         emit(result)
     }
 

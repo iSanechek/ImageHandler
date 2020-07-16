@@ -34,17 +34,20 @@
         app:layout_constraintGuide_percent="0.70" />
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/scsl_content_container"
         android:layout_width="@dimen/dp0"
         android:layout_height="@dimen/dp0"
         android:layout_marginStart="@dimen/dp16"
         android:layout_marginEnd="@dimen/dp16"
+        android:visibility="invisible"
         app:cardBackgroundColor="@color/colorCardBackground"
         app:cardCornerRadius="@dimen/dp8"
         app:cardElevation="@dimen/dp8"
         app:layout_constraintBottom_toTopOf="@id/scsl_hg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/scsl_top_hg">
+        app:layout_constraintTop_toBottomOf="@id/scsl_top_hg"
+        tools:visibility="visible">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -57,15 +60,29 @@
                 android:layout_gravity="center" />
 
             <ImageButton
+                android:id="@+id/scsl_edit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end|bottom"
                 android:layout_marginEnd="@dimen/dp16"
                 android:layout_marginBottom="@dimen/dp16"
                 android:background="?attr/selectableItemBackgroundBorderless"
+                android:visibility="gone"
                 app:srcCompat="@drawable/ic_baseline_edit_24" />
         </FrameLayout>
     </com.google.android.material.card.MaterialCardView>
+
+    <ProgressBar
+        android:id="@+id/scsl_progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/scsl_hg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/scsl_top_hg"
+        tools:visibility="visible" />
 
     <View
         android:id="@+id/scsl_action_container"
@@ -85,11 +102,11 @@
         android:layout_marginEnd="@dimen/dp16"
         android:clickable="false"
         android:text="сохранить"
-        app:strokeWidth="@dimen/dp1"
-        app:strokeColor="@color/colorAccent"
         android:textColor="@color/colorPrimaryText"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:strokeColor="@color/colorAccent"
+        app:strokeWidth="@dimen/dp1"
         tools:ignore="HardcodedText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -16,8 +16,6 @@ class CitiesAdapter :
     interface Callback {
         fun checked(city: City)
         fun unchecked(city: City)
-        fun click(city: City)
-        fun longClick(city: City)
     }
 
     inner class CityHolder(override val containerView: View) :
@@ -25,23 +23,31 @@ class CitiesAdapter :
 
         fun bind(city: City, callback: Callback?) {
             eci_title.text = city.name
+            setupCard(city.isSelected)
+//            eci_selected.apply {
+//                setImageDrawable(selectedDrawable(city.isSelected))
+//                onClick {
+//                    if (city.isSelected) {
+//                        callback?.unchecked(city)
+//                    } else callback?.checked(city)
+//                }
+//            }
 
-            eci_selected.apply {
-                setImageDrawable(selectedDrawable(city.isSelected))
-                onClick {
-                    if (city.isSelected) {
-                        callback?.unchecked(city)
-                    } else callback?.checked(city)
-                }
+            eci_container.onClick {
+                if (city.isSelected) {
+                    callback?.unchecked(city)
+                } else callback?.checked(city)
             }
+        }
 
-            cil_container.onClick {
-                callback?.click(city)
-            }
-
-            cil_container.setOnLongClickListener {
-                callback?.longClick(city)
-                true
+        private fun setupCard(selected: Boolean) {
+            debugLog { "SElected $selected" }
+            if (selected) {
+                eci_container.strokeColor = ContextCompat.getColor(itemView.context, _color.colorAccent)
+                eci_title.setTextColor(ContextCompat.getColor(itemView.context, _color.colorPrimaryText))
+            } else {
+                eci_container.strokeColor = ContextCompat.getColor(itemView.context, _color.colorCardBackground)
+                eci_title.setTextColor(ContextCompat.getColor(itemView.context, _color.colorSecondaryText))
             }
         }
 

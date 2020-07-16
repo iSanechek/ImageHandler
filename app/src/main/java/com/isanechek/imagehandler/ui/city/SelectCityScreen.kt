@@ -1,14 +1,20 @@
 package com.isanechek.imagehandler.ui.city
 
+import android.graphics.Typeface.BOLD
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
+import android.text.style.StyleSpan
 import android.view.View
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.afollestad.materialdialogs.MaterialDialog
 import com.isanechek.imagehandler.*
+import com.isanechek.imagehandler.data.local.database.entity.CityEntity
 import com.isanechek.imagehandler.data.models.City
 import com.isanechek.imagehandler.ui.base.BaseFragment
 import kotlinx.android.synthetic.main.select_city_screen_layout.*
@@ -24,15 +30,15 @@ class SelectCityScreen : BaseFragment(_layout.select_city_screen_layout) {
 
     override fun bindUi(savedInstanceState: Bundle?) {
 
-        if (vm.isShowWarningDialog("sswd")) {
-            MaterialDialog(requireContext()).show {
-                title(text = "Предупреждение")
-                message(text = "Приложение находится в стадии разработки.")
-                positiveButton(text = "понятно") {
-                    vm.markDoneDialog("sswd")
-                }
-            }
-        }
+//        if (vm.isShowWarningDialog("sswd")) {
+//            MaterialDialog(requireContext()).show {
+//                title(text = "Предупреждение")
+//                message(text = "Приложение находится в стадии разработки.")
+//                positiveButton(text = "понятно") {
+//                    vm.markDoneDialog("sswd")
+//                }
+//            }
+//        }
 
 
         val citiesAdapter = CitiesAdapter()
@@ -52,21 +58,6 @@ class SelectCityScreen : BaseFragment(_layout.select_city_screen_layout) {
                 override fun unchecked(city: City) {
                     vm.updateCity(city.copy(isSelected = false))
                 }
-
-                override fun click(city: City) {
-
-                }
-
-                override fun longClick(city: City) {
-                    MaterialDialog(requireContext()).show {
-                        title(text = "Предупреждение")
-                        message(text = "Удалить ${city.name}")
-                        negativeButton(text = "закрыть")
-                        positiveButton(text = "удалить") {
-                            vm.removeCity(city)
-                        }
-                    }
-                }
             })
         }
 
@@ -84,39 +75,44 @@ class SelectCityScreen : BaseFragment(_layout.select_city_screen_layout) {
 
         vm.progressState.observe(this, Observer { isShow ->
             if (isShow) {
-                scs_progress.slideUp {
-                    scs_info_tv.apply {
-                        isVisible = true
-                        text = "загрузка городов"
-                    }
-                }
+                scs_info_tv.visibility = View.VISIBLE
+                scs_progress.visibility = View.VISIBLE
             } else {
-                scs_progress.slideDown {
-                    scs_info_tv.visibility = View.GONE
-                }
+                scs_info_tv.visibility = View.GONE
+                scs_progress.visibility = View.GONE
             }
         })
 
     }
 
 
-    private fun setupSelectedCity(isSelected: Boolean) {
-        if (isSelected) {
-            scs_action_container.slideUp {
-                scs_save_btn.apply {
-                    onClick {
-                        vm.goToScreen(1)
-                    }
+    private fun setupSelectedCity(cityEntity: CityEntity?) {
+        if (cityEntity != null) {
+            if (!scs_action_container.isVisible) {
+                scs_action_container.slideUp {}
+                scs_save_btn.onClick {
+                    debugLog { "CLICK CITY $cityEntity" }
+                    vm.goToScreen(1)
                 }
             }
-        } else {
-            scs_action_container.slideDown {
-                scs_save_btn.apply {
 
-                    onClick {
-                        vm.goToScreen(1)
-                    }
-                }
+            val text = String.format("Вы выбрали: %s", cityEntity.name)
+            val spannable = SpannableString(text).apply {
+                setSpan(
+                    StyleSpan(BOLD),
+                    12, this.length,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                setSpan(
+                    ForegroundColorSpan(ContextCompat.getColor(requireContext(), _color.colorPrimaryText)),
+                    12, this.length,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            }
+
+            src_info_text.text = spannable
+
+        } else {
+            if (scs_action_container.isVisible) {
+                scs_action_container.slideDown {}
             }
         }
     }

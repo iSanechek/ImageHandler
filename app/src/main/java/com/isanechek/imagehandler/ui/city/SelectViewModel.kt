@@ -87,12 +87,9 @@ class SelectViewModel(
         }
     }
 
-    fun loadSelectedCity(): LiveData<Boolean> = liveData(Dispatchers.IO) {
+    fun loadSelectedCity(): LiveData<CityEntity?> = liveData(Dispatchers.IO) {
         citiesDao.loadSelectedCity().collect {
-            debugLog { "SELECT CITY $it" }
-            if (it != null) {
-                emit(true)
-            } else emit(false)
+            emit(it)
         }
     }
 

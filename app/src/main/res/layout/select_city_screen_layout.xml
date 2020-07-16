@@ -48,6 +48,15 @@
         app:layout_constraintStart_toStartOf="parent"
         tools:visibility="gone">
 
+        <TextView
+            android:id="@+id/src_info_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|start"
+            android:layout_marginStart="@dimen/dp16"
+            android:textColor="@color/colorSecondaryText"
+            android:textSize="12sp" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/scs_save_btn"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
@@ -59,8 +68,7 @@
             android:textColor="@color/colorPrimaryText"
             app:strokeColor="@color/colorAccent"
             app:strokeWidth="@dimen/dp1"
-            tools:ignore="HardcodedText"
-            tools:visibility="visible" />
+            tools:ignore="HardcodedText" />
     </FrameLayout>
 
 
@@ -71,21 +79,21 @@
         android:layout_marginStart="@dimen/dp8"
         android:layout_marginEnd="@dimen/dp8"
         android:layout_marginBottom="@dimen/dp16"
+        android:text="загрузка данных"
         android:textColor="@color/colorAccent"
-        android:textSize="16sp"
+        android:textSize="12sp"
         android:visibility="gone"
-        tools:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:text="@tools:sample/first_names" />
+        tools:ignore="HardcodedText"
+        tools:visibility="visible" />
 
     <ProgressBar
         android:id="@+id/scs_progress"
         style="?android:progressBarStyleHorizontal"
         android:layout_width="@dimen/dp0"
         android:layout_height="2dp"
-        android:layout_marginEnd="@dimen/dp16"
         android:indeterminate="true"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"

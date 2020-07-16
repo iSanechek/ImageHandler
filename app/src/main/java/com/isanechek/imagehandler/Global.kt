@@ -182,6 +182,7 @@ fun dip2px(context: Context, dpValue: Float): Int {
 }
 
 fun View.slideDown(callback: () -> Unit) {
+    val view = this
     val animate = TranslateAnimation(
         0f,  // fromXDelta
         0f,  // toXDelta
@@ -195,7 +196,7 @@ fun View.slideDown(callback: () -> Unit) {
         }
 
         override fun onAnimationEnd(animation: Animation?) {
-
+            view.visibility = View.GONE
         }
 
         override fun onAnimationStart(animation: Animation?) {
@@ -214,7 +215,7 @@ fun View.slideUp(callback: () -> Unit) {
         this.height.toFloat(),  // fromYDelta
         0f
     ) // toYDelta
-    animate.duration = 500
+    animate.duration = 700
     animate.fillAfter = true
     this.startAnimation(animate)
 }

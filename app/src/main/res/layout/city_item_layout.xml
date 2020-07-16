@@ -2,7 +2,7 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/cil_container"
+    android:id="@+id/eci_container"
     app:cardCornerRadius="@dimen/dp8"
     app:cardElevation="@dimen/dp0"
     app:cardBackgroundColor="@color/colorCardBackground"
@@ -10,6 +10,7 @@
     android:layout_marginEnd="@dimen/dp8"
     android:layout_marginTop="@dimen/dp2"
     android:layout_marginBottom="@dimen/dp2"
+    app:strokeWidth="@dimen/dp1"
     android:layout_width="match_parent"
     android:layout_height="@dimen/city_item_height">
 
@@ -35,7 +36,6 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="@dimen/dp8"
             android:layout_marginBottom="@dimen/dp8"
-            android:textColor="@color/colorPrimaryText"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/eci_icon"
@@ -49,11 +49,11 @@
             android:layout_marginTop="@dimen/dp8"
             android:layout_marginEnd="@dimen/dp16"
             android:layout_marginBottom="@dimen/dp8"
+            android:visibility="gone"
             android:background="?attr/selectableItemBackgroundBorderless"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_baseline_radio_button_unchecked_24" />
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.google.android.material.card.MaterialCardView>

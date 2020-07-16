@@ -9,7 +9,7 @@ import kotlinx.android.synthetic.main.splash_fragment_layout.*
 class SplashFragment : BaseFragment(_layout.splash_fragment_layout) {
 
     override fun bindUi(savedInstanceState: Bundle?) {
-        val text = "alpha version\nверсия.${BuildConfig.VERSION_NAME}"
+        val text = "версия ${BuildConfig.VERSION_NAME}"
         ss_build_version.text = text
     }
 

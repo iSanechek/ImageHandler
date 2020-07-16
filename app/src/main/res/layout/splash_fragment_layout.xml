@@ -10,33 +10,76 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.28" />
+        app:layout_constraintGuide_percent="0.30" />
 
 
-    <TextView
-        android:id="@+id/ss_app_name_title"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/app_name"
-        android:textColor="@color/colorPrimaryText"
-        android:textSize="58sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/alpha_layout_background"
+        android:orientation="vertical"
+        android:padding="@dimen/dp4"
+        android:rotation="-40"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ss_h_guideline" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="HardcodedText">
 
-    <TextView
-        android:id="@+id/ss_subtitle"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="alpha"
+            android:textAllCaps="true"
+            android:textColor="@color/colorAccent"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="-8dp"
+            android:letterSpacing="0.7"
+            android:text="версия"
+            android:textColor="@color/colorSecondaryText"
+            android:textSize="12sp"
+            android:textStyle="normal" />
+    </LinearLayout>
+
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="помошник"
-        android:textColor="@color/colorSecondaryText"
-        android:textSize="30sp"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ss_app_name_title"
-        tools:ignore="HardcodedText" />
+        app:layout_constraintTop_toBottomOf="@id/ss_h_guideline">
+
+        <TextView
+            android:id="@+id/ss_app_name_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:text="@string/app_name"
+            android:textColor="@color/colorPrimaryText"
+            android:textSize="58sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_marginTop="-8dp"
+            android:id="@+id/ss_subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="помошник"
+            android:textColor="@color/colorSecondaryText"
+            android:textSize="30sp"
+            tools:ignore="HardcodedText" />
+    </LinearLayout>
+
 
     <TextView
         android:id="@+id/ss_build_version"
@@ -45,9 +88,9 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="30dp"
-        android:textColor="@color/colorAccent"
-        android:textSize="14sp"
         android:gravity="center"
+        android:textColor="@color/colorAccent"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -62,9 +105,9 @@
         android:text="by\nAleksandr Tainyuk"
         android:textColor="@color/colorSecondaryText"
         android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@id/ss_build_version"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ss_subtitle"
         tools:ignore="HardcodedText" />
 
     <androidx.constraintlayout.widget.Guideline

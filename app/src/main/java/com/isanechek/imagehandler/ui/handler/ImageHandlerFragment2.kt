@@ -34,7 +34,6 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
     private lateinit var resultAdapter: ResultAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        ihf2_toolbar_title.text = "Вова"
         ihf2_toolbar_setting.onClick { settingDialog() }
 
         ihf2_info_text.text = "Вы можите выбрать\nодну или несколько картинок"

@@ -25,20 +25,39 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
+        <LinearLayout
             android:id="@+id/ihf2_toolbar_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp16"
             android:layout_marginTop="@dimen/dp16"
             android:layout_marginBottom="@dimen/dp16"
-            android:textColor="@color/colorPrimaryText"
-            android:textSize="@dimen/toolbar_text_size"
-            android:textStyle="bold"
+            android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="@tools:sample/lorem" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="ВоВа"
+                android:textColor="@color/colorPrimaryText"
+                android:textSize="@dimen/toolbar_text_size"
+                android:textStyle="bold"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="-8dp"
+                android:letterSpacing="0.2"
+                android:text="помощник"
+                android:textColor="@color/colorSecondaryText"
+                android:textSize="12sp"
+                tools:ignore="HardcodedText" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/ihf2_toolbar_count"
@@ -134,10 +153,10 @@
         android:id="@+id/ihf2_info_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dp16"
+        android:gravity="center"
         android:textColor="@color/colorSecondaryText"
         android:textSize="12sp"
-        android:gravity="center"
-        android:layout_marginBottom="@dimen/dp8"
         app:layout_constraintBottom_toTopOf="@id/ihf2_choice_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

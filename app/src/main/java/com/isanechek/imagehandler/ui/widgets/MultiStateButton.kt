@@ -5,6 +5,8 @@ import android.util.AttributeSet
 import android.widget.FrameLayout
 import android.widget.ImageButton
 import android.widget.ProgressBar
+import android.widget.TextView
+import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 import androidx.core.view.isInvisible
@@ -16,6 +18,7 @@ class MultiStateButton @JvmOverloads constructor(
 
     private var button: ImageButton
     private var progress: ProgressBar
+    private var title: TextView
     private var clickListener: OnClickListener? = null
 
     init {
@@ -25,6 +28,7 @@ class MultiStateButton @JvmOverloads constructor(
             clickListener?.onClick()
         }
         progress = container.findViewById(_id.msl_progress)
+        title = container.findViewById(_id.msl_text)
         addView(container)
     }
 
@@ -53,6 +57,22 @@ class MultiStateButton @JvmOverloads constructor(
 
     fun setOnClickListener(clickListener: OnClickListener) {
         this.clickListener = clickListener
+    }
+
+    fun setTitle(text: String) {
+        title.text = text
+    }
+
+    fun setEnableState(isEnable: Boolean) {
+        if (isEnable) {
+            if (!button.isClickable) button.isClickable = true
+            button.setColorFilter(ContextCompat.getColor(this.context, _color.colorAccent))
+            title.setTextColor(ContextCompat.getColor(this.context, _color.colorPrimaryText))
+        } else {
+            if (button.isClickable) button.isClickable = false
+            button.setColorFilter(ContextCompat.getColor(this.context, _color.colorSecondaryText))
+            title.setTextColor(ContextCompat.getColor(this.context, _color.colorSecondaryText))
+        }
     }
 
     interface OnClickListener {

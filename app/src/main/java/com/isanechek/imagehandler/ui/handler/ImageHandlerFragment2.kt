@@ -34,61 +34,12 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
     private lateinit var resultAdapter: ResultAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        ihf2_toolbar_setting.onClick { settingDialog() }
-
+        setupBtn()
         ihf2_info_text.text = "Вы можите выбрать\nодну или несколько картинок"
-
-        ihf2_choice_btn.onClick {
-            askForPermissions(Permission.READ_EXTERNAL_STORAGE) { result ->
-                if (result.isAllGranted(Permission.READ_EXTERNAL_STORAGE)) {
-                    Intent().run {
-                        type = "image/*"
-                        putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-                        action = Intent.ACTION_GET_CONTENT
-                        startActivityForResult(
-                            Intent.createChooser(this, "Select picture"),
-                            404
-                        )
-                    }
-//                    findNavController().navigate(_id.go_choice_from_handler)
-                } else showErrorMessage("PERMISSION NOT GRANTED")
-            }
-        }
-
-        ihf2_clear_btn.apply {
-            setIcon(_drawable.ic_baseline_clear_24)
-            onClick {
-                vm.clearData()
-                resultAdapter.clear()
-                ihf2_container.transitionToStart()
-            }
-        }
-        ihf2_overlay_btn.apply {
-            setIcon(_drawable.ic_baseline_compare_24)
-            onClick { vm.startWork() }
-        }
 
         ihf2_container.endTransition {
             it?.progress?.let { value ->
                 vm.setMotionProgressState(value)
-            }
-        }
-
-        vm.workState.observe(
-            viewLifecycleOwner,
-            Observer { state -> ihf2_overlay_btn.setStateProgress(state) }
-        )
-
-        ihf2_save_btn.apply {
-            setIcon(_drawable.ic_baseline_save_24)
-            onClick {
-                askForPermissions(Permission.WRITE_EXTERNAL_STORAGE) { result ->
-                    if (result.isAllGranted(Permission.WRITE_EXTERNAL_STORAGE)) {
-                        ihf2_overlay_btn.isInvisible = true
-                        ihf2_clear_btn.isInvisible = true
-                        vm.saveToSystem()
-                    }
-                }
             }
         }
 
@@ -141,7 +92,18 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
 
         vm.saveProgressState.observe(viewLifecycleOwner, Observer { state ->
             ihf2_save_btn.setStateProgress(state)
+            ihf2_clear_btn.setEnableState(!state)
+            ihf2_overlay_btn.setEnableState(!state)
         })
+
+        vm.workState.observe(
+            viewLifecycleOwner,
+            Observer { state ->
+                ihf2_overlay_btn.setStateProgress(state)
+                ihf2_clear_btn.setEnableState(!state)
+                ihf2_save_btn.setEnableState(!state)
+            }
+        )
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -172,6 +134,64 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
                 }
             }
         } else super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    private fun setupBtn() {
+        // settings
+        ihf2_toolbar_setting.onClick { settingDialog() }
+
+        // choice images
+        ihf2_choice_btn.onClick {
+            askForPermissions(Permission.READ_EXTERNAL_STORAGE) { result ->
+                if (result.isAllGranted(Permission.READ_EXTERNAL_STORAGE)) {
+                    Intent().run {
+                        type = "image/*"
+                        putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+                        action = Intent.ACTION_GET_CONTENT
+                        startActivityForResult(
+                            Intent.createChooser(this, "Select picture"),
+                            404
+                        )
+                    }
+//                    findNavController().navigate(_id.go_choice_from_handler)
+                } else showErrorMessage("PERMISSION NOT GRANTED")
+            }
+        }
+
+        // clear content
+        ihf2_clear_btn.apply {
+            setTitle("очистка")
+            setIcon(_drawable.ic_baseline_clear_24)
+            onClick {
+                vm.clearData()
+                resultAdapter.clear()
+                ihf2_container.transitionToStart()
+            }
+        }
+
+        // overlay button
+        ihf2_overlay_btn.apply {
+            setTitle("нанести")
+            setIcon(_drawable.ic_baseline_compare_24)
+            onClick {
+                vm.startWork()
+            }
+        }
+
+        // save btn
+        ihf2_save_btn.apply {
+            setTitle("сохранить")
+            setIcon(_drawable.ic_baseline_save_24)
+            onClick {
+                askForPermissions(Permission.WRITE_EXTERNAL_STORAGE) { result ->
+                    if (result.isAllGranted(Permission.WRITE_EXTERNAL_STORAGE)) {
+                        ihf2_overlay_btn.isInvisible = true
+                        ihf2_clear_btn.isInvisible = true
+                        vm.saveToSystem()
+                    }
+                }
+            }
+        }
     }
 
     private fun settingDialog() {

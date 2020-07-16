@@ -18,6 +18,7 @@ import com.afollestad.assent.askForPermissions
 import com.afollestad.materialdialogs.LayoutMode
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.bottomsheets.BottomSheet
+import com.afollestad.materialdialogs.lifecycle.lifecycleOwner
 import com.afollestad.materialdialogs.list.listItems
 import com.isanechek.imagehandler.*
 import com.isanechek.imagehandler.data.local.database.entity.ImageItem
@@ -106,6 +107,28 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
         )
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (vm.isShowWarningDialog(IMAGE_RATIO_WARNING_KEY)) {
+            delay(500) {
+                MaterialDialog(requireContext()).show {
+                    title(text = "Предупреждение")
+                    cancelOnTouchOutside(false)
+                    lifecycleOwner(this@ImageHandlerFragment2)
+                    message(text = "На данный момент приложение поддерживает соотношение сторон ТОЛЬКО 1:1 - квадрат(лента инстаграма)." +
+                            "\nХоть приложение и может определять не подходящие соотношение сторон и даже имеет инструмент для обрезки изображения, " +
+                            "рекомендую пока предварительно обрезать изображение через фоторедактор Snapseed. " +
+                            "Так как данные функции не всегда работают корректно." +
+                            "\nСо стабильностью тоже все плохо. ((" +
+                            "\n\nСпасибо за понимание.)")
+                    positiveButton(text = "понятно") {
+                        vm.markDoneDialog(IMAGE_RATIO_WARNING_KEY)
+                    }
+                }
+            }
+        }
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == 404 && resultCode == Activity.RESULT_OK) {
             val clipData = data?.clipData
@@ -182,6 +205,7 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
         ihf2_save_btn.apply {
             setTitle("сохранить")
             setIcon(_drawable.ic_baseline_save_24)
+            setEnableState(false)
             onClick {
                 askForPermissions(Permission.WRITE_EXTERNAL_STORAGE) { result ->
                     if (result.isAllGranted(Permission.WRITE_EXTERNAL_STORAGE)) {
@@ -198,6 +222,7 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
         MaterialDialog(requireContext(), BottomSheet(LayoutMode.WRAP_CONTENT)).show {
             title(text = "Menu")
             val data = listOf("overlay")
+            lifecycleOwner(this@ImageHandlerFragment2)
             listItems(items = data, waitForPositiveButton = false) { dialog, index, _ ->
                 when (index) {
                     0 -> findNavController().navigate(
@@ -215,5 +240,9 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
         debugLog {
             "ERROR $message"
         }
+    }
+
+    companion object {
+        private const val IMAGE_RATIO_WARNING_KEY = "irwk"
     }
 }

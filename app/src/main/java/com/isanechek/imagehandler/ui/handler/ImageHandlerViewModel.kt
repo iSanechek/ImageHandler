@@ -238,4 +238,10 @@ class ImageHandlerViewModel(
     companion object {
         private const val MOTION_STATE_KEY = "motion_progress"
     }
+
+    fun isShowWarningDialog(key: String): Boolean = prefManager.isShowWarningDialog(key)
+
+    fun markDoneDialog(key: String) {
+        prefManager.markDoneWaningShowDialog(key)
+    }
 }

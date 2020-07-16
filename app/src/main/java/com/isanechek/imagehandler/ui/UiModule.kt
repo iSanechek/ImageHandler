@@ -2,6 +2,7 @@
 
 package com.isanechek.imagehandler.ui
 
+import androidx.lifecycle.SavedStateHandle
 import com.isanechek.imagehandler.ui.choices.ChoicesViewModel
 import com.isanechek.imagehandler.ui.city.SelectViewModel
 import com.isanechek.imagehandler.ui.crop.CropViewModel
@@ -16,8 +17,8 @@ val uiModule = module {
         ChoicesViewModel(androidApplication(), get(), get())
     }
 
-    viewModel {
-        ImageHandlerViewModel(androidApplication(), get(), get(), get(), get())
+    viewModel { (handle: SavedStateHandle) ->
+        ImageHandlerViewModel(handle, androidApplication(), get(), get(), get(), get())
     }
 
     viewModel {

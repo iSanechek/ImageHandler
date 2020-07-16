@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.core.os.bundleOf
 import androidx.core.view.isInvisible
 import androidx.fragment.app.Fragment
@@ -18,19 +19,18 @@ import com.afollestad.materialdialogs.LayoutMode
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.bottomsheets.BottomSheet
 import com.afollestad.materialdialogs.list.listItems
-import com.isanechek.imagehandler._id
-import com.isanechek.imagehandler._layout
+import com.isanechek.imagehandler.*
 import com.isanechek.imagehandler.data.local.database.entity.ImageItem
-import com.isanechek.imagehandler.debugLog
-import com.isanechek.imagehandler.onClick
+import com.isanechek.imagehandler.ui.widgets.MultiStateButton
 import com.isanechek.imagehandler.utils.FileUtils
 import kotlinx.android.synthetic.main.image_handler2_fragment_layout.*
 import kotlinx.coroutines.flow.collect
+import org.koin.androidx.viewmodel.ext.android.stateViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
 
-    private val vm: ImageHandlerViewModel by viewModel()
+    private val vm: ImageHandlerViewModel by stateViewModel()
     private lateinit var resultAdapter: ResultAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -56,32 +56,46 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
             }
         }
 
-        ihf2_clear_btn.onClick {
-            vm.clearData()
-            resultAdapter.clear()
+        ihf2_clear_btn.apply {
+            setIcon(_drawable.ic_baseline_clear_24)
+            onClick {
+                vm.clearData()
+                resultAdapter.clear()
+                ihf2_container.transitionToStart()
+            }
         }
-        ihf2_overlay_btn.onClick {
-            ihf2_clear_btn.isInvisible = true
-            ihf2_save_btn.isInvisible = true
-            vm.startWork()
+        ihf2_overlay_btn.apply {
+            setIcon(_drawable.ic_baseline_compare_24)
+            onClick { vm.startWork() }
         }
-        ihf2_save_btn.onClick {
-            askForPermissions(Permission.WRITE_EXTERNAL_STORAGE) { result ->
-                if (result.isAllGranted(Permission.WRITE_EXTERNAL_STORAGE)) {
-                    ihf2_overlay_btn.isInvisible = true
-                    ihf2_clear_btn.isInvisible = true
-                    vm.saveToSystem()
+
+        ihf2_container.endTransition {
+            it?.progress?.let { value ->
+                vm.setMotionProgressState(value)
+            }
+        }
+
+        vm.workState.observe(
+            viewLifecycleOwner,
+            Observer { state -> ihf2_overlay_btn.setStateProgress(state) }
+        )
+
+        ihf2_save_btn.apply {
+            setIcon(_drawable.ic_baseline_save_24)
+            onClick {
+                askForPermissions(Permission.WRITE_EXTERNAL_STORAGE) { result ->
+                    if (result.isAllGranted(Permission.WRITE_EXTERNAL_STORAGE)) {
+                        ihf2_overlay_btn.isInvisible = true
+                        ihf2_clear_btn.isInvisible = true
+                        vm.saveToSystem()
+                    }
                 }
             }
         }
 
         vm.progress.observe(viewLifecycleOwner, Observer { isShow ->
             ihf2_toolbar_progress.isInvisible = !isShow
-            if (!isShow) {
-                if (ihf2_save_btn.isInvisible) ihf2_save_btn.isInvisible = false
-                if (ihf2_clear_btn.isInvisible) ihf2_clear_btn.isInvisible = false
-                if (ihf2_overlay_btn.isInvisible) ihf2_overlay_btn.isInvisible = false
-            }
+
         })
 
         vm.toast.observe(viewLifecycleOwner, Observer { toastMsg ->
@@ -89,7 +103,6 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
         })
 
         vm.progressCount.observe(viewLifecycleOwner, Observer { count ->
-            debugLog { count }
             ihf2_toolbar_count.text = count
         })
 
@@ -109,16 +122,7 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
         })
 
         lifecycleScope.launchWhenResumed {
-
-            debugLog {
-                "W ${ihf2_content_container.width} & H ${ihf2_content_container.height}"
-            }
-
             vm.data.collect { data ->
-                debugLog { "Choice size ${data.size}" }
-                if (data.find { it.overlayStatus == ImageItem.OVERLAY_NONE } != null) {
-                    ihf2_container.transitionToEnd()
-                } else ihf2_container.transitionToStart()
                 resultAdapter.submit(data)
             }
 
@@ -130,6 +134,15 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
                 }
             }
         }
+
+        vm.getMotionProgress.observe(viewLifecycleOwner, Observer { progress ->
+            debugLog { "PROGRESS $progress" }
+            ihf2_container.progress = progress
+        })
+
+        vm.saveProgressState.observe(viewLifecycleOwner, Observer { state ->
+            ihf2_save_btn.setStateProgress(state)
+        })
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -147,6 +160,7 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
 
                     debugLog { "LIST PATH SIZE ${temp.size}" }
                     vm.setData(temp)
+                    ihf2_container.transitionToEnd()
                 }
                 else -> {
                     val uri = data?.data
@@ -154,6 +168,7 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
                         val realPath = FileUtils.getPath(requireContext(), uri)
                         debugLog { "IMAGE PATH $realPath" }
                         vm.setData(listOf(realPath))
+                        ihf2_container.transitionToEnd()
                     } else showErrorMessage("URI PATH IS NULL")
                 }
             }
@@ -182,5 +197,4 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
             "ERROR $message"
         }
     }
-
 }

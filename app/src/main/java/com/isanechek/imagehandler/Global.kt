@@ -15,7 +15,9 @@ import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.TranslateAnimation
 import androidx.annotation.ColorInt
+import androidx.constraintlayout.motion.widget.MotionLayout
 import coil.size.PixelSize
+import com.isanechek.imagehandler.ui.widgets.MultiStateButton
 import java.io.File
 import kotlin.math.abs
 import kotlin.math.max
@@ -23,7 +25,8 @@ import kotlin.math.min
 import kotlin.random.Random
 
 
-const val FROM_DEV_MESSAGE = "\nРазработчика уже вкурсе! Ожидайте сообщения от разработчика. Спасибо."
+const val FROM_DEV_MESSAGE =
+    "\nРазработчика уже вкурсе! Ожидайте сообщения от разработчика. Спасибо."
 
 const val DATABASE_EMPTY = "database_empty"
 const val NOT_FIND_TO_SAVE = "not_find_to_save"
@@ -244,6 +247,29 @@ fun aspectRatio(width: Int, height: Int): Int {
 //            ASPECT_RATIO_16_9
 //        }
 //    }
+}
+
+
+fun MotionLayout.endTransition(callback: (MotionLayout?) -> Unit) {
+    this.setTransitionListener(object : MotionLayout.TransitionListener {
+        override fun onTransitionTrigger(p0: MotionLayout?, p1: Int, p2: Boolean, p3: Float) {}
+
+        override fun onTransitionStarted(p0: MotionLayout?, p1: Int, p2: Int) {}
+
+        override fun onTransitionChange(p0: MotionLayout?, p1: Int, p2: Int, p3: Float) {}
+
+        override fun onTransitionCompleted(p0: MotionLayout?, p1: Int) {
+            callback.invoke(p0)
+        }
+    })
+}
+
+fun MultiStateButton.onClick(callback: () -> Unit) {
+    this.setOnClickListener(object : MultiStateButton.OnClickListener {
+        override fun onClick() {
+            callback.invoke()
+        }
+    })
 }
 
 

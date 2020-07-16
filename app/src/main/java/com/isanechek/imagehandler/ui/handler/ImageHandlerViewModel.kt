@@ -4,10 +4,7 @@ import android.app.Application
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Environment
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
@@ -31,12 +28,20 @@ import kotlinx.coroutines.withContext
 import java.io.File
 
 class ImageHandlerViewModel(
+    private val handle: SavedStateHandle,
     application: Application,
     private val filesManager: FilesManager,
     private val prefManager: PrefManager,
     private val mediaStoreManager: MediaStoreManager,
     private val imagesDao: ImagesDao
 ) : AndroidViewModel(application) {
+
+    val getMotionProgress: LiveData<Float>
+        get() = handle.getLiveData(MOTION_STATE_KEY)
+
+    fun setMotionProgressState(value: Float) {
+        handle.set(MOTION_STATE_KEY, value)
+    }
 
     private val toastState = MutableLiveData<String>()
     val toast: LiveData<String>
@@ -63,8 +68,6 @@ class ImageHandlerViewModel(
     fun setData(data: List<String>) {
         viewModelScope.launch {
             val res = mapData(data)
-//            val r = createData(res)
-
             imagesDao.insert(res)
         }
     }
@@ -88,6 +91,10 @@ class ImageHandlerViewModel(
 
     }
 
+    private val _workState = MutableLiveData<Boolean>()
+    val workState: LiveData<Boolean>
+        get() = _workState
+
     fun startWork() {
         viewModelScope.launch {
             val data = imagesDao.load()
@@ -104,6 +111,10 @@ class ImageHandlerViewModel(
         }
     }
 
+    private val _saveProgressState = MutableLiveData<Boolean>()
+    val saveProgressState: LiveData<Boolean>
+        get() = _saveProgressState
+
     fun saveToSystem() {
         viewModelScope.launch(Dispatchers.IO) {
             val data = imagesDao.load()
@@ -116,7 +127,7 @@ class ImageHandlerViewModel(
     private suspend fun saveFiles(data: List<ImageItem>) = withContext(Dispatchers.IO) {
         val publicPath =
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).path + File.separator + "ImageHandler"
-        progressState.postValue(true)
+        _saveProgressState.postValue(true)
         if (filesManager.createFolderIfEmpty(publicPath)) {
             if (data.isNotEmpty()) {
                 val temp = mutableListOf<ImageItem>()
@@ -140,10 +151,10 @@ class ImageHandlerViewModel(
                     imagesDao.updateResultPaths(temp)
                 }
             }
-            progressState.postValue(false)
+            _saveProgressState.postValue(false)
             toastState.postValue("Сохранение завершено")
         } else {
-            progressState.postValue(false)
+            _saveProgressState.postValue(false)
             errorState.postValue("Не могу скопировать в систему")
         }
     }
@@ -151,6 +162,7 @@ class ImageHandlerViewModel(
     private suspend fun preparing(data: List<ImageItem>, overlayPath: String) =
         withContext(Dispatchers.IO) {
             progressState.postValue(true)
+            _workState.postValue(true)
             if (filesManager.createFolderIfEmpty(cacheFolder)) {
                 data.forEachIndexed { index, imageItem ->
 
@@ -175,9 +187,11 @@ class ImageHandlerViewModel(
                 }
 
                 progressState.postValue(false)
+                _workState.postValue(false)
                 toastState.postValue("Обработка данных завершена.")
             } else {
                 progressState.postValue(false)
+                _workState.postValue(false)
                 errorState.value = "Fail create cache folder!"
             }
         }
@@ -219,5 +233,9 @@ class ImageHandlerViewModel(
             .build()
 
         WorkManager.getInstance(getApplication<App>()).enqueue(clearCacheWorker)
+    }
+
+    companion object {
+        private const val MOTION_STATE_KEY = "motion_progress"
     }
 }

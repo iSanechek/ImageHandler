@@ -164,42 +164,36 @@
 
     <!--Start control container-->
 
-    <ImageButton
+    <com.isanechek.imagehandler.ui.widgets.MultiStateButton
         android:id="@+id/ihf2_clear_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/circle_bg_btn"
         android:padding="@dimen/dp8"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/ihf2_overlay_btn"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ihf2_control_hg"
-        app:srcCompat="@drawable/ic_baseline_clear_24" />
+        app:layout_constraintTop_toBottomOf="@id/ihf2_control_hg" />
 
-    <ImageButton
+    <com.isanechek.imagehandler.ui.widgets.MultiStateButton
         android:id="@+id/ihf2_overlay_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/circle_bg_btn"
         android:padding="@dimen/dp8"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ihf2_control_hg"
-        app:srcCompat="@drawable/ic_baseline_compare_24" />
+        app:layout_constraintTop_toBottomOf="@id/ihf2_control_hg" />
 
 
-    <ImageButton
+    <com.isanechek.imagehandler.ui.widgets.MultiStateButton
         android:id="@+id/ihf2_save_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/circle_bg_btn"
         android:padding="@dimen/dp8"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/ihf2_overlay_btn"
-        app:layout_constraintTop_toBottomOf="@id/ihf2_control_hg"
-        app:srcCompat="@drawable/ic_baseline_save_24" />
+        app:layout_constraintTop_toBottomOf="@id/ihf2_control_hg" />
 
 
     <androidx.constraintlayout.widget.Guideline

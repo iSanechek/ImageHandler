@@ -17,7 +17,7 @@ android {
     compileSdkVersion 29
 
     def appId = "com.isanechek.imagehandler"
-    def fileNaming = "apk/ImageHandler"
+    def fileNaming = "apk/VoVaHelper"
     def versionNumber = 2
     def versionMajor = "0"
     def versionMinor = "1"

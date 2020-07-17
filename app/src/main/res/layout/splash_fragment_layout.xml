@@ -63,10 +63,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:gravity="center"
-            android:text="@string/app_name"
+            android:text="ВоВа"
             android:textColor="@color/colorPrimaryText"
             android:textSize="58sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:ignore="HardcodedText" />
 
         <TextView
             android:id="@+id/ss_subtitle"

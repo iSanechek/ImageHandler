@@ -20,8 +20,8 @@ android {
     def fileNaming = "apk/ImageHandler"
     def versionNumber = 2
     def versionMajor = "0"
-    def versionMinor = "0"
-    def versionPatch = "3"
+    def versionMinor = "1"
+    def versionPatch = "0"
     def versionBuild = -1
 
     def versionPropsFile = file('version.properties')

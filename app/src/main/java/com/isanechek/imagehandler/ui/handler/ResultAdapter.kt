@@ -21,6 +21,11 @@ class ResultAdapter : RecyclerView.Adapter<ResultAdapter.ResultHolder>() {
         fun bind(item: ImageItem, callback: OnClickListener?) {
             debugLog { item.toString() }
 
+            iri_container.setOnLongClickListener {
+                callback?.itemClick(item)
+                true
+            }
+
             iri_warning.onClick {
                 callback?.itemClick(item)
             }

@@ -69,14 +69,15 @@
             android:textStyle="bold" />
 
         <TextView
-            android:layout_marginTop="-8dp"
             android:id="@+id/ss_subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="помошник"
+            android:layout_marginTop="-8dp"
+            android:letterSpacing="0.3"
+            android:text="помощник"
             android:textColor="@color/colorSecondaryText"
-            android:textSize="30sp"
+            android:textSize="16sp"
             tools:ignore="HardcodedText" />
     </LinearLayout>
 

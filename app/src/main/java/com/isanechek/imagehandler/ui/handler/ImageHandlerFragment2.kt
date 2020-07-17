@@ -59,8 +59,10 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
 
         resultAdapter = ResultAdapter()
         with(ihf2_result_list) {
+            setHasFixedSize(true)
             layoutManager = GridLayoutManager(requireContext(), 3)
             adapter = resultAdapter
+
         }
 
         resultAdapter.setOnClickListener(object : ResultAdapter.OnClickListener {
@@ -74,6 +76,7 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
 
         vm.data.observe(viewLifecycleOwner, Observer { data ->
             resultAdapter.submit(data)
+            ihf2_result_list.smoothScrollToPosition(0)
         })
 
         lifecycleScope.launchWhenResumed {
@@ -82,7 +85,6 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
                 debugLog { "RESULT DATA ${data.size}" }
                 if (data.isNotEmpty()) {
                     resultAdapter.submit(data)
-
                 }
             }
         }

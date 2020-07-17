@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="не правильное\nсоотношение сторон\n\nисправить"
+                android:text="неправильное\nсоотношение сторон\n\nисправить"
                 android:textColor="@color/colorPrimaryText"
                 tools:ignore="HardcodedText" />
         </FrameLayout>

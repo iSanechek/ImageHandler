@@ -59,8 +59,8 @@ class ImageHandlerViewModel(
     val error: LiveData<String>
         get() = errorState
 
-    val data: Flow<List<ImageItem>>
-        get() = imagesDao.loadAsFlow()
+    val data: LiveData<List<ImageItem>>
+        get() = imagesDao.loadAsLiveData()
 
     val result: Flow<List<ImageItem>>
         get() = imagesDao.loadResult()

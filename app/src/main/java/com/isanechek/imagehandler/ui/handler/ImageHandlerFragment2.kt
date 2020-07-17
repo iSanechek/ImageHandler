@@ -72,10 +72,11 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
             }
         })
 
+        vm.data.observe(viewLifecycleOwner, Observer { data ->
+            resultAdapter.submit(data)
+        })
+
         lifecycleScope.launchWhenResumed {
-            vm.data.collect { data ->
-                resultAdapter.submit(data)
-            }
 
             vm.result.collect { data ->
                 debugLog { "RESULT DATA ${data.size}" }
@@ -92,15 +93,24 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
         })
 
         vm.saveProgressState.observe(viewLifecycleOwner, Observer { state ->
-            ihf2_save_btn.setStateProgress(state)
+            ihf2_save_btn.apply {
+                setStateProgress(state)
+                setEnableState(state)
+            }
             ihf2_clear_btn.setEnableState(!state)
-            ihf2_overlay_btn.setEnableState(!state)
+            ihf2_overlay_btn.apply {
+                setEnableState(!state)
+                setEnableState(false)
+            }
         })
 
         vm.workState.observe(
             viewLifecycleOwner,
             Observer { state ->
-                ihf2_overlay_btn.setStateProgress(state)
+                ihf2_overlay_btn.apply {
+                    setStateProgress(state)
+                    setEnableState(state)
+                }
                 ihf2_clear_btn.setEnableState(!state)
                 ihf2_save_btn.setEnableState(!state)
             }
@@ -115,12 +125,14 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
                     title(text = "Предупреждение")
                     cancelOnTouchOutside(false)
                     lifecycleOwner(this@ImageHandlerFragment2)
-                    message(text = "На данный момент приложение поддерживает соотношение сторон ТОЛЬКО 1:1 - квадрат(лента инстаграма)." +
-                            "\nХоть приложение и может определять не подходящие соотношение сторон и даже имеет инструмент для обрезки изображения, " +
-                            "рекомендую пока предварительно обрезать изображение через фоторедактор Snapseed. " +
-                            "Так как данные функции не всегда работают корректно." +
-                            "\nСо стабильностью тоже все плохо. ((" +
-                            "\n\nСпасибо за понимание.)")
+                    message(
+                        text = "На данный момент приложение поддерживает соотношение сторон ТОЛЬКО 1:1 - квадрат(лента инстаграма)." +
+                                "\nХоть приложение и может определять не подходящие соотношение сторон и даже имеет инструмент для обрезки изображения, " +
+                                "рекомендую пока предварительно обрезать изображение через фоторедактор Snapseed. " +
+                                "Так как данные функции не всегда работают корректно." +
+                                "\nСо стабильностью тоже все плохо. ((" +
+                                "\n\nСпасибо за понимание.)"
+                    )
                     positiveButton(text = "понятно") {
                         vm.markDoneDialog(IMAGE_RATIO_WARNING_KEY)
                     }
@@ -189,6 +201,10 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
                 vm.clearData()
                 resultAdapter.clear()
                 ihf2_container.transitionToStart()
+                delay(300) {
+                    ihf2_save_btn.setEnableState(true)
+                    ihf2_overlay_btn.setEnableState(true)
+                }
             }
         }
 
@@ -220,8 +236,8 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
 
     private fun settingDialog() {
         MaterialDialog(requireContext(), BottomSheet(LayoutMode.WRAP_CONTENT)).show {
-            title(text = "Menu")
-            val data = listOf("overlay")
+            title(text = "Меню")
+            val data = listOf("изменить город")
             lifecycleOwner(this@ImageHandlerFragment2)
             listItems(items = data, waitForPositiveButton = false) { dialog, index, _ ->
                 when (index) {

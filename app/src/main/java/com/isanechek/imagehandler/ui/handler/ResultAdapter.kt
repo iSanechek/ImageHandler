@@ -64,6 +64,7 @@ class ResultAdapter : RecyclerView.Adapter<ResultAdapter.ResultHolder>() {
 
     fun clear() {
         if (items.isNotEmpty()) items.clear()
+        notifyDataSetChanged()
     }
 
     interface OnClickListener {

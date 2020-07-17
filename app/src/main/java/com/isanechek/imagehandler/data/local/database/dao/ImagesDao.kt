@@ -1,5 +1,6 @@
 package com.isanechek.imagehandler.data.local.database.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.isanechek.imagehandler.data.local.database.entity.ImageItem
 import kotlinx.coroutines.flow.Flow
@@ -40,7 +41,7 @@ interface ImagesDao {
     fun loadResult(): Flow<List<ImageItem>>
 
     @Query("SELECT * FROM image_table")
-    fun loadAsFlow(): Flow<List<ImageItem>>
+    fun loadAsLiveData(): LiveData<List<ImageItem>>
 
     @Update
     suspend fun updateData(items: List<ImageItem>)

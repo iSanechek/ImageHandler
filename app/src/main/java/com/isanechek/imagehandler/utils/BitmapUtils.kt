@@ -7,6 +7,11 @@ import java.io.FileNotFoundException
 
 object BitmapUtils {
 
+    const val ASPECT_RATIO_1_1 = 0
+    const val ASPECT_RATIO_16_9 = 1
+    const val ASPECT_RATIO_9_16 = 2
+    const val ASPECT_RATIO_UNKNOWN = 3
+
     fun getCornerRoundedBitmap(srcBitmap: Bitmap, cornerRadius: Int): Bitmap {
         val dstBitmap =
             Bitmap.createBitmap(srcBitmap.width, srcBitmap.height, Bitmap.Config.ARGB_8888)
@@ -23,7 +28,14 @@ object BitmapUtils {
     fun getBitmapRatio(path: String): Int {
         debugLog { "getBitmapRatio $path" }
         val bitmap = BitmapFactory.decodeFile(path)
-        return aspectRatio(bitmap.width, bitmap.height)
+        return checkAspectRatio(bitmap.width, bitmap.height)
+    }
+
+    private fun checkAspectRatio(width: Int, height: Int): Int = when {
+        width > height -> ASPECT_RATIO_16_9
+        height > width -> ASPECT_RATIO_9_16
+        width == height -> ASPECT_RATIO_1_1
+        else -> ASPECT_RATIO_UNKNOWN
     }
 
     fun decodeBitmap(path: String): Bitmap? {

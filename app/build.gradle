@@ -18,10 +18,10 @@ android {
 
     def appId = "com.isanechek.imagehandler"
     def fileNaming = "apk/VoVaHelper"
-    def versionNumber = 2
+    def versionNumber = 4
     def versionMajor = "0"
     def versionMinor = "1"
-    def versionPatch = "0"
+    def versionPatch = "2"
     def versionBuild = -1
 
     def versionPropsFile = file('version.properties')
@@ -78,7 +78,7 @@ android {
         versionName "${versionMajor}.${versionMinor}.${versionPatch} (${versionBuild})"
         vectorDrawables.useSupportLibrary = true
         ndk {
-            abiFilters 'armeabi-v7a'
+            abiFilters 'armeabi-v7a', 'arm64-v8a'
         }
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

@@ -91,6 +91,10 @@ class ImageHandlerViewModel(
 
     }
 
+    fun removeItem(item: ImageItem) {
+
+    }
+
     private val _workState = MutableLiveData<Boolean>()
     val workState: LiveData<Boolean>
         get() = _workState

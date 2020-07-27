@@ -16,4 +16,9 @@
 
     <color name="ic_launcher_background">#FFFFFF</color>
     <color name="test_color">#F44336</color>
+
+    <color name="color_crop_1_1">#673AB7</color>
+    <color name="color_crop_9_16">#9C27B0</color>
+    <color name="color_crop_16_9">#3F51B5</color>
+    <color name="color_tag_s">#F57F17</color>
 </resources>

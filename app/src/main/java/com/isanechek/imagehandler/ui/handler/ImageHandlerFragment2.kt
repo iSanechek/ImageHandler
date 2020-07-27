@@ -22,6 +22,9 @@ import com.afollestad.materialdialogs.lifecycle.lifecycleOwner
 import com.afollestad.materialdialogs.list.listItems
 import com.isanechek.imagehandler.*
 import com.isanechek.imagehandler.data.local.database.entity.ImageItem
+import com.isanechek.imagehandler.ui.crop.CropScreen
+import com.isanechek.imagehandler.ui.dashboard.DashboardScreen
+import com.isanechek.imagehandler.ui.preview.PreviewScreen
 import com.isanechek.imagehandler.ui.widgets.MultiStateButton
 import com.isanechek.imagehandler.utils.FileUtils
 import kotlinx.android.synthetic.main.image_handler2_fragment_layout.*
@@ -34,7 +37,20 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
     private val vm: ImageHandlerViewModel by stateViewModel()
     private lateinit var resultAdapter: ResultAdapter
 
+    private val key: String
+        get() = requireArguments().getString(DashboardScreen.ARGS_KEY, EMPTY_STRING_VALUE)
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        debugLog { "KEY $key" }
+        when(key) {
+            DashboardScreen.CROP_SQUARE_KEY -> ihf2_toolbar_info.text = "Формат\n1:1"
+            DashboardScreen.CROP_16_9_KEY -> ihf2_toolbar_info.text = "Формат\n16:9"
+            DashboardScreen.CROP_PORTRAIT_KEY -> ihf2_toolbar_info.text = "Формат\n9:16"
+        }
+
+        ihf2_close_btn.onClick { findNavController().navigateUp() }
+
         setupBtn()
         ihf2_info_text.text = "Вы можите выбрать\nодну или несколько картинок"
 
@@ -68,9 +84,42 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
         resultAdapter.setOnClickListener(object : ResultAdapter.OnClickListener {
             override fun itemClick(item: ImageItem) {
                 findNavController().navigate(
-                    _id.go_crop_from_handler,
-                    bundleOf("crop_id" to item.id, "crop_origin_path" to item.originalPath)
+                    _id.go_preview_from_handler,
+                    bundleOf(
+                        PreviewScreen.ITEM_ID_KEY to item.id,
+                        PreviewScreen.PATH_PREVIEW_KEY to item.originalPath
+                    )
                 )
+            }
+
+            override fun itemLongClick(item: ImageItem) {
+                MaterialDialog(requireContext(), BottomSheet(LayoutMode.WRAP_CONTENT)).show {
+                    lifecycleOwner(this@ImageHandlerFragment2)
+                    listItems(items = listOf("редактировать", "удалить")) { _, index, _ ->
+                        when (index) {
+                            0 -> findNavController().navigate(
+                                _id.go_crop_from_handler,
+                                bundleOf(
+                                    CropScreen.LAUNCH_TYPE_KEY to CropScreen.EDIT_TYPE_VALUE,
+                                    CropScreen.CROP_ID_KEY to item.id,
+                                    CropScreen.CROP_PATH_KEY to item.originalPath
+                                )
+                            )
+                            1 -> {
+                                MaterialDialog(requireContext()).show {
+                                    lifecycleOwner(this@ImageHandlerFragment2)
+                                    title(text = "Внимание")
+                                    message(text = "Удалить ${item.name}?")
+                                    positiveButton(text = "удалить") { dialog ->
+                                        dialog.dismiss()
+                                        vm.removeItem(item)
+                                    }
+                                    negativeButton(text = "отменить")
+                                }
+                            }
+                        }
+                    }
+                }
             }
         })
 

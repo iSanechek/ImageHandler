@@ -15,21 +15,26 @@ import com.isanechek.imagehandler.data.models.ExecuteResult
 import com.isanechek.imagehandler.ui.base.BaseFragment
 import kotlinx.android.synthetic.main.crop_sceen_layout.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.io.File
 
 class CropScreen : BaseFragment(_layout.crop_sceen_layout) {
 
+    private val launchType: String
+        get() = requireArguments().getString(LAUNCH_TYPE_KEY, DEFAULT_VALUE)
+
     private val id: String
-        get() = arguments?.getString("crop_id", "") ?: ""
+        get() = requireArguments().getString(CROP_ID_KEY, DEFAULT_VALUE)
 
     private val originalPath: String
-        get() = arguments?.getString("crop_origin_path", "" ) ?: ""
+        get() = requireArguments().getString(CROP_PATH_KEY, DEFAULT_VALUE )
 
     private val vm: CropViewModel by viewModel()
     private var isCrop = true
 
     override fun bindUi(savedInstanceState: Bundle?) {
         csl_close_btn.onClick { findNavController().navigateUp() }
+
+        launchMode()
+
 
         setupObserver()
         setupMagicBtn()
@@ -43,6 +48,20 @@ class CropScreen : BaseFragment(_layout.crop_sceen_layout) {
 ////
 ////                }
 //            }
+        }
+    }
+
+    private fun launchMode() {
+        when (launchType) {
+            EDIT_TYPE_VALUE -> {
+
+            }
+            PREVIEW_TYPE_VALUE -> {
+
+            }
+            else -> {
+
+            }
         }
     }
 
@@ -122,6 +141,15 @@ class CropScreen : BaseFragment(_layout.crop_sceen_layout) {
                 }
             }
         }
+    }
+
+    companion object {
+        const val LAUNCH_TYPE_KEY = "launch.type"
+        const val EDIT_TYPE_VALUE = "launch.edit.type"
+        const val PREVIEW_TYPE_VALUE = "launch.preview.type"
+        const val CROP_ID_KEY = "crop_id"
+        const val CROP_PATH_KEY = "crop_origin_path"
+        const val DEFAULT_VALUE = ""
     }
 
 }

@@ -24,7 +24,7 @@ import kotlin.math.max
 import kotlin.math.min
 import kotlin.random.Random
 
-
+const val EMPTY_STRING_VALUE = ""
 const val FROM_DEV_MESSAGE =
     "\nРазработчика уже вкурсе! Ожидайте сообщения от разработчика. Спасибо."
 

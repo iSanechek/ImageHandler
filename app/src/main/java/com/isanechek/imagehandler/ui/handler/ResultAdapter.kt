@@ -22,11 +22,11 @@ class ResultAdapter : RecyclerView.Adapter<ResultAdapter.ResultHolder>() {
             debugLog { item.toString() }
 
             iri_container.setOnLongClickListener {
-                callback?.itemClick(item)
+                callback?.itemLongClick(item)
                 true
             }
 
-            iri_warning.onClick {
+            iri_container.onClick {
                 callback?.itemClick(item)
             }
 
@@ -74,5 +74,6 @@ class ResultAdapter : RecyclerView.Adapter<ResultAdapter.ResultHolder>() {
 
     interface OnClickListener {
         fun itemClick(item: ImageItem)
+        fun itemLongClick(item: ImageItem)
     }
 }

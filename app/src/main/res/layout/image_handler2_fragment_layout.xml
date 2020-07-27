@@ -25,6 +25,39 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/ihf2_toolbar_center_vg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.50" />
+
+        <TextView
+            android:id="@+id/ihf2_toolbar_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorAccent"
+            android:textSize="14sp"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/ihf2_toolbar_center_vg"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="1:1" />
+
+        <ImageButton
+            android:id="@+id/ihf2_close_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dp16"
+            android:layout_marginTop="@dimen/dp16"
+            android:layout_marginBottom="@dimen/dp16"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="@dimen/dp4"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_baseline_close_24" />
+
         <LinearLayout
             android:id="@+id/ihf2_toolbar_title"
             android:layout_width="wrap_content"
@@ -34,7 +67,7 @@
             android:layout_marginBottom="@dimen/dp16"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@id/ihf2_close_btn"
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView

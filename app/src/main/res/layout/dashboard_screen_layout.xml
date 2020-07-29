@@ -25,10 +25,12 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.15" />
 
-    <androidx.recyclerview.widget.RecyclerView
+    <com.isanechek.imagehandler.ui.widgets.GridRecyclerView
         android:id="@+id/dsl_list"
         android:layout_width="@dimen/dp0"
         android:layout_height="@dimen/dp0"
+        android:clipToPadding="false"
+        android:layoutAnimation="@anim/grid_layout_animation_scale_random"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

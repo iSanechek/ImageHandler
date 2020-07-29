@@ -25,21 +25,21 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.main_activity)
 //        startService()
 
-        val actionId = if (prefManager.isFirstStart()) _id.go_to_select_from_splash else _id.go_to_handler_from_splash
+        val actionId = if (prefManager.isFirstStart()) _id.go_to_select_from_splash else _id.go_to_dashboard_from_splash
 
-//        Handler().postDelayed({
-//            controller.navigate(
-//                actionId,
-//                null,
-//                NavOptions.Builder()
-//                    .setEnterAnim(_anim.slide_up_anim)
-//                    .setExitAnim(_anim.alpha_out_anim)
-//                    .setPopExitAnim(_anim.alpha_out_anim)
-//                    .setPopEnterAnim(_anim.slide_up_anim)
-//                    .setPopUpTo(_id.splash_screen, true)
-//                    .build()
-//            )
-//        }, 2500)
+        Handler().postDelayed({
+            controller.navigate(
+                actionId,
+                null,
+                NavOptions.Builder()
+                    .setEnterAnim(_anim.slide_up_anim)
+                    .setExitAnim(_anim.alpha_out_anim)
+                    .setPopExitAnim(_anim.alpha_out_anim)
+                    .setPopEnterAnim(_anim.slide_up_anim)
+                    .setPopUpTo(_id.splash_screen, true)
+                    .build()
+            )
+        }, 2500)
     }
 
     override fun onSupportNavigateUp(): Boolean = controller.navigateUp()

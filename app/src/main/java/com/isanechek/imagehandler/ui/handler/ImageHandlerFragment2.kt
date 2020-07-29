@@ -44,9 +44,9 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
 
         debugLog { "KEY $key" }
         when(key) {
-            DashboardScreen.CROP_SQUARE_KEY -> ihf2_toolbar_info.text = "Формат\n1:1"
-            DashboardScreen.CROP_16_9_KEY -> ihf2_toolbar_info.text = "Формат\n16:9"
-            DashboardScreen.CROP_PORTRAIT_KEY -> ihf2_toolbar_info.text = "Формат\n9:16"
+            DashboardScreen.CROP_SQUARE_KEY -> ihf2_toolbar_info.text = "Формат 1:1"
+            DashboardScreen.CROP_16_9_KEY -> ihf2_toolbar_info.text = "Формат 16:9"
+            DashboardScreen.CROP_PORTRAIT_KEY -> ihf2_toolbar_info.text = "Формат 9:16"
         }
 
         ihf2_close_btn.onClick { findNavController().navigateUp() }

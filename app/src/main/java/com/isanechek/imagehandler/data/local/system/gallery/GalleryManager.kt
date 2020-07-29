@@ -80,7 +80,7 @@ class GalleryManagerImpl : GalleryManager {
                                 id
                             )
                         val realPath = FileUtils.getPath(context, uri)
-                        val folderName = realPath.substring(0, realPath.lastIndexOf("/"))
+                        val folder = realPath.substring(0, realPath.lastIndexOf("/"))
                             .replaceBeforeLast("/", "")
                             .replace("/", "")
                             .replaceAfter(" ", "")
@@ -91,7 +91,7 @@ class GalleryManagerImpl : GalleryManager {
                                 path = realPath,
                                 addDate = date,
                                 name = name,
-                                folderName = folderName
+                                folderName = folder
                             )
                         )
                     }

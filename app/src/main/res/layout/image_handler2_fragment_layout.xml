@@ -32,31 +32,34 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.50" />
 
-        <TextView
-            android:id="@+id/ihf2_toolbar_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorAccent"
-            android:textSize="14sp"
-            android:gravity="center"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/ihf2_toolbar_center_vg"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="1:1" />
-
         <ImageButton
             android:id="@+id/ihf2_close_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dp16"
-            android:layout_marginTop="@dimen/dp16"
-            android:layout_marginBottom="@dimen/dp16"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:padding="@dimen/dp4"
+            android:layout_marginTop="@dimen/dp8"
+            android:layout_marginBottom="@dimen/dp8"
+            android:background="@drawable/circle_btn_bg"
+            android:padding="@dimen/dp8"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_baseline_close_24" />
+            app:srcCompat="@drawable/ic_baseline_arrow_back_24" />
+
+        <TextView
+            android:id="@+id/ihf2_toolbar_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp8"
+            android:layout_marginBottom="@dimen/dp8"
+            android:gravity="center"
+            android:textColor="@color/colorSecondaryText"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="1:1" />
 
         <LinearLayout
             android:id="@+id/ihf2_toolbar_title"
@@ -66,8 +69,10 @@
             android:layout_marginTop="@dimen/dp16"
             android:layout_marginBottom="@dimen/dp16"
             android:orientation="vertical"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/ihf2_close_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
@@ -130,7 +135,7 @@
             android:layout_marginTop="@dimen/dp8"
             android:layout_marginEnd="@dimen/dp16"
             android:layout_marginBottom="@dimen/dp8"
-            android:background="?attr/selectableItemBackgroundBorderless"
+            android:background="@drawable/circle_btn_bg"
             android:padding="@dimen/dp8"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -142,6 +147,8 @@
 
 
     <!--Start content-->
+
+
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/ihf2_content_container"
         android:layout_width="@dimen/dp0"
@@ -165,11 +172,18 @@
     </com.google.android.material.card.MaterialCardView>
 
     <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/ihf2_top_card_hg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.20" />
+
+    <androidx.constraintlayout.widget.Guideline
         android:id="@+id/ihf2_card_hg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.65" />
+        app:layout_constraintGuide_percent="0.55" />
 
     <!--End content-->
 

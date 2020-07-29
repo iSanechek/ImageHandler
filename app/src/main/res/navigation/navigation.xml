@@ -3,7 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/dashboard_screen">
+    app:startDestination="@id/splash_screen">
+
+    <fragment
+        android:id="@+id/selection_screen"
+        android:name="com.isanechek.imagehandler.ui.handler.choices.SelectImgScreen"
+        android:label="select"
+        tools:layout="@layout/select_img_screen_layout">
+        <action
+            android:id="@+id/go_select_img_to_preview"
+            app:destination="@id/select_preview_screen" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/select_preview_screen"
+        android:name="com.isanechek.imagehandler.ui.handler.preview.SelectPreviewScreen"
+        android:label="preview"
+        tools:layout="@layout/select_preview_screen_layout" />
 
     <fragment
         android:id="@+id/dashboard_screen"
@@ -53,6 +69,10 @@
         android:name="com.isanechek.imagehandler.ui.splash.SplashFragment"
         android:label="splash"
         tools:layout="@layout/splash_fragment_layout">
+
+        <action
+            android:id="@+id/go_to_dashboard_from_splash"
+            app:destination="@id/dashboard_screen" />
 
         <action
             android:id="@+id/go_to_handler_from_splash"

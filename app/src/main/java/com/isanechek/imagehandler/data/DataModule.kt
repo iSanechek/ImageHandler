@@ -62,4 +62,8 @@ val dataModule = module {
     factory {
         get<CacheDatabase>().imagesDao()
     }
+
+    factory<SelectionRepository> {
+        SelectionRepositoryImpl(get(), get())
+    }
 }

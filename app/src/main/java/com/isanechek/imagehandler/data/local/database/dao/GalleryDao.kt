@@ -65,6 +65,9 @@ interface GalleryDao {
     @Query("SELECT COUNT(*) FROM gallery_images")
     suspend fun getImagesSize(): Int
 
+    @Query("SELECT * FROM gallery_images WHERE id IN (:ids)")
+    suspend fun loadImagesIds(ids: List<Long>): List<GalleryImage>
+
     @Transaction
     suspend fun updateImages(data: List<GalleryImage>) {
         clearImages()

@@ -16,6 +16,15 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <!--Content-->
+
+<!--        <Constraint-->
+<!--            android:id="@id/ihf2_toolbar_info"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:layout_constraintBottom_toTopOf="@id/ihf2_top_card_hg"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent" />-->
+
         <Constraint
             android:id="@+id/ihf2_content_container"
             android:layout_marginStart="16dp"
@@ -91,7 +100,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toTopOf="@id/ihf2_choice_btn"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" >
+            app:layout_constraintStart_toStartOf="parent">
             <PropertySet android:visibility="visible" />
         </Constraint>
 
@@ -111,6 +120,14 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <!--Content-->
+
+<!--        <Constraint-->
+<!--            android:id="@id/ihf2_toolbar_info"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:layout_constraintBottom_toTopOf="@id/ihf2_top_card_hg"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent" />-->
         <Constraint android:id="@+id/ihf2_content_container">
             <Layout
                 android:layout_width="@dimen/dp0"
@@ -186,7 +203,7 @@
             app:layout_constraintBottom_toTopOf="@id/ihf2_choice_btn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ihf2_content_container" >
+            app:layout_constraintTop_toBottomOf="@id/ihf2_content_container">
             <PropertySet android:visibility="gone" />
         </Constraint>
     </ConstraintSet>

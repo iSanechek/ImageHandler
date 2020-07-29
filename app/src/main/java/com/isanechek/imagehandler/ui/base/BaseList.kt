@@ -120,7 +120,7 @@ open class FastListAdapter<T>(private var items: MutableList<T>, private var lis
     }
 
     override fun onBindViewHolder(holder: FastListViewHolder<T>, position: Int) {
-        val item = items.get(position)
+        val item = items[position]
         holder.bind(item, position, bindMap.first { it.type == holder.holderType }.bind)
     }
 
@@ -184,10 +184,10 @@ open class FastListAdapter<T>(private var items: MutableList<T>, private var lis
 
             override fun getNewListSize() = newList.size
         })
-        if (newList is MutableList)
-            items = newList
+        items = if (newList is MutableList)
+            newList
         else
-            items = newList.toMutableList()
+            newList.toMutableList()
         diff.dispatchUpdatesTo(this)
     }
 

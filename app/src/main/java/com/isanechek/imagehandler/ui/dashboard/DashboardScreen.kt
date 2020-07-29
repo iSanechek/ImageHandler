@@ -54,8 +54,7 @@ class DashboardScreen : BaseFragment(_layout.dashboard_screen_layout) {
     )
 
     override fun bindUi(savedInstanceState: Bundle?) {
-        dsl_list.bind(data, _layout.dashboard_item_layout) { item: DashboardItem, index: Int ->
-
+        dsl_list.bind(data, _layout.dashboard_item_layout) { item: DashboardItem, _: Int ->
             with(item) {
                 val i = this
                 dil_container.apply {

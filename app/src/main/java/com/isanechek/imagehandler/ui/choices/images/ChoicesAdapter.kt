@@ -31,7 +31,6 @@ class ChoicesAdapter : RecyclerView.Adapter<ChoicesAdapter.ChoicesHolder>() {
             itemView.isActivated = isSelected
             cli_iv.apply {
                 load(File(image.path))
-                updatePaddingRelative()
                 updateLayoutParams {
                     if (isSelected) {
                         cli_container.setCardBackgroundColor(ContextCompat.getColor(itemView.context, _color.colorAccent))

@@ -10,9 +10,11 @@
         android:id="@+id/sis_toolbar"
         android:layout_width="@dimen/dp0"
         android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorCardBackground"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:superToolbar_showElevationAtStart="false">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -24,7 +26,7 @@
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:padding="@dimen/dp8"
-                android:src="@drawable/ic_baseline_arrow_back_24"
+                android:src="@drawable/ic_baseline_close_24"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -76,21 +78,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textColor="@color/colorPrimaryText"
             android:layout_marginTop="@dimen/dp8"
             android:layout_marginBottom="@dimen/dp8"
+            android:textColor="@color/colorPrimaryText"
             app:strokeColor="@color/colorAccent"
             app:strokeWidth="@dimen/dp1" />
 
     </FrameLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/sis_list"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/sis_refresh"
         android:layout_width="@dimen/dp0"
         android:layout_height="@dimen/dp0"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/sis_toolbar" />
+        app:layout_constraintTop_toBottomOf="@id/sis_toolbar">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/sis_list"
+            android:layout_width="@dimen/dp0"
+            android:layout_height="@dimen/dp0" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

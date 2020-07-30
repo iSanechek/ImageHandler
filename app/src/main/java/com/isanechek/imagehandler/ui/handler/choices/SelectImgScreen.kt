@@ -40,7 +40,7 @@ class SelectImgScreen : BaseFragment(_layout.select_img_screen_layout) {
                 val set = ConstraintSet()
                 set.clone(sis_container)
                 set.connect(
-                    sis_list.id,
+                    sis_refresh.id,
                     ConstraintSet.BOTTOM,
                     sis_control_container.id,
                     ConstraintSet.TOP
@@ -56,7 +56,7 @@ class SelectImgScreen : BaseFragment(_layout.select_img_screen_layout) {
                 val set = ConstraintSet()
                 set.clone(sis_container)
                 set.connect(
-                    sis_list.id,
+                    sis_refresh.id,
                     ConstraintSet.BOTTOM,
                     sis_container.id,
                     ConstraintSet.BOTTOM
@@ -82,7 +82,7 @@ class SelectImgScreen : BaseFragment(_layout.select_img_screen_layout) {
     override fun bindUi(savedInstanceState: Bundle?) {
         sis_toolbar.hideCustomLayout()
         sis_toolbar_back.onClick { findNavController().navigateUp() }
-        sis_toolbar_title.text = "Все"
+        sis_toolbar_title.text = "Фотопленка"
 
 
         val selectAdapter = SelectImgAdapter()
@@ -115,12 +115,23 @@ class SelectImgScreen : BaseFragment(_layout.select_img_screen_layout) {
                 keyProvider.submit(data)
             }
         })
+
+        vm.progressState.observe(this, Observer { state ->
+            when {
+                state -> if (!sis_refresh.isRefreshing) sis_refresh.isRefreshing = state
+                else -> if (sis_refresh.isRefreshing) sis_refresh.isRefreshing = state
+            }
+        })
+
+        sis_refresh.setOnRefreshListener {
+            vm.loadLastImg(true)
+        }
     }
 
     override fun onStart() {
         super.onStart()
         sis_list.addOnScrollListener(recyclerScrollListener)
-        vm.loadLastImg()
+        vm.loadLastImg(false)
     }
 
     override fun onPause() {

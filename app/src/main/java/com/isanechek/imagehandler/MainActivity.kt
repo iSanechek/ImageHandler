@@ -10,23 +10,19 @@ import com.isanechek.imagehandler.data.local.system.PrefManager
 import com.isanechek.imagehandler.service.GalleryJobContract
 import org.koin.android.ext.android.inject
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(_layout.main_activity) {
 
     private val prefManager: PrefManager by inject()
     private val jobService: GalleryJobContract by inject()
-
-    private val controller: NavController by lazy {
-        findNavController(_id.main_host_fragment)
-    }
-
+    private val controller: NavController by lazy { findNavController(_id.main_host_fragment) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.main_activity)
-//        startService()
+        // start service
+        startService()
 
+        // navigation
         val actionId = if (prefManager.isFirstStart()) _id.go_to_select_from_splash else _id.go_to_dashboard_from_splash
-
         Handler().postDelayed({
             controller.navigate(
                 actionId,
@@ -45,10 +41,8 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean = controller.navigateUp()
 
     private fun startService() {
-
         if (!jobService.serviceIsRun(this)) {
             jobService.scheduleJob(this)
-            debugLog { "Run service" }
-        } else debugLog { "Service is run" }
+        }
     }
 }

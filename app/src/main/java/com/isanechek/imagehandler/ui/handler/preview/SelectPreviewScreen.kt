@@ -33,38 +33,6 @@ class SelectPreviewScreen : BaseFragment(_layout.select_preview_screen_layout) {
             dy: Int
         ) {
             sps_toolbar.setElevationVisibility(recyclerView.canScrollVertically(-1))
-
-
-//            val llm = recyclerView.layoutManager as LinearLayoutManager
-//            val lastPosition = llm.findLastCompletelyVisibleItemPosition()
-//            debugLog { "LAST POSITION $lastPosition" }
-//            val adapter = recyclerView.adapter as FastListAdapter<Image>
-//            val totalSize = adapter.itemCount -1
-//            debugLog { "TOTAL COUNT $totalSize" }
-//
-//            if (lastPosition >= -1) {
-//                // show content
-//                if (sps_control_container.isGone) {
-//                    sps_control_container.isGone = false
-//                    ConstraintSet().apply {
-//                        clone(sps_container)
-//                        connect(sps_list.id, ConstraintSet.BOTTOM, sps_control_container.id, ConstraintSet.TOP)
-//                        applyTo(sps_container)
-//                    }
-//                }
-//
-//            } else {
-//                // hide content
-//                if (sps_control_container.isVisible) {
-//                    ConstraintSet().apply {
-//                        clone(sps_container)
-//                        connect(sps_list.id, ConstraintSet.BOTTOM, sps_container.id, ConstraintSet.BOTTOM)
-//                        applyTo(sps_container)
-//                    }
-//                    sps_control_container.isGone = true
-//
-//                }
-//            }
         }
     }
 
@@ -88,6 +56,11 @@ class SelectPreviewScreen : BaseFragment(_layout.select_preview_screen_layout) {
     override fun onPause() {
         sps_list.removeOnScrollListener(recyclerScrollListener)
         super.onPause()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        vm.clearCache()
     }
 
     private fun bindList(data: List<Image>) {

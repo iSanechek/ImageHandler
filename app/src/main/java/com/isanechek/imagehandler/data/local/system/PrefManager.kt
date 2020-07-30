@@ -14,6 +14,7 @@ interface PrefManager {
     fun markDoneWaningShowDialog(key: String)
     fun setSelectRation(ratio: Int)
     val getSelectRation: Int
+    var lastTimeUserVisit: Long
 }
 
 class PrefManagerImpl(private val preferences: SharedPreferences) : PrefManager {
@@ -74,12 +75,21 @@ class PrefManagerImpl(private val preferences: SharedPreferences) : PrefManager 
     override val getSelectRation: Int
         get() = preferences.getInt(SELECT_RATIO_KEY, 0)
 
+    override var lastTimeUserVisit: Long
+        get() = preferences.getLong(LAST_TIME_USER_VISIT_KEY, 0)
+        set(value) {
+            preferences.edit {
+                putLong(LAST_TIME_USER_VISIT_KEY, value)
+            }
+        }
+
     companion object {
         private const val FIRST_START_KEY = "first.start"
         private const val SAMPLE_IMAGE_PATH_KEY = "sipk"
         private const val LOGO_PATH_KEY = "lpk"
         private const val BACKGROUND_PATH_KEY = "bpk"
         private const val SELECT_RATIO_KEY = "srk"
+        private const val LAST_TIME_USER_VISIT_KEY = "ltuvk"
     }
 
 }

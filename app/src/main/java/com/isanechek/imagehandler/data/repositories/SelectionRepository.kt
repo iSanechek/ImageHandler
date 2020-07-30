@@ -19,6 +19,7 @@ interface SelectionRepository {
     suspend fun loadImagesIds(ids: List<Long>): List<Image>
     suspend fun setSelectImagesCache(ids: List<Long>)
     suspend fun getSelectImageCache(): List<Image>
+    fun clearSelectImagesCache()
 }
 
 class SelectionRepositoryImpl(
@@ -98,5 +99,9 @@ class SelectionRepositoryImpl(
     }
 
     override suspend fun getSelectImageCache(): List<Image> = cacheSelectImages
+
+    override fun clearSelectImagesCache() {
+        cacheSelectImages.clear()
+    }
 
 }

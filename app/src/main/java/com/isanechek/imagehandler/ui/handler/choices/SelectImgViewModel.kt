@@ -30,10 +30,10 @@ class SelectImgViewModel(
     val images: LiveData<List<Image>>
         get() = _images
 
-    fun loadLastImg() {
+    fun loadLastImg(refresh: Boolean) {
         debugLog { "INIT" }
         viewModelScope.launch {
-            repository.loadLastImg(getApplication(), "", false)
+            repository.loadLastImg(getApplication(), "", refresh)
                 .flowOn(Dispatchers.IO)
                 .catch {
                     debugLog { "ERROR ${it.message}" }
@@ -63,5 +63,9 @@ class SelectImgViewModel(
         viewModelScope.launch {
             repository.setSelectImagesCache(ids)
         }
+    }
+
+    fun clearCache() {
+        repository.clearSelectImagesCache()
     }
 }

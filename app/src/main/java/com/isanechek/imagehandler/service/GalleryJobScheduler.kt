@@ -8,8 +8,10 @@ import android.content.ComponentName
 import android.content.ContentUris
 import android.content.Context
 import android.net.Uri
+import android.os.Build
 import android.provider.MediaStore
 import androidx.annotation.MainThread
+import androidx.annotation.RequiresApi
 import com.isanechek.imagehandler.BuildConfig
 import com.isanechek.imagehandler.debugLog
 import com.isanechek.imagehandler.data.models.Image
@@ -133,7 +135,6 @@ class GalleryJobScheduler : GalleryJobContract, JobService() {
                 builder.setTriggerContentMaxDelay(500)
                 jobInfo = builder.build()
                 jobInfo?.let {
-                    debugLog { "Service schedule!" }
                     bindService(context).schedule(it)
                 }
             }
@@ -147,7 +148,6 @@ class GalleryJobScheduler : GalleryJobContract, JobService() {
         for (i in 0 until jobs.size) {
             if (jobs[i].id == CHECKER_SERVICE_JOB_ID) isRunning = true
         }
-        debugLog { "Check service run $isRunning" }
         return isRunning
     }
 

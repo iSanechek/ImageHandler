@@ -12,6 +12,8 @@ interface PrefManager {
     var backgroundPath: String
     fun isShowWarningDialog(key: String): Boolean
     fun markDoneWaningShowDialog(key: String)
+    fun setSelectRation(ratio: Int)
+    val getSelectRation: Int
 }
 
 class PrefManagerImpl(private val preferences: SharedPreferences) : PrefManager {
@@ -63,11 +65,21 @@ class PrefManagerImpl(private val preferences: SharedPreferences) : PrefManager 
         }
     }
 
+    override fun setSelectRation(ratio: Int) {
+        preferences.edit {
+            putInt(SELECT_RATIO_KEY, ratio)
+        }
+    }
+
+    override val getSelectRation: Int
+        get() = preferences.getInt(SELECT_RATIO_KEY, 0)
+
     companion object {
         private const val FIRST_START_KEY = "first.start"
         private const val SAMPLE_IMAGE_PATH_KEY = "sipk"
         private const val LOGO_PATH_KEY = "lpk"
         private const val BACKGROUND_PATH_KEY = "bpk"
+        private const val SELECT_RATIO_KEY = "srk"
     }
 
 }

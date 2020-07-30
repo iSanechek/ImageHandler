@@ -16,8 +16,9 @@ interface SelectionRepository {
         folder: String,
         isUpdate: Boolean
     ): Flow<ExecuteResult<List<Image>>>
-
     suspend fun loadImagesIds(ids: List<Long>): List<Image>
+    suspend fun setSelectImagesCache(ids: List<Long>)
+    suspend fun getSelectImageCache(): List<Image>
 }
 
 class SelectionRepositoryImpl(
@@ -25,13 +26,14 @@ class SelectionRepositoryImpl(
     private val galleryDao: GalleryDao
 ) : SelectionRepository {
 
+    private val cacheSelectImages = mutableListOf<Image>()
+
     override suspend fun loadLastImg(
         context: Context,
         folder: String,
         isUpdate: Boolean
     ): Flow<ExecuteResult<List<Image>>> = flow {
         emit(ExecuteResult.Progress)
-
 
         if (isUpdate) {
             val result = galleryManager.loadLastImages(context, folder, 99, 0)
@@ -85,5 +87,16 @@ class SelectionRepositoryImpl(
 
     override suspend fun loadImagesIds(ids: List<Long>): List<Image> = galleryDao.loadImagesIds(ids)
         .map { Image(it.id, it.path, it.name, it.addTime, it.folderName) }.toList()
+
+    override suspend fun setSelectImagesCache(ids: List<Long>) {
+        val data = galleryDao.loadImagesIds(ids)
+            .map { Image(it.id, it.path, it.name, it.addTime, it.folderName) }.toList()
+        cacheSelectImages.apply {
+            if (isNotEmpty()) clear()
+            addAll(data)
+        }
+    }
+
+    override suspend fun getSelectImageCache(): List<Image> = cacheSelectImages
 
 }

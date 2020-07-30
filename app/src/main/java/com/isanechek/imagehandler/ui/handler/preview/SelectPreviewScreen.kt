@@ -1,12 +1,20 @@
 package com.isanechek.imagehandler.ui.handler.preview
 
 import android.os.Bundle
+import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.content.ContextCompat
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.api.load
-import com.isanechek.imagehandler._layout
+import com.isanechek.imagehandler.*
 import com.isanechek.imagehandler.data.models.Image
 import com.isanechek.imagehandler.ui.base.BaseFragment
+import com.isanechek.imagehandler.ui.base.FastListAdapter
 import com.isanechek.imagehandler.ui.base.bind
 import com.isanechek.imagehandler.ui.handler.choices.SelectImgViewModel
 import kotlinx.android.synthetic.main.select_preview_item_layout.view.*
@@ -25,15 +33,51 @@ class SelectPreviewScreen : BaseFragment(_layout.select_preview_screen_layout) {
             dy: Int
         ) {
             sps_toolbar.setElevationVisibility(recyclerView.canScrollVertically(-1))
+
+
+//            val llm = recyclerView.layoutManager as LinearLayoutManager
+//            val lastPosition = llm.findLastCompletelyVisibleItemPosition()
+//            debugLog { "LAST POSITION $lastPosition" }
+//            val adapter = recyclerView.adapter as FastListAdapter<Image>
+//            val totalSize = adapter.itemCount -1
+//            debugLog { "TOTAL COUNT $totalSize" }
+//
+//            if (lastPosition >= -1) {
+//                // show content
+//                if (sps_control_container.isGone) {
+//                    sps_control_container.isGone = false
+//                    ConstraintSet().apply {
+//                        clone(sps_container)
+//                        connect(sps_list.id, ConstraintSet.BOTTOM, sps_control_container.id, ConstraintSet.TOP)
+//                        applyTo(sps_container)
+//                    }
+//                }
+//
+//            } else {
+//                // hide content
+//                if (sps_control_container.isVisible) {
+//                    ConstraintSet().apply {
+//                        clone(sps_container)
+//                        connect(sps_list.id, ConstraintSet.BOTTOM, sps_container.id, ConstraintSet.BOTTOM)
+//                        applyTo(sps_container)
+//                    }
+//                    sps_control_container.isGone = true
+//
+//                }
+//            }
         }
     }
 
     override fun bindUi(savedInstanceState: Bundle?) {
         sps_toolbar.apply {
             title = "Превью"
-            setBackOrCloseButton { }
+            setBackOrCloseButton { findNavController().navigateUp() }
         }
         vm.selected.observe(this, Observer(::bindList))
+
+        sps_start_btn.onClick {
+            findNavController().navigate(_id.go_to_handler_from_select_preview)
+        }
     }
 
     override fun onStart() {

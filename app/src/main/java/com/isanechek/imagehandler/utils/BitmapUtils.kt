@@ -1,9 +1,7 @@
 package com.isanechek.imagehandler.utils
 
 import android.graphics.*
-import com.isanechek.imagehandler.aspectRatio
 import com.isanechek.imagehandler.debugLog
-import java.io.FileNotFoundException
 
 object BitmapUtils {
 

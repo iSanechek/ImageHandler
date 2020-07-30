@@ -5,5 +5,6 @@ data class DashboardItem(
     val title: String,
     val description: String,
     val color: Int,
-    val icon: Int
+    val icon: Int,
+    val ratioValue: Int
 )

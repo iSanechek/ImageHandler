@@ -19,7 +19,7 @@ val uiModule = module {
     }
 
     viewModel { (handle: SavedStateHandle) ->
-        ImageHandlerViewModel(handle, androidApplication(), get(), get(), get(), get())
+        ImageHandlerViewModel(handle, androidApplication(), get(), get(), get(), get(), get())
     }
 
     viewModel {

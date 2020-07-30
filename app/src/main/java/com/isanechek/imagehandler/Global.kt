@@ -220,36 +220,9 @@ fun View.slideUp(callback: () -> Unit) {
     this.startAnimation(animate)
 }
 
-const val RATIO_1_1_VALUE = 1.0 / 1.0
-const val RATIO_16_9_VALUE = 16.0 / 9.0
-const val RATIO_9_16_VALUE = 9.0 / 16.0
 const val ASPECT_RATIO_1_1 = 0
 const val ASPECT_RATIO_16_9 = 1
 const val ASPECT_RATIO_9_16 = 2
-
-fun aspectRatio(width: Int, height: Int): Int {
-    val previewRatio = max(width, height).toDouble() / min(width, height)
-    return if (abs(previewRatio - RATIO_1_1_VALUE) <= abs(previewRatio - RATIO_16_9_VALUE) && abs(
-            previewRatio - RATIO_1_1_VALUE
-        ) <= abs(previewRatio - RATIO_9_16_VALUE)
-    ) {
-        ASPECT_RATIO_1_1
-    } else {
-        ASPECT_RATIO_16_9
-    }
-//    return when {
-//        abs(previewRatio - RATIO_1_1_VALUE) <= abs(previewRatio - RATIO_16_9_VALUE) -> {
-//            ASPECT_RATIO_1_1
-//        }
-//        abs(previewRatio - RATIO_9_16_VALUE) >= abs(previewRatio - RATIO_16_9_VALUE) -> {
-//            ASPECT_RATIO_9_16
-//        }
-//        else -> {
-//            ASPECT_RATIO_16_9
-//        }
-//    }
-}
-
 
 fun MotionLayout.endTransition(callback: (MotionLayout?) -> Unit) {
     this.setTransitionListener(object : MotionLayout.TransitionListener {

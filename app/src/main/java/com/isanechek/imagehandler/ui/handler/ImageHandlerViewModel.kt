@@ -14,6 +14,8 @@ import com.isanechek.imagehandler.data.local.database.entity.ImageItem
 import com.isanechek.imagehandler.data.local.system.FilesManager
 import com.isanechek.imagehandler.data.local.system.MediaStoreManager
 import com.isanechek.imagehandler.data.local.system.PrefManager
+import com.isanechek.imagehandler.data.models.Image
+import com.isanechek.imagehandler.data.repositories.SelectionRepository
 import com.isanechek.imagehandler.data.repositories.WatermarkPhotosRepositoryImpl
 import com.isanechek.imagehandler.debugLog
 import com.isanechek.imagehandler.utils.BitmapUtils
@@ -33,7 +35,8 @@ class ImageHandlerViewModel(
     private val filesManager: FilesManager,
     private val prefManager: PrefManager,
     private val mediaStoreManager: MediaStoreManager,
-    private val imagesDao: ImagesDao
+    private val imagesDao: ImagesDao,
+    private val selectionRepository: SelectionRepository
 ) : AndroidViewModel(application) {
 
     val getMotionProgress: LiveData<Float>

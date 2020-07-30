@@ -1,10 +1,7 @@
 package com.isanechek.imagehandler.ui.handler.choices
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.isanechek.imagehandler.data.models.ExecuteResult
 import com.isanechek.imagehandler.data.models.Image
 import com.isanechek.imagehandler.data.repositories.SelectionRepository
@@ -20,9 +17,10 @@ class SelectImgViewModel(
     private val repository: SelectionRepository
 ) : AndroidViewModel(application) {
 
-    private val _selectedImages = MutableLiveData<List<Image>>()
     val selected: LiveData<List<Image>>
-        get() = _selectedImages
+        get() = liveData {
+            emit(repository.getSelectImageCache())
+        }
 
     private val _progressState = MutableLiveData<Boolean>()
     val progressState: LiveData<Boolean>
@@ -63,10 +61,7 @@ class SelectImgViewModel(
 
     fun setSelectedImages(ids: List<Long>) {
         viewModelScope.launch {
-            val data = repository.loadImagesIds(ids)
-            if (data.isNotEmpty()) {
-                _selectedImages.value = data
-            }
+            repository.setSelectImagesCache(ids)
         }
     }
 }

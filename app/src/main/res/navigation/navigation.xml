@@ -19,7 +19,11 @@
         android:id="@+id/select_preview_screen"
         android:name="com.isanechek.imagehandler.ui.handler.preview.SelectPreviewScreen"
         android:label="preview"
-        tools:layout="@layout/select_preview_screen_layout" />
+        tools:layout="@layout/select_preview_screen_layout">
+        <action
+            android:id="@+id/go_to_handler_from_select_preview"
+            app:destination="@id/handler_screen" />
+    </fragment>
 
     <fragment
         android:id="@+id/dashboard_screen"
@@ -27,8 +31,8 @@
         android:label="dashboard"
         tools:layout="@layout/dashboard_screen_layout">
         <action
-            android:id="@+id/go_handler_from_dashboard"
-            app:destination="@id/handler_screen" />
+            android:id="@+id/go_to_select_from_dashboard"
+            app:destination="@id/selection_screen"/>
     </fragment>
 
     <fragment

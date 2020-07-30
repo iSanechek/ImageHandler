@@ -1,4 +1,4 @@
-package com.isanechek.imagehandler.data
+package com.isanechek.imagehandler.di
 
 import androidx.room.Room
 import com.isanechek.imagehandler.data.local.database.CacheDatabase
@@ -52,19 +52,8 @@ val dataModule = module {
         GalleryJobScheduler()
     }
 
-    single {
-        Room.inMemoryDatabaseBuilder(
-            androidApplication().applicationContext,
-            CacheDatabase::class.java
-        ).fallbackToDestructiveMigration().build()
-    }
-
-    factory {
-        get<CacheDatabase>().imagesDao()
-    }
-
-    single<SelectionRepository> {
-        SelectionRepositoryImpl(get(), get())
+    single<ImagesRepository> {
+        ImagesRepositoryImpl(get(), get())
     }
 
     factory<DashboardRepository> {

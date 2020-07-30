@@ -8,11 +8,8 @@ import androidx.lifecycle.liveData
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.isanechek.imagehandler.PRIVATE_APP_FOLDER_NAME
-import com.isanechek.imagehandler.debugLog
 import com.isanechek.imagehandler.data.local.database.dao.GalleryDao
 import com.isanechek.imagehandler.data.local.database.dao.WatermarkDao
-import com.isanechek.imagehandler.data.local.database.entity.AlbumEntity
-import com.isanechek.imagehandler.data.local.database.entity.GalleryImage
 import com.isanechek.imagehandler.data.local.database.entity.WatermarkImageResultEntity
 import com.isanechek.imagehandler.data.local.system.FilesManager
 import com.isanechek.imagehandler.data.local.system.MediaStoreManager
@@ -20,6 +17,11 @@ import com.isanechek.imagehandler.data.local.system.OverlayManager
 import com.isanechek.imagehandler.data.local.system.gallery.GalleryImagesDataSourceFactory
 import com.isanechek.imagehandler.data.local.system.gallery.GalleryManager
 import com.isanechek.imagehandler.data.models.*
+import com.isanechek.imagehandler.debugLog
+import com.isanechek.imagehandler.ext.toEntity
+import com.isanechek.imagehandler.ext.toGallery
+import com.isanechek.imagehandler.ext.toImage
+import com.isanechek.imagehandler.ext.toModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -35,6 +37,7 @@ interface WatermarkPhotosRepository {
         request: GalleryRequest,
         scope: CoroutineScope
     ): LiveData<PagedList<Image>>
+
     fun loadImagesFlow(context: Context, request: GalleryRequest): Flow<GalleryImageResult>
     fun loadImages(context: Context, isUpdate: Boolean): LiveData<GalleryImageResult>
     fun loadImages(folderName: String): LiveData<GalleryImageResult>
@@ -76,7 +79,8 @@ class WatermarkPhotosRepositoryImpl(
             context,
             scope,
             galleryManager,
-            request) { progressState ->
+            request
+        ) { progressState ->
 
         }
         return LivePagedListBuilder(imagesDataSource, imagesConfig).build()
@@ -98,16 +102,16 @@ class WatermarkPhotosRepositoryImpl(
             emit(GalleryImageResult.Load)
             val result = galleryManager.loadLastImages(context, "", LIMIT_LOAD_SIZE, 0)
             emit(GalleryImageResult.Done(result))
-            galleryDao.insertImages(result.map { it.toEntity() }.toList())
+            galleryDao.insertImages(result.map { it.toGallery() }.toList())
         } else {
-            val cache = galleryDao.loadImages().map { it.toModel() }.toList()
+            val cache = galleryDao.loadImages().map { it.toImage() }.toList()
             if (!isUpdate) {
                 emit(GalleryImageResult.Done(cache))
             } else {
                 emit(GalleryImageResult.Update(cache))
                 val result = galleryManager.loadLastImages(context, "", LIMIT_LOAD_SIZE, 0)
                 if (result.isNotEmpty()) {
-                    galleryDao.updateImages(result.map { it.toEntity() }.toList())
+                    galleryDao.updateImages(result.map { it.toGallery() }.toList())
                     emit(GalleryImageResult.Done(result))
                 } else {
                     emit(GalleryImageResult.Done(cache))
@@ -122,9 +126,9 @@ class WatermarkPhotosRepositoryImpl(
         emit(GalleryImageResult.Load)
         val data = galleryDao.loadImagesFromAlbum(folderName)
         if (data.isNotEmpty()) {
-            emit(GalleryImageResult.Done(data.map { it.toModel() }.toList()))
+            emit(GalleryImageResult.Done(data.map { it.toImage() }.toList()))
         } else {
-            emit(GalleryImageResult.Error(emptyList<Image>(), "empty list"))
+            emit(GalleryImageResult.Error(emptyList(), "empty list"))
         }
     }
 
@@ -285,7 +289,7 @@ class WatermarkPhotosRepositoryImpl(
     }
 
     override suspend fun saveFindImages(data: Set<Image>) = withContext(Dispatchers.IO) {
-        galleryDao.insertImages(data.map { it.toEntity() }.toList())
+        galleryDao.insertImages(data.map { it.toGallery() }.toList())
     }
 
 
@@ -320,41 +324,6 @@ class WatermarkPhotosRepositoryImpl(
             }
         }
     }
-
-    private fun Album.toEntity(): AlbumEntity {
-        return AlbumEntity(
-            id = this.id,
-            title = this.name,
-            coverPath = this.images.first().path,
-            lastModification = this.lastModification,
-            path = this.path
-        )
-    }
-
-    private fun AlbumEntity.toModel(): Album = Album(
-        id = this.id,
-        lastModification = this.lastModification,
-        name = this.title,
-        addDate = 0,
-        path = this.path,
-        images = mutableListOf(Image(0, this.path, "", 0, ""))
-    )
-
-    private fun Image.toEntity(): GalleryImage = GalleryImage(
-        id = this.id,
-        name = this.name,
-        path = this.path,
-        addTime = this.addDate,
-        folderName = this.folderName
-    )
-
-    private fun GalleryImage.toModel(): Image = Image(
-        id = this.id,
-        path = this.path,
-        addDate = this.addTime,
-        name = this.name,
-        folderName = this.folderName
-    )
 
     private fun WatermarkImageResultEntity.toModel(): WatermarkImageResult =
         WatermarkImageResult(

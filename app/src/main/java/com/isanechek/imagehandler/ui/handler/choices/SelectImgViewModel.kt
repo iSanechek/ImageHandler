@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.*
 import com.isanechek.imagehandler.data.models.ExecuteResult
 import com.isanechek.imagehandler.data.models.Image
-import com.isanechek.imagehandler.data.repositories.SelectionRepository
+import com.isanechek.imagehandler.data.repositories.ImagesRepository
 import com.isanechek.imagehandler.debugLog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 
 class SelectImgViewModel(
     application: Application,
-    private val repository: SelectionRepository
+    private val repository: ImagesRepository
 ) : AndroidViewModel(application) {
 
     val selected: LiveData<List<Image>>

@@ -1,11 +1,9 @@
 package com.isanechek.imagehandler.data.local.database.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.isanechek.imagehandler.data.local.database.entity.AlbumEntity
 import com.isanechek.imagehandler.data.local.database.entity.FolderEntity
 import com.isanechek.imagehandler.data.local.database.entity.GalleryImage
-import com.isanechek.imagehandler.data.models.Image
 
 @Dao
 interface GalleryDao {

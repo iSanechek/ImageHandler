@@ -1,6 +1,6 @@
 @file:JvmName("UiModule")
 
-package com.isanechek.imagehandler.ui
+package com.isanechek.imagehandler.di
 
 import androidx.lifecycle.SavedStateHandle
 import com.isanechek.imagehandler.ui.choices.ChoicesViewModel

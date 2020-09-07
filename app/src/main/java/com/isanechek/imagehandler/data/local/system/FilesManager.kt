@@ -3,9 +3,12 @@ package com.isanechek.imagehandler.data.local.system
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import com.isanechek.imagehandler.EMPTY_VALUE
+import com.isanechek.imagehandler.OVERLAY_CACHE_FOLDER_NAME
 import com.isanechek.imagehandler.debugLog
 import kotlinx.coroutines.suspendCancellableCoroutine
 import java.io.File
+import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import kotlin.coroutines.resume
 
@@ -20,6 +23,8 @@ interface FilesManager {
     fun replaceBitmap(name: String, path: String, bitmap: Bitmap): Boolean
     fun checkFolderExistsAndIsNotEmpty(path: String): Boolean
     suspend fun loadImagesFromAssets(context: Context): List<String>
+    suspend fun loadLogoFromAssets(context: Context): String
+    fun getCacheFolder(context: Context, subFolderName: String): String
 }
 
 class FilesManagerImpl : FilesManager {
@@ -59,8 +64,9 @@ class FilesManagerImpl : FilesManager {
     ): Pair<Boolean, String> {
         var result = Pair(false, "")
         val fileResult = File(folderPath, fileName)
+        val compressFormat = if (fileName.endsWith(".png")) Bitmap.CompressFormat.PNG else Bitmap.CompressFormat.JPEG
         FileOutputStream(fileResult).use {
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, it)
+            bitmap.compress(compressFormat, 99, it)
         }
         if (fileResult.exists() && fileResult.length() > 0) {
             result = Pair(true, fileResult.absolutePath)
@@ -164,5 +170,30 @@ class FilesManagerImpl : FilesManager {
                 c.resume(emptyList())
             }
         }
+
+    override suspend fun loadLogoFromAssets(context: Context): String = suspendCancellableCoroutine { c ->
+        try {
+            val logoName = "vova_logo.png"
+            val bitmap = context.assets.open("overlay/$logoName").use {
+                BitmapFactory.decodeStream(it)
+            }
+            val file = File("${getCacheFolder(context, OVERLAY_CACHE_FOLDER_NAME)}/$logoName")
+            if (file.exists()) {
+                file.delete()
+            }
+            FileOutputStream(file).use {
+                bitmap.compress(Bitmap.CompressFormat.PNG, 99, it)
+            }
+            c.resume(file.absolutePath)
+        } catch (ex: FileNotFoundException) {
+            debugLog { "Load Logo From Assets Error! ${ex.message}" }
+            c.resume(EMPTY_VALUE)
+        }
+    }
+
+    override fun getCacheFolder(context: Context, subFolderName: String): String = when {
+        subFolderName.isEmpty() -> context.filesDir.absolutePath
+        else -> context.filesDir.absolutePath + File.separator + subFolderName
+    }
 
 }

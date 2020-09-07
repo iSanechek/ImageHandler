@@ -8,12 +8,14 @@ import com.isanechek.imagehandler.ASPECT_RATIO_9_16
 import com.isanechek.imagehandler._layout
 import com.isanechek.imagehandler.data.local.system.PrefManager
 import com.isanechek.imagehandler.data.models.SelectionRationItem
+import com.isanechek.imagehandler.databinding.SelectRotationScreenLayoutBinding
+import com.isanechek.imagehandler.delegate.viewBinding
 import com.isanechek.imagehandler.ui.base.BaseFragment
-import kotlinx.android.synthetic.main.select_rotation_screen_layout.*
 import org.koin.android.ext.android.inject
 
 class SelectRotationScreen : BaseFragment(_layout.select_rotation_screen_layout) {
 
+    private val binding by viewBinding(SelectRotationScreenLayoutBinding::bind)
     private val prefManager: PrefManager by inject()
 
     private val rationList = listOf(
@@ -26,7 +28,7 @@ class SelectRotationScreen : BaseFragment(_layout.select_rotation_screen_layout)
 
         val rationAdapter = RationAdapter(rationList)
 
-        with(srs_list) {
+        with(binding.srsList) {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = rationAdapter
         }

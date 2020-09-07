@@ -5,11 +5,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.core.os.bundleOf
 import androidx.core.view.isInvisible
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -22,18 +20,18 @@ import com.afollestad.materialdialogs.lifecycle.lifecycleOwner
 import com.afollestad.materialdialogs.list.listItems
 import com.isanechek.imagehandler.*
 import com.isanechek.imagehandler.data.local.database.entity.ImageItem
+import com.isanechek.imagehandler.databinding.ImageHandler2FragmentLayoutBinding
+import com.isanechek.imagehandler.delegate.viewBinding
 import com.isanechek.imagehandler.ui.crop.CropScreen
 import com.isanechek.imagehandler.ui.dashboard.DashboardScreen
 import com.isanechek.imagehandler.ui.preview.PreviewScreen
-import com.isanechek.imagehandler.ui.widgets.MultiStateButton
 import com.isanechek.imagehandler.utils.FileUtils
-import kotlinx.android.synthetic.main.image_handler2_fragment_layout.*
 import kotlinx.coroutines.flow.collect
 import org.koin.androidx.viewmodel.ext.android.stateViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
 
+    private val binding by viewBinding(ImageHandler2FragmentLayoutBinding::bind)
     private val vm: ImageHandlerViewModel by stateViewModel()
     private lateinit var resultAdapter: ResultAdapter
 
@@ -44,37 +42,37 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
 
         debugLog { "KEY $key" }
         when(key) {
-            DashboardScreen.CROP_SQUARE_KEY -> ihf2_toolbar_info.text = "Формат 1:1"
-            DashboardScreen.CROP_16_9_KEY -> ihf2_toolbar_info.text = "Формат 16:9"
-            DashboardScreen.CROP_PORTRAIT_KEY -> ihf2_toolbar_info.text = "Формат 9:16"
+            DashboardScreen.CROP_SQUARE_KEY -> binding.ihf2ToolbarInfo.text = "Формат 1:1"
+            DashboardScreen.CROP_16_9_KEY -> binding.ihf2ToolbarInfo.text = "Формат 16:9"
+            DashboardScreen.CROP_PORTRAIT_KEY -> binding.ihf2ToolbarInfo.text = "Формат 9:16"
         }
 
-        ihf2_close_btn.onClick { findNavController().navigateUp() }
+        binding.ihf2CloseBtn.onClick { findNavController().navigateUp() }
 
         setupBtn()
-        ihf2_info_text.text = "Вы можите выбрать\nодну или несколько картинок"
+        binding.ihf2InfoText.text = "Вы можите выбрать\nодну или несколько картинок"
 
-        ihf2_container.endTransition {
+        binding.ihf2Container.endTransition {
             it?.progress?.let { value ->
                 vm.setMotionProgressState(value)
             }
         }
 
-        vm.progress.observe(viewLifecycleOwner, Observer { isShow ->
-            ihf2_toolbar_progress.isInvisible = !isShow
+        vm.progress.observe(viewLifecycleOwner, { isShow ->
+            binding.ihf2ToolbarProgress.isInvisible = !isShow
 
         })
 
-        vm.toast.observe(viewLifecycleOwner, Observer { toastMsg ->
+        vm.toast.observe(viewLifecycleOwner, { toastMsg ->
             Toast.makeText(requireContext(), toastMsg, Toast.LENGTH_SHORT).show()
         })
 
-        vm.progressCount.observe(viewLifecycleOwner, Observer { count ->
-            ihf2_toolbar_count.text = count
+        vm.progressCount.observe(viewLifecycleOwner, { count ->
+            binding.ihf2ToolbarCount.text = count
         })
 
         resultAdapter = ResultAdapter()
-        with(ihf2_result_list) {
+        with(binding.ihf2ResultList) {
             setHasFixedSize(true)
             layoutManager = GridLayoutManager(requireContext(), 3)
             adapter = resultAdapter
@@ -123,9 +121,9 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
             }
         })
 
-        vm.data.observe(viewLifecycleOwner, Observer { data ->
+        vm.data.observe(viewLifecycleOwner, { data ->
             resultAdapter.submit(data)
-            ihf2_result_list.smoothScrollToPosition(0)
+            binding.ihf2ResultList.smoothScrollToPosition(0)
         })
 
         lifecycleScope.launchWhenResumed {
@@ -138,18 +136,18 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
             }
         }
 
-        vm.getMotionProgress.observe(viewLifecycleOwner, Observer { progress ->
+        vm.getMotionProgress.observe(viewLifecycleOwner, { progress ->
             debugLog { "PROGRESS $progress" }
-            ihf2_container.progress = progress
+            binding.ihf2Container.progress = progress
         })
 
-        vm.saveProgressState.observe(viewLifecycleOwner, Observer { state ->
-            ihf2_save_btn.apply {
+        vm.saveProgressState.observe(viewLifecycleOwner, { state ->
+            binding.ihf2SaveBtn.apply {
                 setStateProgress(state)
                 setEnableState(state)
             }
-            ihf2_clear_btn.setEnableState(!state)
-            ihf2_overlay_btn.apply {
+            binding.ihf2ClearBtn.setEnableState(!state)
+            binding.ihf2OverlayBtn.apply {
                 setEnableState(!state)
                 setEnableState(false)
             }
@@ -157,13 +155,13 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
 
         vm.workState.observe(
             viewLifecycleOwner,
-            Observer { state ->
-                ihf2_overlay_btn.apply {
+            { state ->
+                binding.ihf2OverlayBtn.apply {
                     setStateProgress(state)
                     setEnableState(state)
                 }
-                ihf2_clear_btn.setEnableState(!state)
-                ihf2_save_btn.setEnableState(!state)
+                binding.ihf2ClearBtn.setEnableState(!state)
+                binding.ihf2SaveBtn.setEnableState(!state)
             }
         )
     }
@@ -207,7 +205,7 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
 
                     debugLog { "LIST PATH SIZE ${temp.size}" }
                     vm.setData(temp)
-                    ihf2_container.transitionToEnd()
+                    binding.ihf2Container.transitionToEnd()
                 }
                 else -> {
                     val uri = data?.data
@@ -215,7 +213,7 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
                         val realPath = FileUtils.getPath(requireContext(), uri)
                         debugLog { "IMAGE PATH $realPath" }
                         vm.setData(listOf(realPath))
-                        ihf2_container.transitionToEnd()
+                        binding.ihf2Container.transitionToEnd()
                     } else showErrorMessage("URI PATH IS NULL")
                 }
             }
@@ -224,10 +222,10 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
 
     private fun setupBtn() {
         // settings
-        ihf2_toolbar_setting.onClick { settingDialog() }
+        binding.ihf2ToolbarSetting.onClick { settingDialog() }
 
         // choice images
-        ihf2_choice_btn.onClick {
+        binding.ihf2ChoiceBtn.onClick {
             askForPermissions(Permission.READ_EXTERNAL_STORAGE) { result ->
                 if (result.isAllGranted(Permission.READ_EXTERNAL_STORAGE)) {
                     Intent().run {
@@ -245,22 +243,22 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
         }
 
         // clear content
-        ihf2_clear_btn.apply {
+        binding.ihf2ClearBtn.apply {
             setTitle("очистка")
             setIcon(_drawable.ic_baseline_clear_24)
             onClick {
                 vm.clearData()
                 resultAdapter.clear()
-                ihf2_container.transitionToStart()
+                binding.ihf2Container.transitionToStart()
                 delay(300) {
-                    ihf2_save_btn.setEnableState(true)
-                    ihf2_overlay_btn.setEnableState(true)
+                    binding.ihf2SaveBtn.setEnableState(true)
+                    binding.ihf2OverlayBtn.setEnableState(true)
                 }
             }
         }
 
         // overlay button
-        ihf2_overlay_btn.apply {
+        binding.ihf2OverlayBtn.apply {
             setTitle("нанести")
             setIcon(_drawable.ic_baseline_compare_24)
             onClick {
@@ -269,15 +267,15 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
         }
 
         // save btn
-        ihf2_save_btn.apply {
+        binding.ihf2SaveBtn.apply {
             setTitle("сохранить")
             setIcon(_drawable.ic_baseline_save_24)
             setEnableState(false)
             onClick {
                 askForPermissions(Permission.WRITE_EXTERNAL_STORAGE) { result ->
                     if (result.isAllGranted(Permission.WRITE_EXTERNAL_STORAGE)) {
-                        ihf2_overlay_btn.isInvisible = true
-                        ihf2_clear_btn.isInvisible = true
+                        binding.ihf2OverlayBtn.isInvisible = true
+                        binding.ihf2ClearBtn.isInvisible = true
                         vm.saveToSystem()
                     }
                 }
@@ -290,7 +288,7 @@ class ImageHandlerFragment2 : Fragment(_layout.image_handler2_fragment_layout) {
             title(text = "Меню")
             val data = listOf("изменить город")
             lifecycleOwner(this@ImageHandlerFragment2)
-            listItems(items = data, waitForPositiveButton = false) { dialog, index, _ ->
+            listItems(items = data, waitForPositiveButton = false) { _, index, _ ->
                 when (index) {
                     0 -> findNavController().navigate(
                         _id.go_handler_to_select,

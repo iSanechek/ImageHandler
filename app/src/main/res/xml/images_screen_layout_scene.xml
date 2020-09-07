@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!--Default-->
+    <ConstraintSet android:id="@+id/images_state_default">
+
+        <Constraint
+            android:id="@+id/is_refresh"
+            android:layout_width="@dimen/dp0"
+            android:layout_height="@dimen/dp0"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+            <PropertySet android:visibility="gone" />
+        </Constraint>
+
+        <Constraint
+            android:id="@id/is_permission_container"
+            android:layout_width="@dimen/dp0"
+            android:layout_height="200dp"
+            android:layout_marginStart="@dimen/dp16"
+            android:layout_marginEnd="@dimen/dp16"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+            <PropertySet android:visibility="gone" />
+        </Constraint>
+
+        <Constraint
+            android:id="@id/is_progress_card"
+            android:layout_width="@dimen/dp0"
+            android:layout_height="200dp"
+            android:layout_marginStart="@dimen/dp16"
+            android:layout_marginEnd="@dimen/dp16"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+            <PropertySet android:visibility="gone" />
+        </Constraint>
+
+        <Constraint
+            android:id="@+id/is_error_card"
+            android:layout_width="@dimen/dp0"
+            android:layout_height="200dp"
+            android:layout_marginStart="@dimen/dp16"
+            android:layout_marginEnd="@dimen/dp16"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+            <PropertySet android:visibility="gone" />
+        </Constraint>
+
+    </ConstraintSet>
+
+    <!--Permission-->
+    <ConstraintSet android:id="@+id/images_state_permission">
+        <Constraint
+            android:id="@+id/is_refresh"
+            android:layout_width="@dimen/dp0"
+            android:layout_height="@dimen/dp0"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+            <PropertySet android:visibility="gone" />
+        </Constraint>
+
+        <Constraint
+            android:id="@id/is_permission_container"
+            android:layout_width="@dimen/dp0"
+            android:layout_height="200dp"
+            android:layout_marginStart="@dimen/dp16"
+            android:layout_marginEnd="@dimen/dp16"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+            <PropertySet
+                android:visibility="visible"
+                app:motionProgress="1" />
+        </Constraint>
+
+        <Constraint
+            android:id="@id/is_progress_card"
+            android:layout_width="@dimen/dp0"
+            android:layout_height="200dp"
+            android:layout_marginStart="@dimen/dp16"
+            android:layout_marginEnd="@dimen/dp16"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+            <PropertySet android:visibility="gone" />
+        </Constraint>
+
+        <Constraint
+            android:id="@+id/is_error_card"
+            android:layout_width="@dimen/dp0"
+            android:layout_height="200dp"
+            android:layout_marginStart="@dimen/dp16"
+            android:layout_marginEnd="@dimen/dp16"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+            <PropertySet android:visibility="gone" />
+        </Constraint>
+    </ConstraintSet>
+
+    <!--Error state-->
+    <ConstraintSet android:id="@+id/images_state_error">
+        <Constraint
+            android:id="@+id/is_refresh"
+            android:layout_width="@dimen/dp0"
+            android:layout_height="@dimen/dp0"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+            <PropertySet android:visibility="gone" />
+        </Constraint>
+
+        <Constraint
+            android:id="@id/is_permission_container"
+            android:layout_width="@dimen/dp0"
+            android:layout_height="200dp"
+            android:layout_marginStart="@dimen/dp16"
+            android:layout_marginEnd="@dimen/dp16"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+            <PropertySet android:visibility="gone" />
+        </Constraint>
+
+        <Constraint
+            android:id="@id/is_progress_card"
+            android:layout_width="@dimen/dp0"
+            android:layout_height="200dp"
+            android:layout_marginStart="@dimen/dp16"
+            android:layout_marginEnd="@dimen/dp16"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+            <PropertySet android:visibility="gone" />
+        </Constraint>
+
+        <Constraint
+            android:id="@+id/is_error_card"
+            android:layout_width="@dimen/dp0"
+            android:layout_height="200dp"
+            android:layout_marginStart="@dimen/dp16"
+            android:layout_marginEnd="@dimen/dp16"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+            <PropertySet android:visibility="visible" />
+        </Constraint>
+    </ConstraintSet>
+
+    <!--Progress state-->
+    <ConstraintSet android:id="@+id/images_state_progress">
+        <Constraint
+            android:id="@+id/is_refresh"
+            android:layout_width="@dimen/dp0"
+            android:layout_height="@dimen/dp0"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+            <PropertySet android:visibility="gone" />
+        </Constraint>
+
+        <Constraint
+            android:id="@id/is_permission_container"
+            android:layout_width="@dimen/dp0"
+            android:layout_height="200dp"
+            android:layout_marginStart="@dimen/dp16"
+            android:layout_marginEnd="@dimen/dp16"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+            <PropertySet android:visibility="gone" />
+        </Constraint>
+
+        <Constraint
+            android:id="@id/is_progress_card"
+            android:layout_width="@dimen/dp0"
+            android:layout_height="200dp"
+            android:layout_marginStart="@dimen/dp16"
+            android:layout_marginEnd="@dimen/dp16"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+            <PropertySet android:visibility="visible" />
+        </Constraint>
+
+        <Constraint
+            android:id="@+id/is_error_card"
+            android:layout_width="@dimen/dp0"
+            android:layout_height="200dp"
+            android:layout_marginStart="@dimen/dp16"
+            android:layout_marginEnd="@dimen/dp16"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+            <PropertySet android:visibility="gone" />
+        </Constraint>
+    </ConstraintSet>
+
+    <!--Data state-->
+    <ConstraintSet android:id="@+id/images_state_data">
+        <Constraint
+            android:id="@+id/is_refresh"
+            android:layout_width="@dimen/dp0"
+            android:layout_height="@dimen/dp0"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+            <PropertySet android:visibility="visible" />
+        </Constraint>
+
+        <Constraint
+            android:id="@id/is_permission_container"
+            android:layout_width="@dimen/dp0"
+            android:layout_height="200dp"
+            android:layout_marginStart="@dimen/dp16"
+            android:layout_marginEnd="@dimen/dp16"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+            <PropertySet android:visibility="gone" />
+        </Constraint>
+
+        <Constraint
+            android:id="@id/is_progress_card"
+            android:layout_width="@dimen/dp0"
+            android:layout_height="1dp"
+            android:layout_marginStart="@dimen/dp16"
+            android:layout_marginEnd="@dimen/dp16"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+            <PropertySet
+                android:visibility="gone"
+                app:motionProgress="99" />
+        </Constraint>
+
+        <Constraint
+            android:id="@+id/is_error_card"
+            android:layout_width="@dimen/dp0"
+            android:layout_height="200dp"
+            android:layout_marginStart="@dimen/dp16"
+            android:layout_marginEnd="@dimen/dp16"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+            <PropertySet android:visibility="gone" />
+        </Constraint>
+    </ConstraintSet>
+
+    <Transition
+        android:id="@+id/images_default_to_permission_state"
+        app:constraintSetEnd="@id/images_state_permission"
+        app:constraintSetStart="@+id/images_state_default"
+        app:duration="300"
+        app:motionInterpolator="linear">
+        <KeyFrameSet>
+
+
+        </KeyFrameSet>
+    </Transition>
+
+    <Transition
+        android:id="@+id/images_default_to_progress_state"
+        app:constraintSetEnd="@id/images_state_progress"
+        app:constraintSetStart="@+id/images_state_default"
+        app:duration="300"
+        app:motionInterpolator="linear" />
+
+
+    <Transition
+        android:id="@+id/images_permission_to_error_state"
+        app:constraintSetEnd="@id/images_state_error"
+        app:constraintSetStart="@+id/images_state_permission"
+        app:duration="300"
+        app:motionInterpolator="linear" />
+
+    <Transition
+        android:id="@+id/images_permission_to_progress_state"
+        app:constraintSetEnd="@id/images_state_error"
+        app:constraintSetStart="@+id/images_state_permission"
+        app:duration="300"
+        app:motionInterpolator="linear" />
+
+
+    <Transition
+        android:id="@+id/images_default_to_data_state"
+        app:constraintSetEnd="@id/images_state_data"
+        app:constraintSetStart="@+id/images_state_progress"
+        app:duration="300"
+        app:motionInterpolator="linear" />
+</MotionScene>

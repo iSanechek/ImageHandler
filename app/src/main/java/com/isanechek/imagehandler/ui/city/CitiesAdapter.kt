@@ -1,14 +1,14 @@
 package com.isanechek.imagehandler.ui.city
 
 import android.graphics.drawable.Drawable
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.isanechek.imagehandler.*
 import com.isanechek.imagehandler.data.models.City
-import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.city_item_layout.*
+import com.isanechek.imagehandler.databinding.CityItemLayoutBinding
 
 class CitiesAdapter :
     RecyclerView.Adapter<CitiesAdapter.CityHolder>() {
@@ -18,11 +18,11 @@ class CitiesAdapter :
         fun unchecked(city: City)
     }
 
-    inner class CityHolder(override val containerView: View) :
-        RecyclerView.ViewHolder(containerView), LayoutContainer {
+    inner class CityHolder(val containerView: CityItemLayoutBinding) :
+        RecyclerView.ViewHolder(containerView.root) {
 
         fun bind(city: City, callback: Callback?) {
-            eci_title.text = city.name
+            containerView.eciTitle.text = city.name
             setupCard(city.isSelected)
 //            eci_selected.apply {
 //                setImageDrawable(selectedDrawable(city.isSelected))
@@ -33,7 +33,7 @@ class CitiesAdapter :
 //                }
 //            }
 
-            eci_container.onClick {
+            containerView.eciContainer.onClick {
                 if (city.isSelected) {
                     callback?.unchecked(city)
                 } else callback?.checked(city)
@@ -43,11 +43,23 @@ class CitiesAdapter :
         private fun setupCard(selected: Boolean) {
             debugLog { "SElected $selected" }
             if (selected) {
-                eci_container.strokeColor = ContextCompat.getColor(itemView.context, _color.colorAccent)
-                eci_title.setTextColor(ContextCompat.getColor(itemView.context, _color.colorPrimaryText))
+                containerView.eciContainer.strokeColor =
+                    ContextCompat.getColor(itemView.context, _color.colorAccent)
+                containerView.eciTitle.setTextColor(
+                    ContextCompat.getColor(
+                        itemView.context,
+                        _color.colorPrimaryText
+                    )
+                )
             } else {
-                eci_container.strokeColor = ContextCompat.getColor(itemView.context, _color.colorCardBackground)
-                eci_title.setTextColor(ContextCompat.getColor(itemView.context, _color.colorSecondaryText))
+                containerView.eciContainer.strokeColor =
+                    ContextCompat.getColor(itemView.context, _color.colorCardBackground)
+                containerView.eciTitle.setTextColor(
+                    ContextCompat.getColor(
+                        itemView.context,
+                        _color.colorSecondaryText
+                    )
+                )
             }
         }
 
@@ -60,13 +72,18 @@ class CitiesAdapter :
                 _drawable.btn_checkbox_checked_to_unchecked_mtrl_animation
             )
     }
+
     private var callback: Callback? = null
     private val cities = mutableListOf<City>()
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CityHolder {
-        return CityHolder(parent.inflate(_layout.city_item_layout))
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CityHolder = CityHolder(
+        CityItemLayoutBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+    )
 
     override fun onBindViewHolder(holder: CityHolder, position: Int) {
         holder.bind(cities[position], callback)

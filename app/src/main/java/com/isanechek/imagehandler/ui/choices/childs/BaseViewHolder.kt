@@ -5,10 +5,10 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.extensions.LayoutContainer
 
-abstract class BaseViewHolder<T>(containerView: View) : RecyclerView.ViewHolder(containerView),
-    LifecycleOwner, LayoutContainer {
+abstract class BaseViewHolder<T>
+    (containerView: View) : RecyclerView.ViewHolder(containerView),
+    LifecycleOwner {
 
     private val lifecycleRegistry: LifecycleRegistry
         get() = LifecycleRegistry(this)

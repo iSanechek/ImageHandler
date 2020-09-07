@@ -5,7 +5,6 @@ import android.graphics.BitmapFactory
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
-import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import com.isanechek.imagehandler.PRIVATE_APP_FOLDER_NAME
 import com.isanechek.imagehandler.data.local.database.dao.GalleryDao
@@ -14,7 +13,6 @@ import com.isanechek.imagehandler.data.local.database.entity.WatermarkImageResul
 import com.isanechek.imagehandler.data.local.system.FilesManager
 import com.isanechek.imagehandler.data.local.system.MediaStoreManager
 import com.isanechek.imagehandler.data.local.system.OverlayManager
-import com.isanechek.imagehandler.data.local.system.gallery.GalleryImagesDataSourceFactory
 import com.isanechek.imagehandler.data.local.system.gallery.GalleryManager
 import com.isanechek.imagehandler.data.models.*
 import com.isanechek.imagehandler.debugLog
@@ -22,7 +20,6 @@ import com.isanechek.imagehandler.ext.toEntity
 import com.isanechek.imagehandler.ext.toGallery
 import com.isanechek.imagehandler.ext.toImage
 import com.isanechek.imagehandler.ext.toModel
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -32,11 +29,6 @@ import java.io.File
 
 interface WatermarkPhotosRepository {
     val progressState: LiveData<ProgressState>
-    fun loadImagesPaging(
-        context: Context,
-        request: GalleryRequest,
-        scope: CoroutineScope
-    ): LiveData<PagedList<Image>>
 
     fun loadImagesFlow(context: Context, request: GalleryRequest): Flow<GalleryImageResult>
     fun loadImages(context: Context, isUpdate: Boolean): LiveData<GalleryImageResult>
@@ -70,21 +62,6 @@ class WatermarkPhotosRepositoryImpl(
     override val progressState: LiveData<ProgressState>
         get() = _progressState
 
-    override fun loadImagesPaging(
-        context: Context,
-        request: GalleryRequest,
-        scope: CoroutineScope
-    ): LiveData<PagedList<Image>> {
-        val imagesDataSource = GalleryImagesDataSourceFactory(
-            context,
-            scope,
-            galleryManager,
-            request
-        ) { progressState ->
-
-        }
-        return LivePagedListBuilder(imagesDataSource, imagesConfig).build()
-    }
 
     override fun loadImagesFlow(
         context: Context,

@@ -12,11 +12,14 @@ import coil.api.load
 import com.isanechek.imagehandler.*
 import com.isanechek.imagehandler.data.local.database.entity.ImageItem
 import com.isanechek.imagehandler.data.models.ExecuteResult
+import com.isanechek.imagehandler.databinding.CropSceenLayoutBinding
+import com.isanechek.imagehandler.delegate.viewBinding
 import com.isanechek.imagehandler.ui.base.BaseFragment
-import kotlinx.android.synthetic.main.crop_sceen_layout.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CropScreen : BaseFragment(_layout.crop_sceen_layout) {
+
+    private val binding by viewBinding(CropSceenLayoutBinding::bind)
 
     private val launchType: String
         get() = requireArguments().getString(LAUNCH_TYPE_KEY, DEFAULT_VALUE)
@@ -31,7 +34,7 @@ class CropScreen : BaseFragment(_layout.crop_sceen_layout) {
     private var isCrop = true
 
     override fun bindUi(savedInstanceState: Bundle?) {
-        csl_close_btn.onClick { findNavController().navigateUp() }
+        binding.cslCloseBtn.onClick { findNavController().navigateUp() }
 
         launchMode()
 
@@ -39,8 +42,8 @@ class CropScreen : BaseFragment(_layout.crop_sceen_layout) {
         setupObserver()
         setupMagicBtn()
 
-        csl_crop_btn.onClick {
-            csl_cropper.getCroppedImageAsync()
+        binding.cslCropBtn.onClick {
+            binding.cslCropper.getCroppedImageAsync()
 //            if (isCrop) {
 //                csl_cropper.getCroppedImageAsync()
 //            } else {
@@ -73,7 +76,7 @@ class CropScreen : BaseFragment(_layout.crop_sceen_layout) {
         })
 
         vm.rBitmap.observe(this, Observer { bitmap ->
-            csl_cover.load(bitmap)
+            binding.cslCover.load(bitmap)
         })
 
         vm.updateState.observe(this, Observer { status ->
@@ -97,7 +100,7 @@ class CropScreen : BaseFragment(_layout.crop_sceen_layout) {
         })
 
         vm.stateProgress.observe(this, Observer { visible ->
-            csl_progress.isInvisible = visible
+            binding.cslProgress.isInvisible = visible
         })
 
         vm.stateToast.observe(this, Observer { message ->
@@ -107,23 +110,23 @@ class CropScreen : BaseFragment(_layout.crop_sceen_layout) {
 
     private fun setupMagicBtn() {
         if (isCrop) {
-            csl_magic_btn.apply {
+            binding.cslMagicBtn.apply {
                 setImageDrawable(ContextCompat.getDrawable(requireContext(), _drawable.ic_baseline_compare_24))
                 onClick {
                     isCrop = false
-                    csl_cropper.isVisible = false
-                    csl_cover.isVisible = true
+                    binding.cslCropper.isVisible = false
+                    binding.cslCover.isVisible = true
                     vm.overlayBitmap(originalPath)
                     setupMagicBtn()
                 }
             }
         } else {
-            csl_magic_btn.apply {
+            binding.cslMagicBtn.apply {
                 setImageDrawable(ContextCompat.getDrawable(requireContext(), _drawable.ic_baseline_transform_24))
                 onClick {
                     isCrop = true
-                    csl_cover.isVisible = false
-                    csl_cropper.isVisible = true
+                    binding.cslCover.isVisible = false
+                    binding.cslCropper.isVisible = true
                     setupMagicBtn()
                 }
             }
@@ -131,7 +134,7 @@ class CropScreen : BaseFragment(_layout.crop_sceen_layout) {
     }
 
     private fun setupCrop(item: ImageItem) {
-        csl_cropper.apply {
+        binding.cslCropper.apply {
             setImageBitmap(BitmapFactory.decodeFile(item.originalPath))
             setAspectRatio(1, 1)
             setFixedAspectRatio(true)

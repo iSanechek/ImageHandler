@@ -16,8 +16,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.isanechek.imagehandler.*
 import com.isanechek.imagehandler.data.local.database.entity.CityEntity
 import com.isanechek.imagehandler.data.models.City
+import com.isanechek.imagehandler.databinding.SelectCityScreenLayoutBinding
+import com.isanechek.imagehandler.delegate.viewBinding
 import com.isanechek.imagehandler.ui.base.BaseFragment
-import kotlinx.android.synthetic.main.select_city_screen_layout.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
@@ -27,6 +28,7 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 class SelectCityScreen : BaseFragment(_layout.select_city_screen_layout) {
 
     private val vm: SelectViewModel by sharedViewModel()
+    private val binding by viewBinding(SelectCityScreenLayoutBinding::bind)
 
     override fun bindUi(savedInstanceState: Bundle?) {
 
@@ -43,7 +45,7 @@ class SelectCityScreen : BaseFragment(_layout.select_city_screen_layout) {
 
         val citiesAdapter = CitiesAdapter()
 
-        with(scs_list) {
+        with(binding.scsList) {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(requireContext())
             adapter = citiesAdapter
@@ -75,11 +77,11 @@ class SelectCityScreen : BaseFragment(_layout.select_city_screen_layout) {
 
         vm.progressState.observe(this, Observer { isShow ->
             if (isShow) {
-                scs_info_tv.visibility = View.VISIBLE
-                scs_progress.visibility = View.VISIBLE
+                binding.scsInfoTv.visibility = View.VISIBLE
+                binding.scsProgress.visibility = View.VISIBLE
             } else {
-                scs_info_tv.visibility = View.GONE
-                scs_progress.visibility = View.GONE
+                binding.scsInfoTv.visibility = View.GONE
+                binding.scsProgress.visibility = View.GONE
             }
         })
 
@@ -88,9 +90,9 @@ class SelectCityScreen : BaseFragment(_layout.select_city_screen_layout) {
 
     private fun setupSelectedCity(cityEntity: CityEntity?) {
         if (cityEntity != null) {
-            if (!scs_action_container.isVisible) {
-                scs_action_container.slideUp {}
-                scs_save_btn.onClick {
+            if (!binding.scsActionContainer.isVisible) {
+                binding.scsActionContainer.slideUp {}
+                binding.scsSaveBtn.onClick {
                     debugLog { "CLICK CITY $cityEntity" }
                     vm.goToScreen(1)
                 }
@@ -108,11 +110,11 @@ class SelectCityScreen : BaseFragment(_layout.select_city_screen_layout) {
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
             }
 
-            src_info_text.text = spannable
+            binding.srcInfoText.text = spannable
 
         } else {
-            if (scs_action_container.isVisible) {
-                scs_action_container.slideDown {}
+            if (binding.scsActionContainer.isVisible) {
+                binding.scsActionContainer.slideDown {}
             }
         }
     }

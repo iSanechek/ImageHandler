@@ -1,17 +1,26 @@
 package com.isanechek.imagehandler.ui.watermarks
 
+import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.isanechek.imagehandler._layout
 import com.isanechek.imagehandler.data.local.database.entity.WatermarkChoicesImageEntity
+import com.isanechek.imagehandler.databinding.WatermarkListItemLayoutBinding
 import com.isanechek.imagehandler.inflate
 
-class WatermarksListAdapter(private val callback: (WatermarkChoicesImageEntity) -> Unit) : RecyclerView.Adapter<WatermarksListHolder>() {
+class WatermarksListAdapter(private val callback: (WatermarkChoicesImageEntity) -> Unit) :
+    RecyclerView.Adapter<WatermarksListHolder>() {
 
     private val items = mutableListOf<WatermarkChoicesImageEntity>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WatermarksListHolder =
-        WatermarksListHolder(parent.inflate(_layout.watermark_list_item_layout))
+        WatermarksListHolder(
+            WatermarkListItemLayoutBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
 
     override fun getItemCount(): Int = items.size
 

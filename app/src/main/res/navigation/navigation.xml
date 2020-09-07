@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/splash_screen">
+    app:startDestination="@id/create_logo_screen">
 
     <fragment
         android:id="@+id/selection_screen"
@@ -32,7 +32,7 @@
         tools:layout="@layout/dashboard_screen_layout">
         <action
             android:id="@+id/go_to_select_from_dashboard"
-            app:destination="@id/selection_screen"/>
+            app:destination="@id/selection_screen" />
     </fragment>
 
     <fragment
@@ -112,4 +112,33 @@
         android:label="Choice"
         tools:layout="@layout/choices_fragment_layout" />
 
+
+    <!--New-->
+
+    <fragment
+        android:id="@+id/images_screen"
+        android:name="com.isanechek.imagehandler.ui2.images.ImagesScreen"
+        android:label="Images"
+        tools:layout="@layout/images_screen_layout" />
+
+    <fragment
+        android:id="@+id/cities_select_screen"
+        android:name="com.isanechek.imagehandler.ui2.logo.CitiesSelectScreen"
+        android:label="select_screen"
+        tools:layout="@layout/select_city_screen_layout2" />
+
+    <fragment
+        android:id="@+id/create_logo_screen"
+        android:name="com.isanechek.imagehandler.ui2.logo.CreateLogoScreen"
+        android:label="create_logo"
+        tools:layout="@layout/create_logo_screen_layout">
+        <action
+            android:id="@+id/go_create_logo_to_cities_select"
+            app:destination="@id/cities_select_screen" />
+    </fragment>
+
+    <!--    <fragment-->
+    <!--        android:id="@+id/create_logo_screen2"-->
+    <!--        android:name="com.isanechek.imagehandler.ui2.logo.CreateLogoScreen2"-->
+    <!--        android:label="screen2" />-->
 </navigation>

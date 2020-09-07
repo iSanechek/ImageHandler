@@ -5,12 +5,15 @@ import androidx.navigation.fragment.findNavController
 import coil.api.load
 import com.isanechek.imagehandler.EMPTY_STRING_VALUE
 import com.isanechek.imagehandler._layout
+import com.isanechek.imagehandler.databinding.PreviewScreenLayoutBinding
+import com.isanechek.imagehandler.delegate.viewBinding
 import com.isanechek.imagehandler.onClick
 import com.isanechek.imagehandler.toFile
 import com.isanechek.imagehandler.ui.base.BaseFragment
-import kotlinx.android.synthetic.main.preview_screen_layout.*
 
 class PreviewScreen : BaseFragment(_layout.preview_screen_layout) {
+
+    private val binding by viewBinding(PreviewScreenLayoutBinding::bind)
 
     private val itemId: String
         get() = requireArguments().getString(ITEM_ID_KEY, EMPTY_STRING_VALUE)
@@ -20,7 +23,7 @@ class PreviewScreen : BaseFragment(_layout.preview_screen_layout) {
 
     override fun bindUi(savedInstanceState: Bundle?) {
 
-        spl_close_btn.onClick {
+        binding.splCloseBtn.onClick {
             findNavController().navigateUp()
         }
 
@@ -38,7 +41,7 @@ class PreviewScreen : BaseFragment(_layout.preview_screen_layout) {
     }
 
     private fun showContent() {
-        psl_cover.load(previewPath.toFile())
+        binding.pslCover.load(previewPath.toFile())
     }
 
     private fun showErrorState(message: String) {

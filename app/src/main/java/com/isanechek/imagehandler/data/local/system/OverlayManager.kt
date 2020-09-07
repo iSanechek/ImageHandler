@@ -1,10 +1,7 @@
 package com.isanechek.imagehandler.data.local.system
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Canvas
-import android.graphics.Matrix
+import android.graphics.*
 import com.isanechek.imagehandler.debugLog
 import com.watermark.androidwm_light.WatermarkBuilder
 import com.watermark.androidwm_light.bean.WatermarkImage
@@ -41,6 +38,8 @@ interface OverlayManager {
         originalPath: String,
         overlayPath: String
     ): Bitmap
+
+    suspend fun drawTextOnLogo(logoPath: String, text: String): Bitmap?
 
     sealed class OverlayPosition {
         object TopStart : OverlayPosition()
@@ -106,6 +105,50 @@ class OverlayManagerImpl : OverlayManager {
             c.resume(handleAction(originalBitmap, overlayBitmap, (0.01 * originalBitmap.width).toFloat(), (0.65 * originalBitmap.height).toFloat()))
         } catch (ex: Exception) {
             c.resumeWithException(ex)
+        }
+
+    }
+
+    override suspend fun drawTextOnLogo(logoPath: String, text: String): Bitmap? = suspendCancellableCoroutine { c ->
+        try {
+            var bitmap = BitmapFactory.decodeFile(logoPath)
+            var bitmapConfig = bitmap.config
+            if (bitmapConfig == null) {
+                bitmapConfig = Bitmap.Config.ARGB_8888
+            }
+            bitmap = bitmap.copy(bitmapConfig, true)
+            val canvas = Canvas(bitmap)
+            val paint = Paint(Paint.ANTI_ALIAS_FLAG)
+            paint.color = Color.RED
+            paint.textSize = 100.toFloat()
+            paint.style = Paint.Style.FILL_AND_STROKE
+            paint.typeface = Typeface.create(Typeface.DEFAULT, Typeface.BOLD_ITALIC)
+            val fm = Paint.FontMetrics()
+            paint.getFontMetrics(fm)
+            paint.setShadowLayer(100.0f, 10.0f, 0.0f, Color.WHITE)
+            val bounds = Rect()
+            paint.getTextBounds(text, 0, text.length, bounds)
+            val textX = bitmap.width - bounds.width()
+            val textY = bitmap.height - bounds.height()
+            val x: Int = (textX - 150)
+            val y: Int = (textY - 240)
+//        val bg = Paint(Paint.ANTI_ALIAS_FLAG)
+//        bg.color = Color.WHITE
+//        bg.alpha = 25
+//        canvas.drawRoundRect(
+//            x - 40.toFloat(),
+//            x + fm.top + 80,
+//            y + paint.measureText(mText) + 40,
+//            x + fm.bottom + 15,
+//            16f,
+//            16f,
+//            bg
+//        )
+            canvas.drawText(text, x.toFloat(), y.toFloat(), paint)
+            c.resume(bitmap)
+        } catch (ex: Exception) {
+            debugLog { "Draw text exception ${ex.message}" }
+            c.resume(null)
         }
 
     }

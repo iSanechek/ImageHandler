@@ -4,13 +4,17 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.isanechek.imagehandler._id
 import com.isanechek.imagehandler._layout
-import kotlinx.android.synthetic.main.base_choices_fragment_layout.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 abstract class BaseChoicesFragment : Fragment(_layout.base_choices_fragment_layout) {
 
     val vm: ChoicesViewModel by sharedViewModel()
+
+    private lateinit var refreshLayout: SwipeRefreshLayout
+    private lateinit var recyclerView: RecyclerView
     private val recyclerScrollListener = object : RecyclerView.OnScrollListener() {
         override fun onScrolled(
             recyclerView: RecyclerView,
@@ -27,30 +31,33 @@ abstract class BaseChoicesFragment : Fragment(_layout.base_choices_fragment_layo
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        bcf_refresh.setOnRefreshListener { refresh() }
-        bindUi(bcf_list, savedInstanceState)
+        refreshLayout = view.findViewById(_id.bcf_refresh)
+        refreshLayout.setOnRefreshListener { refresh() }
+
+        recyclerView = view.findViewById(_id.bcf_list)
+        bindUi(recyclerView, savedInstanceState)
     }
 
     override fun onResume() {
         super.onResume()
-        bcf_list.addOnScrollListener(recyclerScrollListener)
+        recyclerView.addOnScrollListener(recyclerScrollListener)
         startLoadData()
     }
 
     override fun onPause() {
-        bcf_list.removeOnScrollListener(recyclerScrollListener)
+        recyclerView.removeOnScrollListener(recyclerScrollListener)
         super.onPause()
     }
 
     fun showSRF() {
-        if (!bcf_refresh.isRefreshing) {
-            bcf_refresh.isRefreshing = true
+        if (!refreshLayout.isRefreshing) {
+            refreshLayout.isRefreshing = true
         }
     }
 
     fun hideSRF() {
-        if (bcf_refresh.isRefreshing) {
-            bcf_refresh.isRefreshing = false
+        if (refreshLayout.isRefreshing) {
+            refreshLayout.isRefreshing = false
         }
     }
 }

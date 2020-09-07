@@ -41,6 +41,9 @@ const val PROGRESS_STATE_SAVE_FILE_FAIL = "save.file.fail"
 const val PROGRESS_STATE_ADD_SIZE_IN_GALLEY = "gallery.add.size"
 
 
+const val OVERLAY_CACHE_FOLDER_NAME = "overlay_images"
+
+
 @JvmField
 val VERBOSE_NOTIFICATION_CHANNEL_NAME: CharSequence =
     "Verbose WorkManager Notifications"

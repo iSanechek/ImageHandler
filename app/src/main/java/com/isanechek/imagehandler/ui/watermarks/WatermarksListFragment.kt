@@ -3,7 +3,6 @@ package com.isanechek.imagehandler.ui.watermarks
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -11,13 +10,15 @@ import com.afollestad.assent.Permission
 import com.afollestad.assent.askForPermissions
 import com.isanechek.imagehandler._drawable
 import com.isanechek.imagehandler._layout
+import com.isanechek.imagehandler.databinding.WatermarkFragmentLayoutBinding
 import com.isanechek.imagehandler.debugLog
+import com.isanechek.imagehandler.delegate.viewBinding
 import com.isanechek.imagehandler.ui.base.BaseFragment
-import kotlinx.android.synthetic.main.watermark_fragment_layout.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class WatermarksListFragment : BaseFragment(_layout.watermark_fragment_layout) {
 
+    private val binding by viewBinding(WatermarkFragmentLayoutBinding::bind)
     private val vm: WatermarksListViewModel by viewModel()
 
     private val listScrollListener = object : RecyclerView.OnScrollListener() {
@@ -25,12 +26,14 @@ class WatermarksListFragment : BaseFragment(_layout.watermark_fragment_layout) {
             recyclerView: RecyclerView,
             dx: Int,
             dy: Int
-        ) { watermark_toolbar.setElevationVisibility(recyclerView.canScrollVertically(-1)) }
+        ) {
+            binding.watermarkToolbar.setElevationVisibility(recyclerView.canScrollVertically(-1))
+        }
     }
 
     override fun bindUi(savedInstanceState: Bundle?) {
 
-        with(watermark_toolbar) {
+        with(binding.watermarkToolbar) {
             setBackOrCloseButton {
                 findNavController().navigateUp()
             }
@@ -58,24 +61,24 @@ class WatermarksListFragment : BaseFragment(_layout.watermark_fragment_layout) {
             vm.selectWatermark(item.id)
         }
 
-        with(watermark_list) {
+        with(binding.watermarkList) {
             setHasFixedSize(true)
             layoutManager = LinearLayoutManager(requireContext())
             adapter = watermarkAdapter
         }
 
-        vm.data.observe(this, Observer { data ->
+        vm.data.observe(this, { data ->
             watermarkAdapter.submit(data)
         })
     }
 
     override fun onResume() {
         super.onResume()
-        watermark_list.addOnScrollListener(listScrollListener)
+        binding.watermarkList.addOnScrollListener(listScrollListener)
     }
 
     override fun onPause() {
-        watermark_list.removeOnScrollListener(listScrollListener)
+        binding.watermarkList.removeOnScrollListener(listScrollListener)
         super.onPause()
     }
 

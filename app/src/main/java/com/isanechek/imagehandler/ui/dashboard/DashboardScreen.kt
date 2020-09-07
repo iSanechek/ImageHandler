@@ -3,22 +3,21 @@ package com.isanechek.imagehandler.ui.dashboard
 import android.os.Bundle
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.isanechek.imagehandler.*
 import com.isanechek.imagehandler.data.models.DashboardItem
 import com.isanechek.imagehandler.data.repositories.DashboardRepository
+import com.isanechek.imagehandler.databinding.DashboardScreenLayoutBinding
+import com.isanechek.imagehandler.delegate.viewBinding
 import com.isanechek.imagehandler.ui.base.BaseFragment
-import com.isanechek.imagehandler.ui.base.bind
-import kotlinx.android.synthetic.main.dashboard_item_layout.view.*
-import kotlinx.android.synthetic.main.dashboard_screen_layout.*
 import kotlinx.coroutines.flow.collect
 import org.koin.android.ext.android.inject
 
 class DashboardScreen : BaseFragment(_layout.dashboard_screen_layout) {
 
+    private val binding by viewBinding(DashboardScreenLayoutBinding::bind)
     private val repository: DashboardRepository by inject()
-
     private val data = listOf(
         DashboardItem(
             key = CROP_SQUARE_KEY,
@@ -57,31 +56,26 @@ class DashboardScreen : BaseFragment(_layout.dashboard_screen_layout) {
     override fun bindUi(savedInstanceState: Bundle?) {
         viewLifecycleOwner.lifecycleScope.launchWhenCreated {
             repository.toolbarTitle.collect { title ->
-                dsl_title.text = title
+                binding.dslTitle.text = title
             }
         }
 
-        dsl_list.bind(data, _layout.dashboard_item_layout) { item: DashboardItem, _: Int ->
-            with(item) {
-                val i = this
-                dil_container.apply {
-                    onClick {
-                        when(item.key) {
-                            CROP_SQUARE_KEY, CROP_PORTRAIT_KEY, CROP_16_9_KEY -> {
-                                repository.setSelectRatio(item.ratioValue)
-                                findNavController().navigate(
-                                    _id.go_to_select_from_dashboard
-                                )
-                            }
-                            else -> Unit
-                        }
-                    }
-                    setBackgroundColor(ContextCompat.getColor(requireContext(), i.color))
+        val dashboardAdapter = DashboardAdapter(data) { item ->
+            when (item.key) {
+                CROP_SQUARE_KEY, CROP_PORTRAIT_KEY, CROP_16_9_KEY -> {
+                    repository.setSelectRatio(item.ratioValue)
+                    findNavController().navigate(
+                        _id.go_to_select_from_dashboard
+                    )
                 }
-                dsl_icon.setImageDrawable(ContextCompat.getDrawable(requireContext(), this.icon))
-                dsl_title.text = this.title
+                else -> Unit
             }
-        }.layoutManager(GridLayoutManager(requireContext(), 2))
+        }
+        with(binding.dslList) {
+            setHasFixedSize(true)
+            layoutManager = GridLayoutManager(requireContext(), 2)
+            adapter = dashboardAdapter
+        }
     }
 
     companion object {

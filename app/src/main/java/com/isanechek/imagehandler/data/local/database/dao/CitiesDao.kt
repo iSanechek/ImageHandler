@@ -17,6 +17,9 @@ interface CitiesDao {
     @Query("SELECT * FROM cities")
     fun loadAllCities(): Flow<List<CityEntity>>
 
+    @Query("SELECT * FROM cities")
+    fun loadCities(): List<CityEntity>
+
     @Query("SELECT * FROM cities WHERE id =:id")
     fun loadCity(id: String): Flow<CityEntity>
 
@@ -38,6 +41,9 @@ interface CitiesDao {
     @Update
     suspend fun update(cityEntity: CityEntity)
 
+    @Update
+    suspend fun updateCity(cityEntity: CityEntity): Int
+
     @Transaction
     suspend fun updateSelected(cityEntity: CityEntity) {
         val item = loadSelected()
@@ -47,6 +53,18 @@ interface CitiesDao {
             update(cityEntity)
         } else {
             update(cityEntity)
+        }
+    }
+
+    @Transaction
+    suspend fun updateSelected2(cityEntity: CityEntity): Int {
+        val item = loadSelected()
+        return if (item != null) {
+            debugLog { "ITEM FIND $item" }
+            update(item.copy(isSelected = false))
+            updateCity(cityEntity)
+        } else {
+            updateCity(cityEntity)
         }
     }
 }
